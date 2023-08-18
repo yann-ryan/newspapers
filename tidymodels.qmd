@@ -1,0 +1,475 @@
+# Machine Learning with Tidymodels {#sec-tidymodels}
+
+## Machine Learning
+
+This chapter looks at machine learning using historical newspapers and the 'tidymodels' framework.
+
+Machine learning is the name for a group of techniques which take input data of some kind, and learn how to achieve some particular goal. The 'deep learning' used by neural networks and in particular things like ChatGPT are one type, but the field has been around for much longer than that.
+
+Machine learning itself can be divided into subsets: Machine learning done with neural networks, and what we might call 'classical' machine learning, which use algorithms.
+
+A very simple form of machine learning is *linear regression*. Linear regression attempts to find the best fitting line through a dataset. Take this dataset of the flipper size and body mass of a group of observed penguins (from the R package `palmerpenguins`:
+
+```{r, echo=FALSE}
+library(palmerpenguins)
+library(tidyverse)
+
+df = palmerpenguins::penguins 
+
+
+df%>% ggplot() + geom_point(aes(flipper_length_mm, body_mass_g))
+```
+
+By visually inspecting this, we can guess that there is a statistical relationship between the length and mass: as one value gets higher, the other does too. We can use `geom_smooth()` and a linear model to predict the best line of fit through this dataset:
+
+```{r, echo = FALSE}
+df%>% ggplot() + 
+  geom_point(aes(flipper_length_mm, body_mass_g)) + 
+  geom_smooth(aes(flipper_length_mm, body_mass_g), method = 'lm')
+```
+
+If we measured the slope of this line (using simple geometry), its angle would tell us about the relationship between the two values.In this way, our model helps us to understand some underlying pattern in the dataset - that these two values are highly correlated. We could also use it to *predict* new values: if given the body mass for a new penguin, by using this line, we could predict its most likely flipper length, and in most cases be fairly accurate.
+
+This is a form of simple machine learning. We give an algorithm (here, linear regression) a bunch of input data, in this case the body mass and bill flipper length for a group of penguins, and it provides a model (in this case, a line with a certain slope), which hopefully helps us to explain the existing data and predict unknown parts. Models like this try in some way to minimise a loss function. In this case, finding the line where the error for each point (how far away it is from the line) is as small as possible.
+
+The machine learning here will use basically the same principle. We'll give it data (text, in the form of a mathematical representation of the text, and its assigned category), and an algorithm (in this case, a 'Random Forest' model), and use that to predict the category of unseen texts. The model itself may also tell us something about the existing data.
+
+Much of the AI work at the cutting edge of text analysis today uses neural networks, and in particular the 'transformer' mechanism which allows neural networks to better understand context and word order. But this kind of machine learning still has a very important role to play, it's well-established, relatively easy to run, and the results can be quite good depending on the problem. It is also a good way to get started with understanding the Tidymodels framework.
+
+## The Tidymodels Package
+
+Tidymodels is an R 'meta-package' which allows you to interact with lots of different machine learning packages and engines in a consistent way. Using tidymodels, we can easily compare multiple models together and we can swap in one for another without having to re-do code. We also can make sure that our pre-processing steps are precisely consistent across any number of different models.
+
+Machine learning can be used for a number of different tasks. One key one is text classification.
+
+In this tutorial, we will use tidymodels to classify text into articles and advertisements. It could easily be generalised to any number of categories, for example foreign news, court reporting, and so forth. You can provide your own spreadsheet of training data (as we'll use below), and as long as it is in the same format and has similar information, you should be able to build your own classifier.
+
+Once we have built the model, we will fine-tune it. The random forest algorithm, like most machine learning algorithms, has a group of parameters which can be adjusted. To find the best values for these, we'll evaluate the same data using many different combinations of parameters, and pick the best one. Using tidymodels, this can all be done consistently. We could even swap out any other model type, and otherwise reuse the exact same workflow.
+
+Finally, we'll put the model to some use: we'll use the model to predict the class of the rest of the articles in the newspaper dataset, and do some analysis on this.
+
+The model is only as good as the training data, and in this case, we don't have many examples, and it won't be terribly accurate in many cases. But it will show how a machine learning model can be operationalised for this task.
+
+### Basic Steps
+
+In this chapter we'll create a model which can label newspaper as either articles or advertisements. We'll do some further steps to explore improving the model, and also to look at the most important 'features' used by the model to do its predicting. The steps are:
+
+1.  Download a labelled dataset, containing examples of our two classes (articles and advertisements).
+
+2.  Create a 'recipe' which is a series of pro-processing steps. This same recipe can be reused in different contexts and for different models.
+
+3.  Split the labelled data into testing and training sets. The training data is used to fit the best model. The test set is used at the end, to see how well it performs on unseen data.
+
+4.  Run an initial classifier and evaluate the results
+
+5.  'Tune' the model, by re--running the classifier with different parameters, selecting the best one.
+
+6.  Run the 'best' model over the full news dataset, predicting whether or not an articles is news or an advertisement.
+
+## Install/load the packages
+
+As a first step, you'll need to load the necessary packages for this tutorial. If you haven't already done so, you can install them first using the below.
+
+If you have installed them, make sure you update to the latest version, as they can change rapidly.
+
+```{r, eval = FALSE}
+install.packages('tidyverse')
+install.packages('tidymodels')
+install.packages('textrecipes')
+install.packages('tidytext')
+install.packages('ranger')
+install.packages('vip')
+```
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(textrecipes)
+library(tidytext)
+library(ranger)
+library(vip)
+```
+
+## Import data
+
+As a first step, load some pre-labelled data. This contains a number of newspaper articles, and their 'type': whether it is an advertisement or an article.
+
+If we take a look at the dataframe once it is loaded, you'll see it's quite simple structure: it's got a 'filename' column, the full text of the article store in 'text', and the type stored in a column called 'type'.
+
+```{r}
+
+
+advertisements_labelled = read_csv('advertisements_labelled.csv')
+
+advertisements_labelled = advertisements_labelled %>% filter(!is.na(text))
+
+```
+
+## 
+
+## Set up the Machine Learning Model
+
+In this step, we begin preparing the data for machine learning. We set a seed for reproducibility to ensure consistent results when randomization is involved. The target variable 'type' in the advertisements data is converted to a factor as it represents categorical classes ('advertisement' and 'article'). The data is then split into training and testing sets using the `initial_split` function. This separation is crucial for evaluating the performance of the machine learning model and preventing overfitting.
+
+```{r}
+set.seed(9999)
+advertisements_labelled = advertisements_labelled %>% 
+  mutate(type = factor(type))
+
+advertisements_split <- initial_split(advertisements_labelled, strata = type)
+
+advertisements_train <- training(advertisements_split)
+advertisements_test <- testing(advertisements_split)
+```
+
+## Create Recipe for Text Data
+
+To prepare the text data for modeling, we create a recipe using the `recipe` function. The `textrecipes` package provides essential tools for text preprocessing and feature extraction in machine learning. In this recipe, we tokenize the text, remove stop words, and apply Term Frequency-Inverse Document Frequency (TF-IDF) transformation to represent the text data as numerical features. These transformations convert the raw text data into a format suitable for machine learning algorithms, enabling them to process and understand textual information.
+
+```{r}
+
+advertisement_rec <-
+  recipe(type ~ text, data = advertisements_train)
+
+advertisement_rec <- advertisement_rec %>%
+  step_tokenize(text, token = "words") %>%
+  step_tokenfilter(text, max_tokens = 1000, min_times = 5 )  %>% 
+  step_tf(text)
+
+```
+
+```{r}
+advertisement_wf <- workflow() %>%
+  add_recipe(advertisement_rec)
+```
+
+```{r}
+
+rf_spec <- rand_forest("classification") %>%
+  set_engine("ranger", importance = "impurity")
+
+rf_spec
+
+```
+
+```{r}
+advertisement_wf %>%
+  add_model(rf_spec) %>%
+  fit(data = advertisements_train)%>%
+  predict(new_data = advertisements_test) %>%
+  mutate(truth = advertisements_test$type) %>%
+  accuracy(truth, .pred_class)
+
+```
+
+## Perform Cross-Validation
+
+Cross-validation is a crucial step in model evaluation. It helps assess the model's generalization performance on unseen data and reduces the risk of overfitting. In this step, we set up cross-validation folds using the `vfold_cv` function, which creates multiple training and testing sets from the training data. The model will be trained and evaluated on each fold separately, providing a more robust estimate of its performance.
+
+```{r}
+set.seed(234)
+advertisements_folds <- vfold_cv(advertisements_train)
+```
+
+## Train the Random Forest Model with Cross-Validation
+
+Now, we train the Random Forest model using cross-validation. The `fit_resamples` function fits the model to each fold created during cross-validation, allowing us to evaluate its performance across different subsets of the training data. The `control_resamples` function is used to control various settings during the resampling process.
+
+```{r}
+rf_wf <- workflow() %>%
+  add_recipe(advertisement_rec) %>%
+  add_model(rf_spec)
+
+rf_wf
+```
+
+```{r}
+rf_rs <- fit_resamples(
+  rf_wf,
+  advertisements_folds,
+  control = control_resamples(save_pred = TRUE)
+)
+```
+
+## Evaluate Model's Performance
+
+In this step, we collect the evaluation metrics and predictions from the cross-validation process. The collected metrics will help us assess the model's performance, while the predictions on each fold will be used for further analysis and comparison. By evaluating the model on multiple subsets of the data, we can gain insights into its robustness and reliability.
+
+```{r}
+rf_rs_metrics <- collect_metrics(rf_rs)
+rf_rs_predictions <- collect_predictions(rf_rs)
+```
+
+## Visualize the Confusion Matrix
+
+The confusion matrix is a useful visualization for evaluating the performance of a classification model. It shows the number of true positives, true negatives, false positives, and false negatives. The `autoplot` function from the `yardstick` package allows us to visualize the confusion matrix as a heatmap. This visualization aids in understanding the model's classification accuracy and any potential misclassifications.
+
+```{r}
+conf_mat_resampled(rf_rs, tidy = FALSE) %>%
+  autoplot(type = "heatmap")
+```
+
+We can see that there are very few true advertisements which are misclassified as articles - but there are some some articles misclassified as advertisements.
+
+## Tune the Random Forest Model
+
+In machine learning, hyperparameter tuning is essential for optimizing model performance. In this step, we define a tuning grid using the `rand_forest` function. The grid specifies different combinations of hyperparameters, such as the number of variables randomly sampled for splitting (`mtry`) and the minimum number of samples per leaf node (`min_n`). We aim to find the best combination of hyperparameters that yields the highest performance.
+
+```{r}
+tune_spec <- rand_forest(
+  mtry = tune(),
+  trees = 1000,
+  min_n = tune()
+) %>%
+  set_mode("classification") %>%
+  set_engine("ranger", importance = "impurity")
+```
+
+```{r}
+tune_wf <- workflow() %>%
+  add_recipe(advertisement_rec) %>%
+  add_model(tune_spec)
+```
+
+## Tune the Random Forest Model with Cross-Validation
+
+Now, we perform hyperparameter tuning using cross-validation. The `tune_grid` function uses the tuning grid specified earlier and fits the model on each fold of the data to identify the optimal hyperparameters. This process helps us identify the best hyperparameters for the Random Forest model, leading to improved performance and better generalization.
+
+```{r}
+set.seed(555)
+trees_folds = vfold_cv(advertisements_train)
+```
+
+```{r}
+doParallel::registerDoParallel()
+
+set.seed(666)
+tune_res = tune_grid(
+  tune_wf,
+  resamples = trees_folds,
+  grid = 20
+)
+
+tune_res
+```
+
+## Visualize the Tuning Results
+
+To visualize the tuning results, we plot the average Area Under the Receiver Operating Characteristic Curve (ROC AUC) against different values of `mtry` and `min_n`. ROC AUC is a common metric for assessing the model's ability to discriminate between classes. The plot provides insights into how different hyperparameter values affect the model's performance.
+
+```{r}
+tune_res %>%
+  collect_metrics() %>%
+  filter(.metric == "roc_auc") %>%
+  select(mean, min_n, mtry) %>%
+  pivot_longer(min_n:mtry,
+    values_to = "value",
+    names_to = "parameter"
+  ) %>%
+  ggplot(aes(value, mean, color = parameter)) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(x = NULL, y = "AUC")
+```
+
+It's a little difficult to interpret, but it looks like the highest values are between about 40 and 250 for the `mtry` value, and around 10 and 30 for the `min_n` value. We can do another grid search, this time just looking between these values.
+
+```{r}
+rf_grid <- grid_regular(
+  mtry(range = c(40, 250)),
+  min_n(range = c(10,30)),
+  levels = 5
+)
+```
+
+```{r}
+set.seed(999)
+regular_res <- tune_grid(
+  tune_wf,
+  resamples = trees_folds,
+  grid = rf_grid
+)
+```
+
+```{r}
+regular_res %>%
+  collect_metrics() %>%
+  filter(.metric == "roc_auc") %>%
+  mutate(min_n = factor(min_n)) %>%
+  ggplot(aes(mtry, mean, color = min_n)) +
+  geom_line(alpha = 0.5, size = 1.5) +
+  geom_point() +
+  labs(y = "AUC")
+```
+
+```{r}
+best_auc <- select_best(regular_res, "roc_auc")
+
+final_rf <- finalize_model(
+  tune_spec,
+  best_auc
+)
+
+```
+
+Lastly, evaluate the accuracy using the same method as before:
+
+```{r}
+advertisement_wf %>%
+  add_model(final_rf) %>%
+  fit(data = advertisements_train)%>%
+  predict(new_data = advertisements_test) %>%
+  mutate(truth = advertisements_test$type) %>%
+  accuracy(truth, .pred_class)
+```
+
+As you can see, we have improved the model's performance, from about .80 to about .86. There are other ways you could try to improve the performance further. With text, the pre-processing steps can often make a huge difference. You could experiment with the text 'recipe', for instance adjusting `step_tokenfilter` to include or remove more tokens. You could also use `step_word_embeddings`, using the output of the word embeddings in [Chapter -@sec-word2vec].
+
+## Build the Final Random Forest Model
+
+In this step, we build the final Random Forest model using the best hyperparameters obtained from tuning. The model is then fitted on the entire training dataset to capture the relationships between features and target classes optimally. This final model is the one that we will use for making predictions on new data.
+
+```{r}
+final_wf <- workflow() %>%
+  add_recipe(advertisement_rec) %>%
+  add_model(final_rf)
+
+final_res <- final_wf %>%
+  last_fit(advertisements_split)
+
+final_res %>%
+  collect_metrics()
+```
+
+## What features is the model using?
+
+To understand how the model is using the text to make decisions, we can look at the most important features (in this case, text frequency counts) used by the random forest algorithm. We'll use the package `vip` to extract the most important features, using the function `extract_fit_parsnip()`, and plotting it using `ggplot2`.
+
+For the random forest method, we can only see the overall top features, and not which were more important for the prediction of the different categories. The most important feature is the frequency of the word 'street': at a guess, this is used more often in advertisements, which very often contain an address to a business or service. Interestingly, the second most important feature is the word 'was'. Is this perhaps because news articles are more likely to use the past tense than advertisements?
+
+```{r}
+complaints_imp <- extract_fit_parsnip(final_res$.workflow[[1]]) %>%
+  vi(lambda = choose_acc$penalty)
+
+complaints_imp %>% 
+  mutate(Variable = str_remove(Variable, "tfidf_text_")) %>% 
+  head(20) %>% 
+  ggplot() + 
+  geom_col(aes(x = reorder(Variable,Importance), y= Importance)) + coord_flip()
+```
+
+
+## Using the Model
+
+Once we are happy with the final model, we can use it to label unseen data as either articles or advertisements. For this, we'll need a newspaper corpus. As in previous chapters, either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
+
+```{r message=FALSE, warning=FALSE}
+
+news_sample_dataframe = list.files(path = "newspaper_text/", 
+                                   pattern = "csv", 
+                                   recursive = TRUE, 
+                                   full.names = TRUE)
+
+
+all_files = lapply(news_sample_dataframe, data.table::fread) 
+
+names(all_files) = news_sample_dataframe
+
+all_files_df = data.table::rbindlist(all_files, idcol = 'filename')
+    
+
+title_names_df = tibble(newspaper_id = c('0002090', '0002194', '0002244', '0002642', '0002645', '0003089', '0002977'), newspaper_title = c('The Liverpool Standard And General Commercial Advertiser', 'The Sun', 'Colored News', 'The Express', 'The Press', 'Glasgow Courier', 'Swansea and Glamorgan Herald'))
+
+news_df = all_files_df %>% 
+  mutate(filename = basename(filename))
+
+
+news_df = news_df %>% 
+  separate(filename, 
+           into = c('newspaper_id', 'date'), sep = "_") %>% # separate the filename into two columns
+  mutate(date = str_remove(date, "\\.csv")) %>% # remove .csv from the new data column
+  select(newspaper_id, date, art, text) %>% 
+  mutate(date = ymd(date)) %>% # turn the date column into date format
+  mutate(article_code = 1:n()) %>% # give every article a unique code
+  select(article_code, everything()) %>% # select all columns but with the article code first 
+  left_join(title_names_df, by = 'newspaper_id') # join the titles 
+```
+
+## Make Predictions on Newspaper Articles
+
+With the final Random Forest model trained, we proceed to make predictions on the newspaper articles' text data. This involves applying the text preprocessing steps (e.g., tokenization, TF-IDF) used during training to transform the new data into the same format. The model then predicts whether each article is an advertisement or not.
+
+```{r}
+
+
+new_ads_to_check = final_wf %>%
+  fit(data = advertisements_train)%>%
+  predict(new_data = news_df)
+
+all_files_df = all_files_df %>% 
+  mutate(prediction =new_ads_to_check$.pred_class)
+
+```
+
+## Analyze the Top Words in Advertisements
+
+After making predictions, we perform text analysis to identify the top words associated with advertisements. We tokenize the text data, count the occurrences of each word for each prediction, and select the most frequent words in advertisements. This analysis allows us to gain insights into the language patterns characteristic of advertisements.
+
+```{r}
+
+data('stop_words')
+
+
+all_files_df %>% 
+  head(10000) %>% 
+  unnest_tokens(word, text) %>% 
+  filter(!str_detect(word, "[0-9]")) %>% 
+  anti_join(stop_words) %>% 
+  count(prediction, word) %>% 
+  group_by(prediction) %>% 
+  slice_max(order_by = n, n = 10) %>% ungroup() %>% 
+    mutate(prediction = as.factor(prediction),
+           word = reorder_within(word, n, prediction)) %>%
+  ggplot() + geom_col(aes(word, n)) + 
+  facet_wrap(~prediction, scales = 'free') +
+    scale_x_reordered()+
+    scale_y_continuous(expand = c(0,0))+ coord_flip()
+
+
+
+  
+```
+
+Advertisements often contain an address, including the word 'street', unlike articles. This matches the findings from the top features, above. Advertisements also often specify an exact time and date, resulting in higher counts of the word 'o'clock'.
+
+## Analyze the Proportion of Advertisements in Each Newspaper Issue
+
+Finally, we analyze the proportion of advertisements in each newspaper issue. We group the articles by their `newspaper_id` and `date`, calculate the proportion of advertisements in each issue, and then compute the mean proportion for each newspaper. This analysis helps us understand the prevalence of advertisements in different newspapers over time.
+
+```{r}
+news_df$type = new_ads_to_check$.pred_class
+
+news_df =news_df  %>% mutate(count = str_count(text))
+
+news_df =news_df  %>% mutate(issue_code = paste0(newspaper_id, "_", date))
+
+news_df %>% 
+  group_by(newspaper_title, issue_code, type) %>%
+  summarise(n = sum(count)) %>%
+  mutate(prop = n/sum(n)) %>% 
+  group_by(newspaper_title, type) %>% 
+  summarise(mean_prop = mean(prop)) %>% 
+  ggplot() + 
+  geom_col(aes(x = str_trunc(newspaper_title,30), y = mean_prop, fill = type)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+
+```
+
+Interestingly, some of the regional titles (Liverpool, Glasgow, Swansea and Glamorgan) seem to have much higher proportions of advertisements - provided the labelling by the machine learning model is largely correct, of course. 
+
+## Recommended Reading
+
+[Supervised Machine Learning for Text Analysis in R](https://smltar.com/)
+
+Broersma, Marcel, and Frank Harbers. "Exploring Machine Learning to Study the Long-Term Transformation of News." In *Journalism History and Digital Archives*, edited by Henrik Bødker, 1st ed., 38--52. Routledge, 2020. https://doi.org/10.4324/9781003098843-4.

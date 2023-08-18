@@ -1,0 +1,159 @@
+---
+title: "Accessing Newspaper Data Internationally"
+---
+
+Many countries have digitised and published parts of their national newspaper collections. In most cases, the newspapers are made available through interfaces designed for search and browsing. Access to the underlying data, for the kinds of methods used in this book, varies greatly across national collections. Some, such as Australia and the U.S. have digitised and made freely available large collections of newspapers, accessible through an API which means they can be easily downloaded or incorporated into third-party applications or resources. Others, such as the UK, are making some data available. Many others do not make any provisions beyond keyword searching or images without OCR. 
+
+This chapter is a work-in-progress, and it attempts to survey the existing data provisions made for national newspaper collections. It is not meant as a comprehensive guide to the international digitised newspaper landscape. For a more detailed description of the format, availability, and structure of some key national collections, see the [Atlas of Digitised Newspapers](https://www.digitisednewspapers.net/histories/). 
+
+In a few cases, where title lists have been made available, I have included interactive maps intended as a fun way of seeing at a glance what is included in the collection. More will be added if the correct metadata can be found. 
+
+## United States
+
+The Library of Congress in the U.S. sponsored a project called 'Chronicling America', which has created a newspaper dataset and interface which currently has about 16 million pages. All the titles are freely available through the website without a paywall. To access the data itself, the CA database has an API, with [instructions here](https://chroniclingamerica.loc.gov/about/api/). As with the UK titles, Chronicling America newspapers use the METS/ALTO format. However it may be in a slightly different format and require adjusting the method by which you extract the text from the .xml files.  
+
+You can also download all the OCR results directly for each title on [this page](https://chroniclingamerica.loc.gov/data/ocr/). Each newspaper contains a list of folders for each issue, and within that can be found a single file for the OCR results (ocr.xml) and a single file for the plain text (ocr.txt).
+
+Chronicling America publish a simple tab-separated-values list of the titles currently in the database here: https://chroniclingamerica.loc.gov/newspapers.txt
+
+We can easily use this information to produce a State-level map of the newspaper titles:
+
+```{r}
+#| warning: false
+#| message: false
+#| include: false
+
+
+library(tidyverse)
+library(rnaturalearth)
+library(snakecase)
+library(sf)
+
+usa = ne_states(returnclass = 'sf', country = 'United States of America')
+
+usa_newspaper_title_list = read_delim('https://chroniclingamerica.loc.gov/newspapers.txt', delim = '|')
+
+colnames(usa_newspaper_title_list) = to_snake_case(colnames(usa_newspaper_title_list))
+
+state_totals = usa_newspaper_title_list %>% 
+  group_by(state) %>% 
+  summarise(total = n(), popup = paste0('<a href="',persistent_link,'">', title, '</a>', collapse = '<br>'))
+
+
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| include: false
+#| 
+library(leaflet)
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| include: false
+
+lat <- 39.187965
+lng <- -96.510456
+zoom <- 3
+pal1871 <- colorBin("viridis", domain=usa$total)
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| include: false
+
+
+usa_l = usa %>% 
+  left_join(state_totals %>% 
+              mutate(state = trimws(state, which = 'both')), by = c('name' = 'state'))
+
+popup_sblab <- usa_l$popup
+
+popup_sb <- paste0(usa_l$name, "\n", "Total unique titles: ", usa_l$total)
+```
+
+```{r echo=FALSE, }
+#| warning: false
+#| message: false
+#| echo: false
+#| fig.cap: "Interactive map of Library of Congress Newspapers"
+
+
+leaflet() %>%  
+            addTiles(
+            ) %>% 
+            setView(lat = lat, lng = lng, zoom = zoom)%>% 
+            clearShapes() %>% 
+            clearControls() %>%
+  addPolygons(data = usa_l, weight = 2, stroke = TRUE,
+                        fillColor = ~pal1871(total), fillOpacity = 0.7,
+                        color = "black",popup = popup_sblab,
+                        popupOptions = popupOptions(maxHeight = 100), label=popup_sb,
+                        labelOptions = labelOptions(
+                            style = list("font-weight" = "normal", padding = "3px 8px"),
+                            textsize = "15px",
+                            direction = "auto")
+  ) 
+```
+
+## Australia
+
+[Trove](https://trove.nla.gov.au/newspaper/) is a centralised data store of cultural heritage items from the National Library of Australia and other partners. Newspapers published between 1803 and 1955 are freely available through Trove. As well as browsing and searching, Trove has an API which allows you to download newspaper text and image data, and associated metadata. See the [documentation](https://trove.nla.gov.au/about/create-something/using-api) for more details. Tim Sherratt publishes a [large number of guides](https://updates.timsherratt.org/2022/05/02/working-with-trove.html) to using Trove, including live code tutorials. 
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+aus_titles = read_csv('aus_titles.csv')
+
+aus_titles_df = aus_titles %>% group_by(place, latitude, longitude) %>%
+  summarise(total = n(),popup = paste0(newspaper_title, collapse = '<br>')) %>% filter(!is.na(latitude))
+
+aus_titles_sf = aus_titles_df %>% st_as_sf(coords = c('longitude', 'latitude'))
+
+pal1871 <- colorBin("viridis", domain=aus_titles_df$total)
+
+leaflet() %>%  
+            addTiles(
+            ) %>% 
+            clearShapes() %>% 
+            clearControls() %>%
+  addCircleMarkers(data = aus_titles_sf,
+                        fillColor = ~pal1871(total), fillOpacity = 0.7, stroke = .1,weight = .2,
+                        color = "black", radius = ~sqrt(total)*2, label = ~place,
+                        popupOptions = popupOptions(maxHeight = 100), popup=~popup,
+                        labelOptions = labelOptions(
+                            style = list("font-weight" = "normal", padding = "3px 8px"),
+                            textsize = "15px",
+                            direction = "auto")
+  ) 
+
+```
+
+## The Netherlands
+
+Historical newspapers in the Netherlands are available through a resource and interface called [Delpher](https://www.delpher.nl/), maintained by the Koninklijke Bibliotheek, the Dutch Royal (e.g. National) Library. As well as browsing/searching, users can download in bulk all newspapers published between 1618 and 1879. A full list of the available titles can be found [here](https://delpher-cms.kb.nl/sites/default/files/2023-06/newspaper-titles.pdf). 
+
+Newspaper data is available in a series of .zip files, and is published in METS/ALTO format. Page scans are not included, but can be retrieved manually from the web using a unique identifier and a URL. A full description of the data format and structure is available on the [Delpher website](https://www.delpher.nl/over-delpher/delpher-open-krantenarchief/wat-zit-er-in-het-delpher-open-krantenarchief). There is also an API available: users need to apply directly to Delpher for access. See [here](https://www.kb.nl/en/research-find/datasets/delpher-newspapers). 
+
+## Finland
+
+Many of Finland's newspapers have been digitised, and are available through a [standard web interface](https://digi.kansalliskirjasto.fi/search?formats=NEWSPAPER). All the OCR results (not images) of newspapers published between 1771 and 1874 are available as a single bulk download through the [Language Bank of Finland](https://korp.csc.fi/download/klk/fi/1771_1874/). The file is 13GB and the newspaper OCR results are in METS/ALTO format. 
+
+## Luxembourg
+
+Luxembourg have digitised and made available about 800,000 pages of digitised newspapers, and made them available through the National Library's [Open Data service](https://data.bnl.lu/data/historical-newspapers/). The data is presented in a number of different 'packs', each made with different user needs in mind. The data is in METS/ALTO format. The website contains extensive documetation on the format used, and a tool for processing the files can be found on the organisation's [Github page](https://github.com/natliblux). 
+
+Helpfully, they also make available a 'text analysis pack' where the plain text has been extracted from the METS/ALTO and made available either in a series of simplified .xml files, or as a .json file with one line per article.
+
+## Pan-European Collections
+
+A number of European projects have worked to make newspapers from multiple countries available through a single repository and interface. [Europeana Newspapers](https://www.europeana.eu/en/themes/newspapers) makes available, for browsing and keyword searching, about 20 million pages of newspapers from 18 partner libaries. You can view the final report, including links to tools and further information, [here](https://europeananewspapers.github.io/).
+
+Another project worth mentioning is [Impresso.](https://impresso-project.ch/). Impresso is a database and interface combining newspapers from multiple European countries. The data is not freely available, but the [interface](https://impresso-project.ch/app/) allows for a number of text analysis tasks (such as topic modelling and text reuse) to be carried out on a large corpus, one a Non-disclosure agreement is signed. Users can also create a search query and export the resulting articles as a dataset. A new version is currently in the pipeline. 
+
+

@@ -1,0 +1,19 @@
+# Welcome! {.unnumbered}
+
+This book is a guide to accessing and analysing newspaper data, mostly using the programming language R. I hope it is of use to people interested in working with newspaper data but a bit lost on how to get started.
+
+It uses freely-available newspaper data from collections held by the British Library and digitised by the [Living with Machines](https://livingwithmachines.ac.uk/) and [Heritage Made Digital](https://www.bl.uk/projects/heritage-made-digital) projects, and aims to focus on, through examples, the kinds of issues and questions one might have as a researcher or student working with newspapers as sources.
+
+Through the book, you'll learn about the key sources of digitised newspapers in the UK ([Chapter -@sec-sources]), where to find and download newspaper data ([Chapter -@sec-download]), generate plain text files to work with ([Chapter -@sec-extract]), and do everything from simple word statistics ([Chapter -@sec-count]) to building your own machine learning model in [Chapter -@sec-tidymodels].
+
+The book could also form the basis for a course, probably at Masters level. Each chapter ends with a few recommended readings, mostly academic papers, all focused on computational analysis of text, where possible specifically look at work done with or on newspapers. If you'd like to use this as a teacher, you are free to reuse any parts of the publication in anyway you like, to the extent to which I am entitled to grant that licence.
+
+## Acknowledgements
+
+I'm hugely grateful to the Living with Machines project for supporting me with a [Digital Residency](https://livingwithmachines.ac.uk/digital-residencies/), which gave me the time to write up a new version of this book, and port it to the Quarto format.
+
+I'm also grateful to the British Library for their advice and information.
+
+## Contact Me
+
+If you spot any mistakes, would like to give me feedback, or have found any of this book useful, I'd love to hear from you. Feel free to get in touch at y.c.ryan\@hum.leidenuniv.nl. You can also post an issue on the book Github repository.

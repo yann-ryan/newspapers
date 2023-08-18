@@ -1,0 +1,51 @@
+# Introduction
+
+## Why Newspaper Data?
+
+More and more newspaper data is becoming available for researchers. Most news digitisation projects now carry out Optical Character Recognition and segmentation, meaning that the digitised images are processed so that the text is machine readable, and then divided into articles. It's far from perfect, but it does generate a large amount of data: both the digitised images, and the underlying text and information about the structure.
+
+All in all, it represents a very extensive source of historical text data, one which is ripe for analysis. Newspapers are particularly compelling as evidence because they can be a window into cultures and discourses which are not necessarily represented in other historical sources, such as printed books. The regularity and periodicity of newspapers mean they are a key source for studying events, trends, and patterns in history. To name a few projects, researchers have used newspaper data to [understand Victorian jokes](https://britishlibrary.typepad.co.uk/digital-scholarship/2014/06/victorian-meme-machine.html), [understand the effects of industrialisation](https://livingwithmachines.ac.uk/), [track the meetings of radical groups](https://www.bl.uk/case-studies/political-meetings-mapper), trace [global information networks](https://oceanicexchanges.org/), and look at the [history of pandemic reporting](https://lab.kb.nl/tool/delpher-demo-pandemics-through-time-dutch).
+
+## What is this book?
+
+To a new researcher, working with newspaper data can be daunting. As well as the sheer size of the datasets, digitised newspapers are often confusingly scattered across many collections and repositories and stored in what might seem like---to a newcomer---complicated, even esoteric, formats.
+
+This book aims to demystify some of these issues, and to provide a set of very practical tools and tutorials which should allow someone with little experience to work with newspaper data in a meaningful way. It will also reference many of the exemplary projects and papers which have worked with this kind of material, hopefully to serve as some kind of inspiration.
+
+This book is aimed at researchers, teachers, and and other interested individuals who would like to access and analyse data from newspapers. In this book, the term *newspaper data analysis* is taken to mean approaches which look beyond the close reading of individual digitised newspapers, and instead look at some element of the underlying data at scale. In this book, this analysis primarily means working with the text data derived from processed newspapers and metadata from collections of newspapers held by libraries and archives, but also associated data such as press directories. Other types of newspaper data, such as images, are important but beyond the scope of this book.
+
+### Goals
+
+In short, this book hopes to help you:
+
+-   Know what British Library newspaper data is openly available, where it is, and where to look for more coming onstream.
+-   Understand something of the XML format which make up the Library's current crop of openly available newspapers.
+-   Have a process for extracting the plain text of the newspaper in a format which is easy to use.
+-   Have been introduced to a number of tools which are particularly useful for large-scale text mining of huge corpora: n-gram counters, topic modelling, text re-use.
+-   Understand how the tools can be used to answer some basic historical questions (whether they provide answers, I'll leave for the reader and historian to decide)
+
+### Structure
+
+The book is divided into two parts, **sources** and **methods.**
+
+#### Sources
+
+The first section is a series of 'code-free' chapters, which aim to give an overview of available newspaper data, how to access it, and some caveats to watch out for when using it for your own research. It will give brief introductions to some tools made available by the Living with Machines project to download and work with newspapers. This section is suitable for anyone, though in some cases it will require some use of the command line.
+
+#### Methods
+
+The second section is more specific: a series of tutorials using the programming language R to process and analyse newspaper data. These tutorials include examples and fully worked-out code which takes the reader from the 'raw' newspaper data available online, through to downloading, extracting, and analysing the text within it. These tutorials are most suited for researchers who have a little bit of programming experience, and may be useful for teachers of courses in digital humanities or data science.
+
+For this section, it'll be useful to have at least basic experience with the [coding language R](https://www.r-project.org/about.html), and most likely, its very widely-used IDE, [R-Studio](https://posit.co/download/rstudio-desktop/). The tutorials will assume you have managed to install R and R Studio, and know how to install packages and use it for basic data wrangling. If you want to learn how to use R, R-Studio and the Tidyverse, there are lots of existing resources available. At the same time, the tutorials are entirely self-contained, and if you are careful and willing to very closely follow the steps, you should be able to make them run even without any coding experience.
+
+## Recommended Reading
+
+Each chapter is accompanied by a couple of pieces of recommended reading. These are generally academic articles, related to the computation technique of the chapter. Wherever possible, they will specifically use newspaper data in their methods.
+
+## Contribute
+
+The book has been written using [Quarto](https://quarto.org/), which turns pages of code into figures and text, exposing the parts of the code when necessary, and hiding it in other cases. It lives on a GitHub repository, here: and the underlying code can be freely downloaded and re-created or altered. If you'd like to contribute, anything from a few corrections to an entire new chapter, please feel free to get in touch via the Github issues page or just fork the repository and request a merge when you're done.
+
+## Recommended Reading
+
+Nicholson, Bob. "The Digital Turn: Exploring the Methodological Possibilities of Digital Newspaper Archives." *Media History* 19, no. 1 (February 2013): 59--73. https://doi.org/10.1080/13688804.2012.752963.

@@ -1,0 +1,529 @@
+# Accessing Newspaper Data in the UK {#sec-sources}
+
+This chapter outlines the major sources of newspaper data available in the UK.
+
+One important thing to note is that the chapter deals with text only, that is, newspaper data in the form of text derived from the images of the printed pages. The images themselves are important and increasingly [the object of research in their own right](https://academic.oup.com/dsh/article/35/1/194/5296356), but this book doesn't focus on them. In some of the cases below, but not all, the images can be accessed alongside the derived text. The newspapers described below are generally made available in a format known as METS/ALTO, which will be explained in more detail in [Chapter -@sec-mets].
+
+The guide is aimed as a brief, practical overview. For more detailed information, I highly recommend checking out the [Atlas of Digitised Newspapers](https://www.digitisednewspapers.net/) project, which currently has very detailed information on the digitised newspapers and data for [ten collections worldwide](https://www.digitisednewspapers.net/histories/), including descriptions of metadata, standards, and API access.
+
+## What is Available? In a Nutshell:
+
+Most of the available newspaper data in the UK is based on the collections of the British Library (though other libraries do hold significant collections). This is a huge collection, but getting access to it is not straightforward. In a nutshell:
+
+-   If your research is more methods-based or doesn't necessarily need full coverage, you could use the freely-available, public domain [Heritage Made Digital](#0) and [Living with Machines](#0) titles. These are used in the second section of the book as the basis for the coding tutorials.
+-   If you would like to do analysis on something slightly more representative, you could contact Gale and ask them to supply you with the [JISC Historical Newspaper Collection](#jisc). Hopefully, these titles will be made freely available in the coming years.
+-   To work with the largest dataset of newspapers, you would need an agreement with a commercial company, Find My Past.
+
+## British Library Newspapers - The Physical Collection
+
+The British Library holds about 60 million issues, or 450 million pages of newspapers. They now span over 400 years, but the coverage prior to the nineteenth century is very partial [@ed-king-gale]. Prior to 1800, the collection has serious gaps, and many issues of many titles have simply not survived. This means that only a fraction of what was published has been preserved or collected, and only a fraction of that which has been collected has been digitised.
+
+It's actually surprisingly difficult to know exactly what has been digitised, but a rough count is possible, using the 'newspaper year' as a unit. This is all the issues for one title, for one year. Its not perfect, because a newspaper-year of a weekly looks the same as a newspaper-year for a daily, but it's an easy unit to count. There are currently about 40,000 newspaper-years on the British Newspaper Archive. The entire collection of British and Irish Newspapers is probably about 350,000 newspaper-years.
+
+It's all very well being able to access the *content*, but for the purposes of the kind of things we'd like to do, access to the *data* is needed. The following are the main British Library digitised newspaper sources. The following is organised into two time periods: before and after 1800.
+
+## Pre-1800
+
+Newspapers before 1800 are treated different to later ones and even constitute a different collection in the British Library. First of all, the collection of pre-1800 newspapers is much smaller and much less complete. This is partially because the British Library did not collect newspapers systematically until well into the nineteenth century. Therefore, even though they are out of copyright, there are no large-scale, centralised collection of early newspapers and newsbooks (their precursors).
+
+Close to the entirety of the surviving collection of newspapers (called newsbooks from the seventeenth century, by and large) has been digitised and made available online, through resources such as EEBO, JISC Historical Texts, and Gale Primary Sources. Many universities and libraries will provide access to these resources, allowing you to browse, search and read through the texts.
+
+Getting access to the underlying text data is less straightforward, however. In the first place, the OCR of these titles, where it has been carried out, is often very inaccurate. Secondly, the images and texts themselves are mostly behind paywalls and there is no easy provision for bulk downloading of either. Two sources of newspapers for those interested in pre-1800 are worth mentioning: 1) the Burney Collection and 2) the Thomason Newsbook Collection.
+
+### The Thomason Newsbook Collection
+
+The Thomason Tracts are a collection of pamphlets, periodicals and broadsides held at the British Library. Part of this are approximately 7,200 serials (or periodicals). These were digitised from microfilm scans in the 1990s, and made available online through the resource Early English Books Online (EEBO). A separate project the Text Creation Partnership (EEBO-TCP), created double-keyed transcriptions of many EEBO texts, but, sadly, not including serials (though it does include news pamphlets). These transcribed texts, in TEI-encoded format, are [freely available online](https://github.com/orgs/textcreationpartnership/repositories).
+
+Some smaller corpora of Thomason newsbooks have been created. These include the [Lancaster Newsbook Corpus](https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2531), a collection of several hundred manually-transcribed serials from the 1650s, and '[George Thomason's Newsbooks](https://www.dhi.ac.uk/newsbooks/nbcontext?about=query)', which is a corpus of all newsbooks printed in the year 1649, as well as the entire run of a single title, *Mercurius Politicus*. Neither of these may be suited to the kind of large-scale analysis proposed in this book, but they may anyway be of interest.
+
+### Burney Collection
+
+The Burney Collection contains about one million pages, from the very earliest newspapers in the seventeenth century to the beginning of the nineteenth, collected by Rev. Charles Burney in the eighteenth century, and purchased by the Library in 1818.[@travelling-chron] It's actually a mixture of both Burney's own collection and stuff inserted since. It was microfilmed in its entirety in the 1970s. As Andrew Prescott has written, 'our use of the digital resource is still profoundly shaped by the technology and limitations of the microfilm set'. The collection was imaged in the 90s but because of technological restrictions it wasn't until 2007 when, with Gale, the British Library released the Burney Collection as a digital resource.
+
+It's not generally available as a data download, but the raw OCR would be of limited use anyway. OCR for early modern print is not very good, and it was certainly worse ten years ago when the collection was processed. The accuracy of the OCR has been measured, and @travelling-chron found that the ocr for the Burney newspapers offered character accuracy of 75.6% and word accuracy of 65%.
+
+However, this is still a useful collection for browsing and keyword searching, which can usually be accessed through an institutional subscription to Gale, packaged as the [Seventeenth and Eighteenth Century Burney Newspapers Collection](https://www.gale.com/intl/c/17th-and-18th-century-burney-newspapers-collection){.uri}.
+
+## After 1800
+
+The British Library newspapers after 1800 is a much larger collection, and from the middle of the century, is quite comprehensive. A number of resources make digital surrogates of these newspapers available.
+
+### JISC Newspaper digitisation projects {#jisc}
+
+Most of the academic projects in the UK which have used newspaper data, from the [Political Meetings Mapper](https://www.bl.uk/case-studies/political-meetings-mapper), to the [Victorian Meme Machine](https://britishlibrary.typepad.co.uk/digital-scholarship/2014/06/victorian-meme-machine.html) have used the *British Library's 19th Century Newspapers* collection, published by the **Joint Information Systems Committee (JISC).**
+
+#### What is available?
+
+JISC is mostly a collection of large regional titles from across the nineteenth century, which were picked for a variety of reasons, outlined below. There are titles from many major UK towns and cities. Figure @fig-jisc charts the number of titles per decade: the coverage of the nineteenth century is more weighted towards the end, but this also reflects the increase in the newspaper collection as a whole.
+
+```{r include=FALSE}
+library(sf)
+library(tidyverse)
+library(snakecase)
+library(mapdata)
+
+libraryPalette = c("#DA2F65","#FFC82E","#00788B","#CEE055",   "#7E3E98",  "#1E6EB8", "#018074", "#865BE7", "#D44202")
+
+load('data/shp_df_all_uk_1891.dms')
+counties = read_csv('data/county_data.csv')
+jisc = read_csv('data/jisc.csv')
+
+colnames(counties) = to_snake_case(colnames(counties))
+
+title_list = read_csv('data/BritishAndIrishNewspapersTitleList_20191118.csv')
+
+```
+
+```{r include=FALSE}
+geocoded = read_csv('data/geocorrected.csv')
+colnames(geocoded) = to_snake_case(colnames(geocoded))
+```
+
+```{r include=FALSE}
+map = map_data('world')
+```
+
+```{r include=FALSE}
+library(ggrepel)
+```
+
+```{r include=FALSE}
+geocoded = read_csv('data/geocorrected.csv')
+colnames(geocoded) = to_snake_case(colnames(geocoded))
+```
+
+```{r include=FALSE}
+map = map_data('world')
+```
+
+```{r include=FALSE}
+library(ggrepel)
+library(snakecase)
+libraryPalette = c("#DA2F65","#FFC82E","#00788B","#CEE055",   "#7E3E98",  "#1E6EB8", "#018074", "#865BE7", "#D44202")
+
+```
+
+```{r include=FALSE}
+library(data.table)
+
+title_list %>% mutate(title_id = str_pad(title_id, width = 9, pad = '0')) %>% 
+  left_join(jisc) %>% filter(!is.na(JISC)) %>% left_join(geocoded)
+```
+
+```{r include=FALSE}
+title_list_na_rem = title_list %>% 
+  mutate(last_date_held = replace(last_date_held, last_date_held == 'Continuing', '2019'))
+
+
+title_list_na_rem$first_date_held = as.numeric(title_list_na_rem$first_date_held)
+title_list_na_rem$last_date_held = as.numeric(title_list_na_rem$last_date_held)
+
+title_list_na_rem = title_list_na_rem %>% filter(!is.na(first_date_held)) %>% filter(!is.na(last_date_held))
+
+long_title_list = setDT(title_list_na_rem)[,.(year=first_date_held:last_date_held),by = eval(colnames(title_list))]
+```
+
+```{r}
+#| label: fig-jisc
+#| fig-cap: "Very approximate chart of JISC titles, assuming that we had complete runs for all. Counted by year rather than number of pages digitised."
+#| warning: false
+#| message: false
+#| echo: false
+
+long_title_list %>% 
+  mutate(title_id = str_pad(title_id, width = 9, pad = '0')) %>% 
+  left_join(jisc) %>% 
+  filter(!is.na(JISC)) %>% 
+  left_join(geocoded) %>% 
+  filter(year %in% c(1800:1909)) %>%
+  mutate(decade = year-year %%10) %>%
+  group_by(decade, JISC) %>% 
+  tally() %>% 
+  ggplot() + geom_bar(aes(x = decade, y = n, fill = JISC), stat = 'identity', alpha = .8) + 
+  theme_minimal() + scale_fill_manual(values = libraryPalette) + theme(legend.title = element_text(family = 'serif'), legend.text = element_text(family = 'serif'), axis.text = element_text(family = 'serif'), axis.title = element_text(family = 'serif'))
+```
+
+#### History
+
+The JISC newspaper digitisation program began in 2004, when The British Library received two million pounds from the Joint Information Systems Committee (JISC) to complete a newspaper digitisation project. A plan was made to digitise up to two million pages, across 49 titles.[@ed-king-gale] A second phase of the project digitised a further 22 titles.[@shaw-newspapers; @shaw-billion]
+
+#### Coverage
+
+The titles cover England, Scotland, Wales and Ireland, and it should be noted that the latter is underrepresented although it was obviously an integral part of the United Kingdom at the time of the publication of these newspapers - something that's often overlooked in projects using the JISC data. They cover about 40 cities \@ref(fig:jisc-points), and are spread across 24 counties within Great Britain \@ref(fig:jisc-map), plus Dublin and Belfast. To quote the then curator of the newspapers, Ed King:
+
+> The forty-eight titles chosen represent a very large cross-section of 19th century press and publishing history. Three principles guided the work of the selection panel: firstly, that newspapers from all over the UK would be represented in the database; in practice, this meant selecting a significant regional or city title, from a large number of potential candidate titles. Secondly, the whole of the nineteenth century would be covered; and thirdly, that, once a newspaper title was selected, all of the issues available at the British Library would be digitised. To maximise content, only the last timed edition was digitised. No variant editions were included. Thirdly, once a newspaper was selected, all of its run of issue would be digitised.[@ed-king-digi]
+
+Further information on the selection process comes from Jane Shaw, who wrote in 2007 that:
+
+> The academic panel made their selection using the following eligibility criteria:
+
+> -   To ensure that complete runs of newspapers are scanned
+>
+> -   To have the most complete date range, 1800-1900, covered by the titles selected
+>
+> -   To have the greatest UK-wide coverage as possible To include the specialist area of Chartism (many of which are short runs)
+>
+> -   To consider the coverage of the title: e.g., the London area; a large urban area (e.g., Birmingham); a larger regional/rural area To consider the numbers printed - a large circulation
+>
+> -   The paper was successful in its time via its sales
+>
+> -   To consider the different editions for dailies and weeklies and their importance for article inclusion or exclusion To consider special content, e.g., the newspaper espoused a certain political viewpoint (radical/conservative)
+>
+> -   The paper was influential via its editorials. [@shaw-newspapers]
+
+The result was a heavily curated collection, which has been scrutinised by historians [@Fyfe_2016 for example].
+
+Recently, the Living with Machines project has done the most thorough assessment of the specific biases of the collection. Doing what has been termed an 'environmental scan' of the newspaper collection, and linking it to press directories containing information on geographic coverage, political leanings, and price, that team has shown that it had specific biases in some areas [@beelen2022].
+
+This is all covered in lots of detail elsewhere, including some really interesting critiques of the access and so forth.[@smits_making_2016; @mussell-elemental both include some discussion and critique of the British Library Newspaper Collection].
+
+Regardless of its representativeness, it only contains a tiny fraction of the newspaper collection, and by being relevant and restricted to 'important' titles, it does of course miss other voices. For example, much of the Library's collection consists of short runs, and much of it has not been microfilmed, which means it won't have been selected for digitisation. This means that 2019 digitisation selection policies are indirectly *greatly* influenced by microfilm selection policies of earlier decades. Subsequent digitisation projects are trying to [rectify these imbalances](https://blogs.bl.uk/thenewsroom/2019/01/heritage-made-digital-the-newspapers.html).
+
+The map below is interactive and shows the locations of the JISC 1 and 2 collections. Clicking on a point will bring up a list of the newspapers digitised in that place; clicking on these links will bring you to the British Library's catalogue page for that title.
+
+```{r include=FALSE}
+leaflet_list_jisc = title_list %>% 
+  mutate(title_id = str_pad(title_id, width = 9, pad = '0')) %>% 
+  left_join(jisc) %>% filter(!is.na(JISC)) %>% left_join(geocoded)%>% 
+  group_by(wikititle, wikilon, wikilat) %>% 
+  tally()
+```
+
+```{r include=FALSE}
+library(leaflet)
+```
+
+```{r include=FALSE}
+links = title_list%>% 
+  mutate(title_id = str_pad(title_id, width = 9, pad = '0')) %>% 
+  left_join(jisc) %>% filter(!is.na(JISC)) %>% left_join(geocoded)%>% 
+  group_by(wikititle, wikilon, wikilat) %>% 
+  group_by(wikititle, wikilon, wikilat) %>%
+            filter(!is.na(link_to_british_newspaper_archive)) %>%
+            distinct(nid, .keep_all = TRUE) %>%
+            summarise(link = paste("<p><a href=",
+                                   explore_link,">",
+                                   publication_title,"</a>", 
+                                   first_date_held, " - ", 
+                                   last_date_held, "</p>\n", 
+                                   collapse = "\n"))
+
+
+```
+
+```{r include=FALSE}
+leaflet_list_jisc = leaflet_list_jisc %>% left_join(links) %>% filter(!is.na(link))
+```
+
+```{r include=FALSE}
+lat <- 53.442788
+lng <- -2.244708
+zoom <- 5
+pal1871 <- colorBin("viridis", domain=leaflet_list_jisc$n, bins = c(0,5,10,15,20))
+```
+
+```{r include=FALSE}
+popup_sb <- paste0(leaflet_list_jisc$wikititle, "\n", "Total unique titles: ", leaflet_list_jisc$n)
+leaflet_list_jisc  = leaflet_list_jisc %>% ungroup() %>% 
+  mutate(wikilon = as.numeric(wikilon)) %>% 
+  mutate(wikilat = as.numeric(wikilat))
+
+popup_sblab <- leaflet_list_jisc$link
+
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig.cap: "Interactive map of the JISC 1 & 2 digitised collections"
+
+leaflet() %>%  
+            addTiles(
+            ) %>% 
+            setView(lat = lat, lng = lng, zoom = zoom)%>% 
+            clearShapes() %>% 
+            clearControls() %>%
+  addCircleMarkers(data = leaflet_list_jisc,lng = ~wikilon, lat = ~wikilat, weight = 1, #cheat and change London to a smaller number, so it doesn't overlap other points
+    radius = ~n*2 %>% sqrt(), ,
+                        fillColor = ~pal1871(n),fillOpacity = 0.7,
+                        color = "gray95",popup = ~popup_sblab,
+                        popupOptions = popupOptions(maxHeight = 100), label=popup_sb,
+                        labelOptions = labelOptions(
+                            style = list("font-weight" = "normal", padding = "3px 8px"),
+                            textsize = "15px",
+                            direction = "auto")
+  ) %>%
+            addLegend(pal = pal1871, 
+                      values = n,
+                      opacity = 0.7,
+                      position = 'bottomright',
+                      title = 'Unique titles:')
+```
+
+#### Access
+
+Currently researchers access this either through Gale, or through the British Library as an external researcher. Many researchers have requested access to the collection through Gale, which they will apparently do in exchange for a fee for the costs of the hard drives and presumably some labour time. These files were digitised using a specific format, and the text from them can be extracted using a tool developed by Living with Machines, which I'll explore in a future chapter.
+
+### British Newspaper Archive
+
+Most of the British Library's digitised newspaper collection is available on the [British Newspaper Archive](www.britishnewspaperarchive.co.uk) (BNA). The BNA is a commercial product run by a family history company called FindMyPast. FindMyPast is now responsible for digitising large amounts of the Library's newspapers, mostly through microfilm. As such, they have a very different focus to the JISC digitisation projects. The BNA is constantly growing, and it already dwarfs the JISC projects by number of pages: the BNA currently hosts about 50 million pages, against the 3 million or so of the two JISC projects (Figure A recent project, thanks to an agreement between the supplier and the British Library, means that [one million pages per year are being made freely available to read through the platform](https://blog.britishnewspaperarchive.co.uk/2021/08/09/introducing-free-to-view-pages-on-the-british-newspaper-archive/), if you register for a free account.
+
+#### Coverage
+
+The BNA collection is very large, and is particularly focused on local newspapers. At time of writing, the BNA website (linked above) contains over 68 million pages, with more added on a weekly basis.
+
+The titles it contains span the entire nineteenth century, peaking from 1850 - 1900. Figure @fig-bna charts the volume of material on the British Newspaper Archive, per year. It is derived from the metadata rather than the actual volume of data. The 'unit' is the *newspaper year*, meaning each year of a newspaper's run is counted as a single data point. It doesn't account for weekly versus daily titles, or the number of pages, but it gives an idea of the temporal shape of the coverage.
+
+```{r include=FALSE}
+nlp_years = read_csv('https://tiles-api.britishnewspaperarchive.co.uk/readingroom.csv')
+nlp_years = nlp_years %>% mutate(year = YYYY, nlp = as.numeric(NLP))
+```
+
+```{r}
+#| label: fig-bna
+#| fig-cap: "Newspaper-years on the British Newspaper Archive. Note that this includes the JISC content too"
+#| warning: false
+#| message: false
+#| echo: false
+
+long_title_list %>% 
+   left_join(nlp_years,, by = c('nlp', 'year'), na_matches = 'never') %>% 
+  filter(!is.na(YYYY)) %>% 
+  filter(country_of_publication %in% c('England', 'Ireland', 'Scotland', 'Wales', 'Northern Ireland')) %>%
+  mutate(decade = year-year %%10) %>% 
+  group_by(country_of_publication, decade) %>% tally() %>% 
+  ggplot() + 
+  geom_bar(aes(x = decade, y = n, fill = country_of_publication), alpha = .9, stat = 'identity') + 
+  theme_minimal() + 
+  theme(legend.position = 'bottom') + scale_fill_manual(values = libraryPalette)
+```
+
+Geographically, the BNA collection is also widely spread. The most important distinction between it and JISC is that the BNA covers a much wider range of smaller, local titles. Figure @fig-bnamap maps all the titles digitised and available on the British Newspaper Archive. In this case, clicking a link will bring you to the page for that title on the resource. You'll need a subscription (or a free account if they happen to be free-to-view titles) to view it in its entirety.
+
+The map is not complete - titles from Ireland are not shown at the moment because of an issue with the metadata, but will be added in a later update. However the map gives a good sense of the geographic coverage, which is particularly clustered in parts of the Midlands and North, as well as London. Many smaller villages and towns are represented. Coverage in Wales is still patchy, but most big population centres are represented.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+leaflet_list = title_list %>% 
+  filter(!is.na(link_to_british_newspaper_archive)) %>% 
+  left_join(geocoded) %>% 
+  group_by(wikititle, wikilon, wikilat) %>% 
+  tally()
+```
+
+```{r include=FALSE}
+links = title_list %>% 
+  left_join(geocoded) %>% 
+  group_by(wikititle, wikilon, wikilat) %>%
+            filter(!is.na(link_to_british_newspaper_archive)) %>%
+            distinct(nid, .keep_all = TRUE) %>%
+            summarise(link = paste("<p><a href=",
+                                   link_to_british_newspaper_archive,">",
+                                   publication_title,"</a>", 
+                                   first_date_held, " - ", 
+                                   last_date_held, "</p>\n", 
+                                   collapse = "\n"))
+
+
+```
+
+```{r include=FALSE}
+leaflet_list = leaflet_list %>% left_join(links) %>% filter(!is.na(link))
+```
+
+```{r include=FALSE}
+lat <- 53.442788
+lng <- -2.244708
+zoom <- 5
+pal1871 <- colorBin("viridis", domain=leaflet_list$n, bins = c(0,5,10,15,20,25,30,35,Inf))
+```
+
+```{r include=FALSE}
+popup_sb <- paste0(leaflet_list$wikititle, "\n", "Total unique titles: ", leaflet_list$n)
+leaflet_list  = leaflet_list %>% ungroup() %>% mutate(wikilon = as.numeric(wikilon)) %>% mutate(wikilat = as.numeric(wikilat))
+
+popup_sblab <- leaflet_list$link
+
+```
+
+```{r}
+#| label: fig-bnamap
+#| fig-cap: "Newspaper-years on the British Newspaper Archive. Note that this includes the JISC content too"
+#| warning: false
+#| message: false
+#| echo: false
+
+leaflet() %>%  
+            addTiles(
+            ) %>% 
+            setView(lat = lat, lng = lng, zoom = zoom)%>% 
+            clearShapes() %>% 
+            clearControls() %>%
+  addCircleMarkers(data = leaflet_list %>% mutate(n = replace(n, wikititle == 'London', 40)),lng = ~wikilon, lat = ~wikilat, weight = 1, #cheat and change London to a smaller number, so it doesn't overlap other points
+    radius = ~n*.25 %>% sqrt(), ,
+                        fillColor = ~pal1871(n),fillOpacity = 0.7,
+                        color = "gray95",popup = ~popup_sblab,
+                        popupOptions = popupOptions(maxHeight = 100), label=popup_sb,
+                        labelOptions = labelOptions(
+                            style = list("font-weight" = "normal", padding = "3px 8px"),
+                            textsize = "15px",
+                            direction = "auto")
+  ) %>%
+            addLegend(pal = pal1871, 
+                      values = n,
+                      opacity = 0.7,
+                      position = 'bottomright',
+                      title = 'Unique titles:')
+
+
+
+```
+
+#### Access
+
+The BNA's primary focus is on providing search access to individual researchers. Sadly, there is little provision made for data access, or even institutional subscriptions for researchers. There are some exceptions: the [Bristol N-Gram and named entity datasets](10.5523/bris.dobuvuu00mh51q773bo8ybkdz) project used the BNA data, processing the top phrases and words from about 16 million pages. The collection has tripled in size since then: it's likely that were it to be run again the results would be different.
+
+The Living with Machines project negotiated a full data transfer directly from Find My Past (the owners of the British Newspaper Archive) for the first time. The story of this is written in some detail in the book *Collaborative Historical Research in the Age of Big Data*[@ahnert2023]. In a nutshell, because of copyright issues, the project had to deal directly with Find My Past, and there were a set of detailed restrictions on what could be done with the data, such as having to be kept in secure storage, and deleted after two years.
+
+That is all to say that working with 'all' the UK's available digitised newspaper data is probably not feasible for most individual researchers or even small or medium-sized research projects, at the present time. While hopefully this will change in the future, what it means for now is that most data-driven historical work carried out on newspapers has used the JISC data, rather than the much larger BNA collection, because of relative ease-of-access.
+
+### British Library Open Research Repository (bl.iro.bl.uk)
+
+However, there is some positive news in accessing UK newspaper data, thanks to a new resource which has become available in the last couple of years: the British Library's [Open Research Repository](https://bl.iro.bl.uk/). Newspaper digitisation projects carried out internally by the British Library do not have the same copyright or commercial restrictions as JISC and the BNA, meaning in theory the data from them can be opely shared with no license restrictions. Two recent projects, Living with Machines and Heritage Made Digital, have carried out digitisation in this way, and so the data can be much more easily and openly shared. It is still a tiny collection in comparison to the entire BNA, but it is a step in the right direction.
+
+The BL open repository is a centralised repository for all sorts of research outputs and data, and the Library has been using it as a storage space for newspaper data from various newspaper digitisation projects. The text data (not the images) have been made freely available, with no license restrictions, meaning they can be used for any purpose whatsoever.
+
+#### Coverage
+
+As of publication, a total of 57 titles, or 437 'newspaper years' are currently available.
+
+These titles currently come from two sources:
+
+-   The Living with Machines project
+
+-   Heritage Made Digital
+
+Because the information on the motivations behind these projects is somewhat new, more transparent, and easier to access, I'll explain them in a bit more detail.
+
+#### Living with Machines {#heritage}
+
+The [Living with Machines](https://livingwithmachines.ac.uk/) project, a collaboration between the Alan Turing Institute and the British Library (as well as other partners), has digitised and made available a new selection of newspapers. According to that project, the aim of the digitisation was research-led rather than curatorial, meaning they chose their titles according to flexible research needs. According to the project, the key aims for the digitisation were to respond to specific research questions, and to rebalance the bias in the existing newspaper corpus [@tolfo2022]. The eventual selections were a mix of research interests and 'practical factors'.
+
+To help with choosing the most useful and optimal set of newspapers to digitise with limited resources, the team developed a number of tools, including a user interface called [*Press Picker*](https://github.com/Living-with-machines/PressPicker_public), as well as digitising a [set of press directories](https://bl.iro.bl.uk/collections/580fe312-0e41-41fc-bb38-40122798cec1?locale=en), which hold information on the newspapers which could then be used in making choices.
+
+The project's historical research interest focused on industrialisation and its impact, and as a result many of the titles digitised are specifically related to that subject, for example by the topic or area of coverage of the newspaper.
+
+#### Heritage Made Digital
+
+[Heritage Made Digital](https://blogs.bl.uk/thenewsroom/2019/01/heritage-made-digital-the-newspapers.html) was a project within the British Library to digitise up to 1.3 million pages of 19th century newspapers. It has a specific curatorial focus: it picked titles which are completely out of copyright, which means that they all *finished* publication before 1879. It also had preservation aims: because of this, it chose titles which were not on microfilm, and were also in poor or unfit condition. Newspaper volumes in unfit condition cannot be called up by readers: this meant that if a volume is not microfilmed and is in this state, it can't be read by *anyone*.
+
+The other curatorial goal was to focus on 'national' titles. In practice this meant choosing titles printed in London, but without a specific London focus. The JISC digitisation projects focused on regional titles, then local, and all the 'big' nationals like the *Times* or the *Manchester Guardian* have been digitised by their current owners. This means that a group of historically important titles may have fallen through the cracks, and this projects is digitising some of those.[^news-sources-uk-1]
+
+[^news-sources-uk-1]: The term national is debatable, but it's been used to try and distinguish from titles which clearly had a focus on one region. Even this is difficult: regionals would have often had a national focus, and were in any case reprinting many national stories. But their audience would have been primarily in a limited geographical area, unlike many London-based titles, which were printed and sent out across the country, first by train, then the stories themselves by telegraph.
+
+As can be seen in Figure @fig-blnews, the years digitised so far cover most of the century, with the Living with Machines titles focused on the second half, and Heritage Made Digital slightly earlier.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-blnews
+#| fig-cap: "Time-series graph of the newspapers digitised by Living with Machines and Heritage Made Digital, and made available on the Open Research Repository."
+#| warning: false
+#| message: false
+#| echo: false
+
+load('bl_newspapers')
+
+bl_newspapers %>% 
+  count(year, source) %>% filter(year %in% 1800:1901) %>% 
+  ggplot() + 
+  geom_col(aes(x = as.numeric(year), y = n, fill = source)) + 
+  labs(x = NULL, y = 'Newspaper-year', fill = "Source: ") + 
+  theme(legend.position ='bottom')
+```
+
+Taken together, the collection spans much of the UK, with an emphasis on London and industrial areas, because of the focus of the projects.
+
+This map in Figure @fig-blnewsmap displays them. A few are currently missing from the map because the relevant ID numbers to link them to the title list and ultimately, geographic coordinates, were not found. The links in the pop-up take you to the download page for that title on the Open Research Repository.
+
+```{r}
+#| label: fig-blnewsmap
+#| fig-cap: "Newspaper-years on the British Newspaper Archive. Note that this includes the JISC content too"
+#| warning: false
+#| message: false
+#| echo: false
+
+bl_newspapers = read_csv('bl_newspapers_to_edit.csv') %>% select(-country_of_publication, -general_area_of_coverage, -coverage_city, -nlp) %>% filter(!is.na(nid))
+
+
+leaflet_list_lwm = bl_newspapers %>% 
+  left_join(title_list, by = 'nid') %>% 
+  left_join(geocoded) %>% 
+  group_by(wikititle, wikilon, wikilat) %>% 
+  tally()
+
+links =  bl_newspapers %>% 
+  left_join(title_list, by = 'nid') %>% 
+  left_join(geocoded) %>%
+  distinct(title, .keep_all = TRUE) %>% 
+  group_by(wikititle, wikilon, wikilat)  %>%
+            summarise(link = paste("<p><a href=",
+                                   all_collections,">",
+                                   publication_title,"</a>", 
+                                   first_date_held, " - ", 
+                                   last_date_held, "</p>\n", 
+                                   collapse = "\n"))
+
+leaflet_list_lwm = leaflet_list_lwm %>% left_join(links) %>% filter(!is.na(link))
+
+lat <- 53.442788
+lng <- -2.244708
+zoom <- 5
+pal1871 <- colorBin("viridis", domain=leaflet_list_lwm$n, bins = c(0,5,10,15, Inf))
+
+
+popup_sb <- paste0(leaflet_list_lwm$wikititle, "\n", "Total unique titles: ", leaflet_list_lwm$n)
+leaflet_list_lwm  = leaflet_list_lwm %>% ungroup() %>% mutate(wikilon = as.numeric(wikilon)) %>% mutate(wikilat = as.numeric(wikilat))
+
+popup_sblab <- leaflet_list_lwm$link
+
+leaflet() %>%  
+            addTiles(
+            ) %>% 
+            setView(lat = lat, lng = lng, zoom = zoom)%>% 
+            clearShapes() %>% 
+            clearControls() %>%
+  addCircleMarkers(data = leaflet_list_lwm,lng = ~wikilon, lat = ~wikilat, weight = 1, #cheat and change London to a smaller number, so it doesn't overlap other points
+    radius = ~n*5 %>% sqrt(), ,
+                        fillColor = ~pal1871(n),fillOpacity = 0.7,
+                        color = "gray95",popup = ~popup_sblab,
+                        popupOptions = popupOptions(maxHeight = 100), label=popup_sb,
+                        labelOptions = labelOptions(
+                            style = list("font-weight" = "normal", padding = "3px 8px"),
+                            textsize = "15px",
+                            direction = "auto")
+  ) %>%
+            addLegend(pal = pal1871, 
+                      values = n,
+                      opacity = 0.7,
+                      position = 'bottomright',
+                      title = 'Unique titles:')
+```
+
+#### Access
+
+The good news is that as these newspapers are deemed out of copyright, the text data can be made freely downloadable. Currently the first batch of newspapers, in METS/ALTO format, are available on the British Library's Open Repository. They have a CC-0 licence, which means they can be used for any purpose whatsoever. The code examples in the following chapters will use this data, and chapter six will show you how to download the titles using a bulk downloader, instead of going through them one-by-one.
+
+The titles are primarily available as individual downloads through the web interface of the repository. Downloading them is as simple as clicking a link to a .zip file. The easiest way to find all of them is to use the collections organisational system of the repository. The collection [British Library News Datasets](https://bl.iro.bl.uk/collections/353c908d-b495-4413-b047-87236d2573e3?locale=en) contains a number of newspaper datasets, including metadata and newspapers. The newspapers themselves are contained with the sub-collection [Newspapers](https://bl.iro.bl.uk/collections/9a6a4cdd-2bfe-47bb-8c14-c0a5d100501f?locale=en). If you click on this second link, you'll see a list of datasets. Each dataset corresponds to a single title (actually, often a group of titles if they changed name or merged). Clicking on a title will display a page containing links to .zip files, one for each year of the title. Note that there may be multiple pages.
+
+Downloading the data one year of a title at a time can be a time-consuming process. In ([Chapter -@sec-download]), I'll demonstrate some methods for downloading titles in bulk.
+
+### Other data sources
+
+As a final note, there are also a number of really useful metadata files available through the British Library research repository. Firstly, two title-level lists of all British and Irish Newspapers held by the library: one for Britain and Ireland [here](https://doi.org/10.23636/1136), and an updated, world-wide one, [here](https://doi.org/10.23636/3kz6-jr34).
+
+Most recently, the Living with Machines project has published two digitised press directories, available [here](https://doi.org/10.23636/3m7a-z970) and [here](https://doi.org/10.23636/53p3-3a70), plus a dataset of [extracted structured data](https://doi.org/10.23636/pbq5-9k28). All of these are have a Public Domain licence.
+
+## Recommended Reading
+
+Beelen, Kaspar, Jon Lawrence, Daniel C S Wilson, and David Beavan. "Bias and Representativeness in Digitized Newspaper Collections: Introducing the Environmental Scan." *Digital Scholarship in the Humanities* 38, no. 1 (April 3, 2023): 1--22. https://doi.org/10.1093/llc/fqac037.
+
+Fyfe, Paul. "An Archaeology of Victorian Newspapers." *Victorian Periodicals Review* 49, no. 4 (2016): 546--77. https://www.jstor.org/stable/26166577.

@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Accessing and Using Historical Newspaper Data - 7&nbsp; Working with Metadata: Mapping the British Library Newspaper Collection</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./download-and-unzip.html" rel="next">
+<link href="./using-r-tidyverse.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./methods.html">Methods</a></li><li class="breadcrumb-item"><a href="./map-title-list.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with Metadata: Mapping the British Library Newspaper Collection</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Accessing and Using Historical Newspaper Data</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome!</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./news-sources-uk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Accessing Newspaper Data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./news-sources-int.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Accessing Newspaper Data Internationally</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ocr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Newspapers: Sources and Standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mets-alto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with METS/ALTO</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./using-r-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Using R and the tidyverse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./map-title-list.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with Metadata: Mapping the British Library Newspaper Collection</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./download-and-unzip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Accessing Newspaper Data from the Shared Research Repository</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extract-text.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Make a Text Corpus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./term-freq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">N-gram Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./topic-modelling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Topic Modelling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./word2vec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Word Embeddings</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidymodels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Machine Learning with Tidymodels</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text-reuse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Text Reuse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./further-reading.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./final-thoughts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Final Thoughts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#news-metadata" id="toc-news-metadata" class="nav-link active" data-scroll-target="#news-metadata">News Metadata</a>
+  <ul class="collapse">
+  <li><a href="#title-level-lists" id="toc-title-level-lists" class="nav-link" data-scroll-target="#title-level-lists">Title-level lists</a></li>
+  <li><a href="#press-directories" id="toc-press-directories" class="nav-link" data-scroll-target="#press-directories">Press Directories</a></li>
+  </ul></li>
+  <li><a href="#producing-maps-with-metadata-and-r" id="toc-producing-maps-with-metadata-and-r" class="nav-link" data-scroll-target="#producing-maps-with-metadata-and-r">Producing Maps With Metadata and R</a></li>
+  <li><a href="#points" id="toc-points" class="nav-link" data-scroll-target="#points">Mapping Data as Points</a>
+  <ul class="collapse">
+  <li><a href="#lesson-steps" id="toc-lesson-steps" class="nav-link" data-scroll-target="#lesson-steps">Lesson Steps</a></li>
+  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
+  <li><a href="#download-a-basemap" id="toc-download-a-basemap" class="nav-link" data-scroll-target="#download-a-basemap">Download a ‘basemap’</a></li>
+  <li><a href="#cropping-the-map" id="toc-cropping-the-map" class="nav-link" data-scroll-target="#cropping-the-map">Cropping the Map</a></li>
+  <li><a href="#add-sized-points-by-coordinates" id="toc-add-sized-points-by-coordinates" class="nav-link" data-scroll-target="#add-sized-points-by-coordinates">Add Sized Points By Coordinates</a></li>
+  <li><a href="#get-hold-of-a-list-of-geocoordinates" id="toc-get-hold-of-a-list-of-geocoordinates" class="nav-link" data-scroll-target="#get-hold-of-a-list-of-geocoordinates">Get hold of a list of geocoordinates</a></li>
+  <li><a href="#setting-a-coordinate-reference-system-crs" id="toc-setting-a-coordinate-reference-system-crs" class="nav-link" data-scroll-target="#setting-a-coordinate-reference-system-crs">Setting a Coordinate Reference System (CRS)</a></li>
+  <li><a href="#creating-the-final-map" id="toc-creating-the-final-map" class="nav-link" data-scroll-target="#creating-the-final-map">Creating the Final Map</a></li>
+  </ul></li>
+  <li><a href="#choro" id="toc-choro" class="nav-link" data-scroll-target="#choro">Drawing a newspaper titles ‘Choropleth’ map with R and the sf package</a>
+  <ul class="collapse">
+  <li><a href="#choropleth-map-steps" id="toc-choropleth-map-steps" class="nav-link" data-scroll-target="#choropleth-map-steps">Choropleth map steps</a></li>
+  <li><a href="#get-county-information-from-the-title-list" id="toc-get-county-information-from-the-title-list" class="nav-link" data-scroll-target="#get-county-information-from-the-title-list">Get county information from the title list</a></li>
+  <li><a href="#download-shapefiles" id="toc-download-shapefiles" class="nav-link" data-scroll-target="#download-shapefiles">Download shapefiles</a></li>
+  </ul></li>
+  <li><a href="#transform-from-utm-to-latlong-using-st_transform" id="toc-transform-from-utm-to-latlong-using-st_transform" class="nav-link" data-scroll-target="#transform-from-utm-to-latlong-using-st_transform">Transform from UTM to lat/long using st_transform()</a>
+  <ul class="collapse">
+  <li><a href="#download-and-merge-the-title-list-with-a-set-of-coordinates." id="toc-download-and-merge-the-title-list-with-a-set-of-coordinates." class="nav-link" data-scroll-target="#download-and-merge-the-title-list-with-a-set-of-coordinates.">Download and merge the title list with a set of coordinates.</a></li>
+  <li><a href="#using-st_join-to-connect-the-title-list-to-the-shapefile" id="toc-using-st_join-to-connect-the-title-list-to-the-shapefile" class="nav-link" data-scroll-target="#using-st_join-to-connect-the-title-list-to-the-shapefile">Using st_join to connect the title list to the shapefile</a></li>
+  <li><a href="#draw-using-ggplot2-and-geom_sf" id="toc-draw-using-ggplot2-and-geom_sf" class="nav-link" data-scroll-target="#draw-using-ggplot2-and-geom_sf">Draw using ggplot2 and geom_sf()</a></li>
+  </ul></li>
+  <li><a href="#recommended-reading" id="toc-recommended-reading" class="nav-link" data-scroll-target="#recommended-reading">Recommended Reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with Metadata: Mapping the British Library Newspaper Collection</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="news-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="news-metadata">News Metadata</h2>
+<p>While much of the rest of this book deals with text data, that is only one type of what might be considered newspaper data. Also important to consider is newspaper <em>metadata</em>, which can be used to understand and analyse newspaper collections and is valuable in its own right.</p>
+<p>Key metadata sources for the British Library newspaper collection are a series of <a href="https://bl.iro.bl.uk/collections/b5730a9d-d871-43ee-9966-c36ed3acad74?locale=en">title-level lists</a> covering UK, worldwide, and even television news, and a series of <a href="https://bl.iro.bl.uk/collections/580fe312-0e41-41fc-bb38-40122798cec1?locale=en">press directories</a>, containing information on the newspapers from contemporary sources.</p>
+<section id="title-level-lists" class="level3">
+<h3 class="anchored" data-anchor-id="title-level-lists">Title-level lists</h3>
+<p>The title list has been produced by the British Library and is <a href="https://doi.org/10.23636/3kz6-jr34">published</a> on their institutional repository. It contains metadata taken from the Library’s catalogue of every newspaper published in Britain and Ireland up until the year 2019, a total of about 24,000 titles. There is more information available in a published data paper <span class="citation" data-cites="ryan2021">(<a href="references.html#ref-ryan2021" role="doc-biblioref">Ryan and McKernan 2021</a>)</span>.</p>
+<p>This list contains a number of fields for each title, including the name of the publication, subsequent and previous title names, several fields for geographic coverage, the first and last dates held, and some other information. Where digitised versions have been created, these are noted and links are provided. It can be used to get statistical information about the Library’s collection, such as the number of new titles per year, the proportion of material which has been digitised, and how the collection is spread geographically.</p>
+</section>
+<section id="press-directories" class="level3">
+<h3 class="anchored" data-anchor-id="press-directories">Press Directories</h3>
+<p>The Living with Machines project <a href="https://livingwithmachines.ac.uk/digitising-newspapers-press-directories-to-understand-the-landscape-of-historical-newspapers/">has digitised</a> a number of press directories, between 1846 and 1920. These directories were produced by a number of companies, and were intended for advertisers and others as a guide to the content and coverage of printed newspapers. They contain information on the newspaper owners, geographic coverage, political leaning, and circulation. This, along with the title list, can serve as an excellent source for mapping, analysing, and visualising the newspaper collection at scale.</p>
+<p>The directories have been digitised and the ‘raw’ .xml from the OCR process has been made available. Additionally, a single file where the information has been extracted and standardised, can also be downloaded.</p>
+</section>
+</section>
+<section id="producing-maps-with-metadata-and-r" class="level2">
+<h2 class="anchored" data-anchor-id="producing-maps-with-metadata-and-r">Producing Maps With Metadata and R</h2>
+<p>The following two short tutorials aim to show how this kind of metadata can also be used to produce visualisations, and use the title list to produce a data map of the newspaper collection in Great Britain. They also aim to teach the reader how R can be used a GIS (Geographic Information System), and produce high-quality maps.</p>
+<p>There are two, related tutorials. First, the title list is used to <a href="#points">draw a map of points</a>, relating to the number of newspaper titles published in each location. The <a href="#choro">second tutorial</a> will guide you through creating a thematic, or choropleth map, using the same data.</p>
+</section>
+<section id="points" class="level2">
+<h2 class="anchored" data-anchor-id="points">Mapping Data as Points</h2>
+<section id="lesson-steps" class="level3">
+<h3 class="anchored" data-anchor-id="lesson-steps">Lesson Steps</h3>
+<p>The basic steps to create a map of points are as follows: 1) download a base map of the UK and Ireland, 2) count the total number of titles of each city and merge this with coordinate information on those cities and 3) create a shapefile out of that information, 4) draw both the basic map and the points on top of it.</p>
+<p>To do this we’ll need three elements:</p>
+<ul>
+<li><p>A background map of the UK and Ireland</p></li>
+<li><p>A count of the total titles for each city</p></li>
+<li><p>A list of coordinates for each place mentioned in the title list.</p></li>
+</ul>
+</section>
+<section id="requirements" class="level3">
+<h3 class="anchored" data-anchor-id="requirements">Requirements</h3>
+<p>This lesson assumes that you have some basic knowledge of R, and in particular, the package ggplot2. Not every step using this package is fully explained. You might want to refresh your knowledge by reading over <a href="using-r-tidyverse.html">Chapter&nbsp;<span>6</span></a>, which gives a very short introduction.</p>
+<p>On top of the packages used already, most importantly <code>tidyverse</code>, you’ll need to install a few more packages if you don’t have them already:</p>
+<ul>
+<li><p>the <code>sf</code> package, which we’ll use to create and work with the geographic data</p></li>
+<li><p>The <code>rnaturalearth</code> package. This will be used to download the underlying map of the UK and Ireland, on which the points will be overlaid.</p></li>
+</ul>
+<p>To install all the necessary packages, you can use the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tidyverse'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'rnaturalearth'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'sf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly, you’ll need to download a file containing the coordinate locations for the places in the title list, because this information is not included. This file can be downloaded here.</p>
+</section>
+<section id="download-a-basemap" class="level3">
+<h3 class="anchored" data-anchor-id="download-a-basemap">Download a ‘basemap’</h3>
+<p>The first step is to download a basemap: data containing the shape of the background area onto which the points will be overlaid. The easiest way to do this in R is to install the <code>rnaturalearth</code> package. This package makes it easy to download shapefiles: data containing polygons of various maps of the earth, containing shapes for everything from political borders to lakes and rivers.</p>
+<p>Once you have installed the <code>rnaturalearth</code> and <code>sf</code> packages, load them as well as the <code>tidyverse</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, use the <code>rnaturalearth</code> package to download a map of the UK and Ireland. There are a number of different shapefiles in the Natural Earth database we could choose from. One is ‘countries’, which is a set of connected shapes, one for each country on Earth. The other is ‘coastline’, which you could think of as a single continuous shape tracing the entire coastline of the planet.</p>
+<p>Both have advantages and disadvantages. Using ‘countries’ makes it easy to just download the information for specific countries. However, it does mean that the shapes contain modern internal borders, which might not be suitable in all cases (if you are making a history map of Europe, for example).</p>
+<p>In this case, we’ll use the ‘countries’ database. Use the <code>ne_countries</code> function from the rnaturalearth package to download the relevant shapes and save to a variable called <code>uk_ireland_sf</code>. We have to set a number of parameters in the function:</p>
+<p><code>scale</code> is set to <code>"medium"</code>: this is the resolution of the shapes (how detailed they will be). Medium is fine at this level.</p>
+<p><code>country</code> is set to a vector of the country names we want, in this case Ireland and the UK.</p>
+<p><code>returnclass</code> is set to <code>sf</code>. This is the format for the geographic information which we’ll use with the <code>sf</code> package. <code>sf</code> stands for ‘shapefile’, and is a standardised way of representing geographic data, which is also easy to query as a dataset, for example to filter or summarise the data. <code>rnaturalearth</code> can return a file in this format automatically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>uk_ireland_sf <span class="ot">=</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">'medium'</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">country =</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"Ireland"</span>), </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">returnclass =</span> <span class="st">'sf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once you run this, you should have a new variable called uk_ireland_sf. We can draw this to check exactly what has been downloaded. To do this, we can use a function in ggplot2 called <code>geom_sf()</code>. This <a href="https://ggplot2.tidyverse.org/reference/#geoms">geom</a> draws geographic information from shapefiles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now is a good moment to demonstrate some features of ggplot2 which are particularly relevant for mapping. This map is a good starting point, but some parts of it should be improved to make it more readable: we don’t need the border in Northern Ireland to be drawn, we don’t want the coordinates written on the x and y axes, and we want a simpler, single colour background.</p>
+<p>Let’s start by making some changes to the colour. We can change both the line and the fill colours. To do this, we add some parameters to the <code>geom_sf()</code> function. The <code>color</code> parameter will set the outer borders, and the <code>fill</code> parameter the inside of the shape. To make the differences obvious I’ll use two very distinct colours:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'blue'</span>, <span class="at">fill =</span> <span class="st">'green'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Remember we chose ‘countries’ rather than ‘coastline’ above? One small drawback is that we can’t draw a map using the countries data where a distinct line surrounds both islands. One quite legible way to draw the map is to have a lightly-coloured background and render the entire map shape, both internal and external lines, in a single colour. To do this, we’ll set both <code>color</code> and <code>fill</code> to a medium/light gray:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Next, we’ll get rid of the background clutter. The following code will remove the background and axis text:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we have a map onto which we can draw the points.</p>
+</section>
+<section id="cropping-the-map" class="level3">
+<h3 class="anchored" data-anchor-id="cropping-the-map">Cropping the Map</h3>
+<p>In some cases, you may want to crop a map further. We can do that with <code>coord_sf()</code>. <code>coord_fixed()</code> is used to fix the aspect ratio of a coordinate system, but can be used to specify a bounding box by using two of its arguments: <code>xlim=</code> and <code>ylim=</code>.</p>
+<p>These each take a vector (a series of numbers) with two items A vector is created using <code>c()</code>. Each item in the vector specifies the limits for that axis. So <code>xlim = c(0,10)</code> means <em>restrict the x-axis to 0 and 10</em>.</p>
+<p>The axes correspond to the lines of longitude (x) and latitude (y). We’ll restrict the x-axis to <code>c(-10, 4)</code> and the y-axis to <code>c(50.3, 60)</code> which should just about cover the UK and Ireland.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">3</span>), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">50.3</span>, <span class="dv">59</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Empty Map</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="add-sized-points-by-coordinates" class="level3">
+<h3 class="anchored" data-anchor-id="add-sized-points-by-coordinates">Add Sized Points By Coordinates</h3>
+<p>On top of this basemap, we will draw a set of points, sized by the count of newspapers from each place in a metadata list of newspaper titles from the British Library.</p>
+<p>Doing this involves a few steps:</p>
+<ol type="1">
+<li><p>Download a metadata list of newspaper titles held by the British Library</p></li>
+<li><p>Generate a new dataset, containing a total count the newspapers from each place in this title list.</p></li>
+<li><p>Merge this with a dataset of coordinates for each place</p></li>
+<li><p>Turn this information into a shapefile, as the map downloaded above.</p></li>
+<li><p>Draw the points on top of the base map.</p></li>
+</ol>
+<section id="download-the-metadata-list" class="level4">
+<h4 class="anchored" data-anchor-id="download-the-metadata-list">Download the metadata list</h4>
+<p>To start with, we’ll need a complete list of the newspaper titles held in by in the British Library’s collection. This is available as a free download through the Open Research Repository. Go to the <a href="https://doi.org/10.23636/1136">repository page</a> and download the file <a href="https://bl.iro.bl.uk/downloads/67b25f41-a682-4c1f-bf42-550e06b48244?locale=en">BritishAndIrishNewspapersTitleList_20191118.zip</a> (or just click the link to directly download).</p>
+<p>Unzip this file and note where you save it. It will contain a .csv file with the metadata list. Import this to R with the following (replace the <code>'data/BritishAndIrishNewspapersTitleList_20191118.csv'</code> with the path to your file):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>title_list <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">'data/BritishAndIrishNewspapersTitleList_20191118.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, create a new dataframe, which will simply be count of the appearances of each place in the metadata. Use the <code>dplyr</code> commands <code>group_by()</code> and <code>tally()</code>, which will count the instances of each different combination of the three geographic information columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>location_counts <span class="ot">=</span> title_list <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_of_publication, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           general_area_of_coverage, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>           coverage_city) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This new dataframe, <code>location_counts</code>, will have one row for each combination of country/general area/city in the data, along with a new column, <code>n</code>, containing the count:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>location_counts <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kbl</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">country_of_publication</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">general_area_of_coverage</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">coverage_city</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bermuda Islands</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Hamilton</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bermuda Islands</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Saint George</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cayman Islands</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Georgetown</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Aberdeenshire (Scotland)</td>
+<td style="text-align: left;">Peterhead</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Acton (London, England)</td>
+<td style="text-align: left;">Ealing (London, England)</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+</section>
+<section id="get-hold-of-a-list-of-geocoordinates" class="level3">
+<h3 class="anchored" data-anchor-id="get-hold-of-a-list-of-geocoordinates">Get hold of a list of geocoordinates</h3>
+<p>To create the shapefile and visualise the data, the next step is to merge this text information on the places, to a dataset of coordinates. For this, you’ll need existing coordinate information, which has been created separately. This file is available online from the following source. If you run this code, it will import the coordinate file directly into R from its storage place on Github.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/yann-ryan/r-for-news-data/master/data/geocorrected.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This file also needs some pre-processing. A preliminary step here is to change the column names so that they match those found in the metadata:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(snakecase)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(geocorrected) <span class="ot">=</span> <span class="fu">to_snake_case</span>(<span class="fu">colnames</span>(geocorrected))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are a few further pieces of pre-processing to do before we can merge this to the <code>location_counts</code> dataframe. We’ll change some of the column names and remove some unnecessary ones, and change the <code>na</code> values to <code>NA</code>, which is properly recognised by R. Last, we’ll change the coordinate information to numeric values, and then filter out any rows with missing coordinate information:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(geocorrected)[<span class="dv">7</span><span class="sc">:</span><span class="dv">8</span>] <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'lat'</span>, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'lng'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">11</span>, <span class="sc">-</span><span class="dv">12</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span> </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_of_publication =</span> <span class="fu">replace</span>(country_of_publication, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                                          country_of_publication <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">general_area_of_coverage =</span> <span class="fu">replace</span>(general_area_of_coverage,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                                            general_area_of_coverage <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coverage_city =</span> <span class="fu">replace</span>(coverage_city,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>                                 coverage_city <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>))</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lat =</span> <span class="fu">as.numeric</span>(lat)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lng =</span> <span class="fu">as.numeric</span>(lng)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lat)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lng))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">5</span>)<span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kbl</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">coverage_city</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">general_area_of_coverage</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">country_of_publication</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">wikititle</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lng</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">33.0000</td>
+<td style="text-align: right;">65.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Airdrie</td>
+<td style="text-align: left;">Airdrie</td>
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Airdrie,_North_Lanarkshire</td>
+<td style="text-align: right;">55.8600</td>
+<td style="text-align: right;">-3.98</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Albania</td>
+<td style="text-align: left;">Albania</td>
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Albania</td>
+<td style="text-align: right;">41.0000</td>
+<td style="text-align: right;">20.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Australia</td>
+<td style="text-align: left;">Australia</td>
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Australia</td>
+<td style="text-align: right;">-25.0000</td>
+<td style="text-align: right;">133.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bahrain</td>
+<td style="text-align: left;">Bahrain</td>
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Bahrain</td>
+<td style="text-align: right;">26.0275</td>
+<td style="text-align: right;">50.55</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>The result is a dataframe with a set of longitude and latitude points (they come from Wikipedia, which is why they are prefixed with <em>wiki</em>) for every combination of city/county/country in the list of titles. These can be joined to the full title list with the following method:</p>
+<p>Using <code>left_join()</code> we will merge these dataframes, joining up each set of location information to its coordinates and standardised name. <code>left_join()</code> is a very common command in data analysis. It merges two sets of data by matching a value known as a key.</p>
+<p>Here the key is actually a combination of three values - city, county and country, and it matches up the two sets of data by ‘joining’ two rows together, if they share all three of these values. Store this is a new variable called <code>lc_with_geo</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lc_with_geo <span class="ot">=</span> location_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(geocorrected, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'coverage_city'</span> ,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'general_area_of_coverage'</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'country_of_publication'</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you look at this new dataset, you’ll see that now the counts of locations have merged with the geocorrected data. Now we have an amount and coordinates for each place.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lc_with_geo, <span class="dv">10</span>)<span class="sc">%&gt;%</span> kableExtra<span class="sc">::</span><span class="fu">kbl</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">country_of_publication</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">general_area_of_coverage</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">coverage_city</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">wikititle</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lng</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Bath</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: left;">UNKNOWN</td>
+<td style="text-align: right;">51.3811</td>
+<td style="text-align: right;">2.35900</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: right;">51.4500</td>
+<td style="text-align: right;">-2.58333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Clevedon</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">Clevedon</td>
+<td style="text-align: right;">51.4380</td>
+<td style="text-align: right;">-2.85400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Keynsham</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Keynsham</td>
+<td style="text-align: right;">51.4135</td>
+<td style="text-align: right;">-2.49680</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Nailsea</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Nailsea</td>
+<td style="text-align: right;">51.4300</td>
+<td style="text-align: right;">-2.76000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Norton</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">UNKNOWN</td>
+<td style="text-align: right;">51.2842</td>
+<td style="text-align: right;">-2.48170</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Portishead</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Portishead,_Somerset</td>
+<td style="text-align: right;">51.4840</td>
+<td style="text-align: right;">-2.76260</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Radstock</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Radstock</td>
+<td style="text-align: right;">51.2927</td>
+<td style="text-align: right;">-2.44770</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Thornbury</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Thornbury,_Gloucestershire</td>
+<td style="text-align: right;">51.6094</td>
+<td style="text-align: right;">-2.52490</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">England</td>
+<td style="text-align: left;">Avon</td>
+<td style="text-align: left;">Weston-super-Mare</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">Weston-super-Mare</td>
+<td style="text-align: right;">51.3460</td>
+<td style="text-align: right;">-2.97700</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>A next step is to use <code>group_by()</code> and <code>tally()</code> again, this time on the the <em>wikititle</em>, <em>lat</em> and <em>lng</em> columns. This is because the wikititle is a standardised title, which means it will group together cities properly, rather than giving a different row for slightly different combinations of the three geographic information columns (incidentally, it could also be used to link to wikidata). At the same time, filter again to ensure no rows are missing latitude or longitude information:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lc_with_geo_counts <span class="ot">=</span> lc_with_geo <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(wikititle, lat, lng) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>(n) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lat)<span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(lng))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we’ve got a dataframe with counts of total newspapers, for each standardised wikipedia title in the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(lc_with_geo_counts,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">wikititle</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">lng</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Abbots_Langley</td>
+<td style="text-align: right;">51.7010</td>
+<td style="text-align: right;">-0.4160</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aberavon_(UK_Parliament_constituency)</td>
+<td style="text-align: right;">51.6000</td>
+<td style="text-align: right;">-3.8120</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Aberdare</td>
+<td style="text-align: right;">51.7130</td>
+<td style="text-align: right;">-3.4450</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aberdeen</td>
+<td style="text-align: right;">57.1500</td>
+<td style="text-align: right;">-2.1100</td>
+<td style="text-align: right;">82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Abergavenny</td>
+<td style="text-align: right;">51.8240</td>
+<td style="text-align: right;">-3.0167</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Abergele</td>
+<td style="text-align: right;">53.2800</td>
+<td style="text-align: right;">-3.5800</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Abersychan</td>
+<td style="text-align: right;">51.7239</td>
+<td style="text-align: right;">-3.0587</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Abertillery</td>
+<td style="text-align: right;">51.7300</td>
+<td style="text-align: right;">-3.1300</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Aberystwyth</td>
+<td style="text-align: right;">52.4140</td>
+<td style="text-align: right;">-4.0810</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Abingdon-on-Thames</td>
+<td style="text-align: right;">51.6670</td>
+<td style="text-align: right;">-1.2830</td>
+<td style="text-align: right;">23</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Finally, create the ‘shapefile’ object. To do this from a dataframe, we’ll use a function <code>st_as_sf</code> from the <code>sf</code> package. Also specify the columns this function should use as the coordinates for the shapefile, using the <code>coords =</code> parameter, and specify in a vector the longitude and latitude columns from the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lc_with_geo_counts_sf <span class="ot">=</span> lc_with_geo_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">'lng'</span>, <span class="st">'lat'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can draw this shapefile using <code>geom_sf</code>, to check and see that it looks reasonable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> lc_with_geo_counts_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="setting-a-coordinate-reference-system-crs" class="level3">
+<h3 class="anchored" data-anchor-id="setting-a-coordinate-reference-system-crs">Setting a Coordinate Reference System (CRS)</h3>
+<p>To create the final map, there’s one more important step. A shapefile is not just a list of coordinates, but also includes a ‘coordinate reference system’ (CRS), which tells how the coordinates in that shapefile should be interpreted. As a first step, we’ll set both our shapefiles to have the same CRS:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>uk_ireland_sf <span class="ot">=</span> uk_ireland_sf <span class="sc">%&gt;%</span> <span class="fu">st_set_crs</span>(<span class="dv">4326</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>lc_with_geo_counts_sf <span class="ot">=</span> lc_with_geo_counts_sf <span class="sc">%&gt;%</span> <span class="fu">st_set_crs</span>(<span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-the-final-map" class="level3">
+<h3 class="anchored" data-anchor-id="creating-the-final-map">Creating the Final Map</h3>
+<p>First we’ll start with the base map from the first steps:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Blank Map of UK and Ireland</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, plot the newspaper place information on top of this using another <code>geom_sf</code>. The second one is added to the first layer using a <code>+</code> sign:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> lc_with_geo_counts_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Blank Map of UK and Ireland</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that the points are drawn on top of the base map. To make the map more informative and legible, there are a few more things we can do. First, size the points by the count of the instances (column ‘n’). This is done by setting the <code>size</code> aesthetic in ggplot to the column name, inside the <code>aes()</code>. We’ll also add the command <code>scale_size_area()</code> to the code, which better represents the relationship between the numeric value and the circle size:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> lc_with_geo_counts_sf, <span class="fu">aes</span>(<span class="at">size =</span> n)) <span class="sc">+</span> <span class="fu">scale_size_area</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can also reduce the transparency of the points to make them more readable, using the <code>alpha</code> aesthetic:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> uk_ireland_sf, <span class="at">color =</span> <span class="st">'gray80'</span>, <span class="at">fill =</span> <span class="st">'gray80'</span>) <span class="sc">+</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> lc_with_geo_counts_sf, <span class="fu">aes</span>(<span class="at">size =</span> n), <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Using <code>labs()</code>, add a title, and with <code>scale_size_area()</code> and <code>scale_color_viridis_c()</code>, make some changes to the size and colours, respectively.</p>
+</section>
+</section>
+<section id="choro" class="level2">
+<h2 class="anchored" data-anchor-id="choro">Drawing a newspaper titles ‘Choropleth’ map with R and the sf package</h2>
+<p>Another type of map is known as a ‘choropleth’. This is where the data is visualised by a certain polygon area rather than a point. Typically these represent areas like parishes, counties or countries. Using the library <code>sf</code> a choropleth map can be made quite quickly.</p>
+<p>To do this, we will use the <code>sf</code> package to merge the information at the coordinate level with information on the geographic county borders. Next, we’ll count the number of titles within each county, and use this total to color or shade the map. The good thing about this method is that once you have a set of coordinates, they can be situated within any shapefile - a historic map, for example. This is particularly useful for anything to do with English counties, which have changed several times throughout history.</p>
+<p>This section uses data from .visionofbritain.co.uk, which needs to be downloaded separately. You could also use the free boundary data here: https://www.ordnancesurvey.co.uk/business-government/products/boundaryline, which contains boundaries for both modern and historic counties.</p>
+<p>This is an excellent source, and the file includes a range of boundaries including counties but also districts and constituencies, under an ‘Open Government Licence’.</p>
+<section id="choropleth-map-steps" class="level3">
+<h3 class="anchored" data-anchor-id="choropleth-map-steps">Choropleth map steps</h3>
+<p>The steps to create this type of map:</p>
+<ul>
+<li>Download shapefiles for England and scotland from here</li>
+<li>Turn into sf object Download list of points, turn into sf object</li>
+<li>Use st join to get county information</li>
+<li>Join to the title list and deselect everything except county and titles - maybe 19th century only..</li>
+<li>Join that to the sf object Plot using geom_sf()</li>
+</ul>
+<p>Load libraries</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="get-county-information-from-the-title-list" class="level3">
+<h3 class="anchored" data-anchor-id="get-county-information-from-the-title-list">Get county information from the title list</h3>
+<p>Next, download (if you haven’t already) the title list from the British Library open repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>title_df <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">'data/BritishAndIrishNewspapersTitleList_20191118.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="download-shapefiles" class="level3">
+<h3 class="anchored" data-anchor-id="download-shapefiles">Download shapefiles</h3>
+<p>First, download the relevant shapefiles. These don’t necessarily have to be historic ones. Use <code>st_read()</code> to read the file, specifying its path. Do this for England, Wales and Scotland (we don’t have points for Ireland).</p>
+</section>
+</section>
+<section id="transform-from-utm-to-latlong-using-st_transform" class="level2">
+<h2 class="anchored" data-anchor-id="transform-from-utm-to-latlong-using-st_transform">Transform from UTM to lat/long using st_transform()</h2>
+<p>These shapefiles use points system known as UTM, which stands for <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system">‘Universal Transverse Mercator’</a>. According to wikipedia,</p>
+<blockquote class="blockquote">
+<p>it differs from global latitude/longitude in that it divides earth into 60 zones and projects each to the plane as a basis for its coordinates.</p>
+</blockquote>
+<p>It needs to be transformed into lat/long coordinates, because the coordinates we have are in that format. This is easy with <code>st_transform()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>eng_1851 <span class="ot">=</span> <span class="fu">st_transform</span>(eng_1851, <span class="at">crs =</span> <span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>scot_1851  <span class="ot">=</span> <span class="fu">st_transform</span>(scot_1851, <span class="at">crs =</span> <span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Bind them both together, using <code>rbind()</code> to make one big shapefile for Great Britain.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>gb1851 <span class="ot">=</span> <span class="fu">rbind</span>(eng_1851, scot_1851 <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">select</span>(<span class="sc">-</span>UL_AUTH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="download-and-merge-the-title-list-with-a-set-of-coordinates." class="level3">
+<h3 class="anchored" data-anchor-id="download-and-merge-the-title-list-with-a-set-of-coordinates.">Download and merge the title list with a set of coordinates.</h3>
+<p>Next, load and pre-process the set of coordinates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">'data/geocorrected.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Change the column names:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(snakecase)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(geocorrected) <span class="ot">=</span> <span class="fu">to_snake_case</span>(<span class="fu">colnames</span>(geocorrected))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Change some column names further, select just the relevant columns, change the NA values and get rid of any empty entries.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(geocorrected)[<span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>] <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'wikititle'</span>, <span class="st">'lat'</span>, <span class="st">'lng'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">11</span>, <span class="sc">-</span><span class="dv">12</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_of_publication =</span> <span class="fu">replace</span>(country_of_publication, </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                                          country_of_publication <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">general_area_of_coverage =</span> <span class="fu">replace</span>(general_area_of_coverage,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                                                                                                                             general_area_of_coverage <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coverage_city =</span> <span class="fu">replace</span>(coverage_city, </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                                 coverage_city <span class="sc">==</span> <span class="st">'na'</span>, <span class="cn">NA</span>))</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>geocorrected <span class="ot">=</span> geocorrected <span class="sc">%&gt;%</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lat =</span> <span class="fu">as.numeric</span>(lat)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lng =</span> <span class="fu">as.numeric</span>(lng)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lat)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lng))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, join these points to the title list, so that every title now has a set of lat/long coordinates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>title_df <span class="ot">=</span> title_df <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(geocorrected) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lat)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lng))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="using-st_join-to-connect-the-title-list-to-the-shapefile" class="level3">
+<h3 class="anchored" data-anchor-id="using-st_join-to-connect-the-title-list-to-the-shapefile">Using st_join to connect the title list to the shapefile</h3>
+<p>To join this to the shapefile, we need to turn it in to an simple features item. To do this we need to specify the coordinates and the CRS. The resulting file will contain a new column called ‘geometry’, containing the lat/long coordaintes in the correct simple features format.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>st_title <span class="ot">=</span> <span class="fu">st_as_sf</span>(title_df, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">'lng'</span>, <span class="st">'lat'</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>st_title <span class="ot">=</span> st_title  <span class="sc">%&gt;%</span> <span class="fu">st_set_crs</span>(<span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we can use a special kind of join, which will join the points in the title list, if they are within a particular polygon. The resulting dataset now has the relevant county, as found in the shapefile.</p>
+<div class="cell" data-paged.print="true">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>st_counties <span class="ot">=</span> <span class="fu">st_join</span>(st_title, gb1851)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make a new dataframe, containing just the counties and their counts.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>county_tally <span class="ot">=</span> st_counties <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(G_NAME) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(G_NAME) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="draw-using-ggplot2-and-geom_sf" class="level3">
+<h3 class="anchored" data-anchor-id="draw-using-ggplot2-and-geom_sf">Draw using ggplot2 and geom_sf()</h3>
+<p>Join this to the shapefile we made earlier, which gives a dataset with the relevant counts attached to each polygon. This can then be visualised using the <code>geom_sf()</code> function from ggplot2, and all of ggplot2’s other features can be used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gb1851 <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(county_tally) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">lwd =</span> .<span class="dv">5</span>,<span class="at">color =</span> <span class="st">'black'</span>, <span class="fu">aes</span>(<span class="at">fill =</span> n)) <span class="sc">+</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">4000</span>)) <span class="sc">+</span> </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">'plasma'</span>) <span class="sc">+</span> </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"British Library Newspaper</span><span class="sc">\n</span><span class="st">Titles, by County"</span>, </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">'No. of Titles:'</span>) <span class="sc">+</span> </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'left'</span>) <span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), </span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="map-title-list_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Choropleth Made with geom_sf()</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="recommended-reading" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-reading">Recommended Reading</h2>
+<p>This article uses both of these metadata files (the title list and the press directories) as its historical evidence:</p>
+<p>Kaspar Beelen and others, Bias and representativeness in digitized newspaper collections: Introducing the environmental scan, <em>Digital Scholarship in the Humanities</em>, Volume 38, Issue 1, April 2023, Pages 1–22, <a href="https://doi.org/10.1093/llc/fqac037" class="uri">https://doi.org/10.1093/llc/fqac037</a></p>
+<p>The book ‘Geocomputation with R’ is a fantastic resource for learning about mapping: https://geocompr.robinlovelace.net.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-ryan2021" class="csl-entry" role="listitem">
+Ryan, Yann, and Luke McKernan. 2021. <span>“Converting the British Library<span>’</span>s Catalogue of British and Irish Newspapers into a Public Domain Dataset: Processes and Applications.”</span> <em>Journal of Open Humanities Data</em> 7. <a href="https://doi.org/10.5334/johd.23">https://doi.org/10.5334/johd.23</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./using-r-tidyverse.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Using R and the tidyverse</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./download-and-unzip.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Accessing Newspaper Data from the Shared Research Repository</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

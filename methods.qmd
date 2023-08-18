@@ -1,0 +1,4 @@
+# Methods
+
+This part of the book is a series of practical tutorials, written in R, which teach how to download, extract, and analyse newspaper data, using openly available newspaper data from the Shared Research Repository, digitised by Heritage Made Digital and Living with Machines.
+

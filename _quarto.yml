@@ -1,0 +1,51 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  cover-image: cover.png
+  title: "Accessing and Using Historical Newspaper Data"
+  author: "Yann Ryan"
+  date: "2023-08-17"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: sources.qmd
+      chapters:
+       - news-sources-uk.qmd
+       - news-sources-int.qmd
+       - ocr.qmd
+       - mets-alto.qmd
+    - part: methods.qmd
+      chapters:
+       - using-r-tidyverse.qmd
+       - map-title-list.qmd
+       - download-and-unzip.qmd
+       - extract-text.qmd
+       - term-freq.qmd
+       - topic-modelling.qmd
+       - word2vec.qmd
+       - tidymodels.qmd
+       - text-reuse.qmd
+       - further-reading.qmd
+    - final-thoughts.qmd
+    - references.qmd
+
+bibliography: references.bib
+page-footer:
+  left: |
+    written by Yann Ciarán Ryan
+  right: |
+    This book was built with <a href="https://quarto.org/">Quarto</a>.
+format:
+  html:
+    theme: cosmo
+    number-depth: 1
+  pdf:
+    documentclass: scrreprt
+
+editor: visual  
+
+execute:
+  freeze: auto
+
