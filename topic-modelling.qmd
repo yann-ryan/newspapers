@@ -26,7 +26,7 @@ As well as the topics, the model will tell us the proportion of each topic which
 
 -   **Article 4:** topic 1 (.6), topic 3 (.4)
 
--   And so forth. The numbers in parentheses represent the mixture of topics within those documents. Most cover one topic primarily, but some, such as article 4, have keywords which indicate they are more of a mixture.
+And so forth. The numbers in parentheses represent the mixture of topics within those documents. Most cover one topic primarily, but some, such as article 4, have keywords which indicate they are more of a mixture.
 
 From this output, plus our interpretation of the topics using the keywords above, we can begin to tell something about the makeup of the articles. Topic modelling, when it works well, can be very useful. It does have its limitations, however. It works best if each document covers one clear subject, and if the documents are a mix of material it may be more difficult to get meaningful topics from your corpus. It is also quite sensitive, in some ways, to things like OCR errors. Oftentimes one of the topics will be made up of keywords which are just OCR errors. Interpretation is a key part of topic modelling.
 
@@ -40,7 +40,7 @@ There are numerous ways to extract topics from documents. One which has been use
 
 -   It does this lots of times until it reaches an optimal, stable state.
 
-LDA topic modelling has its limitations, for example it treats documents as 'bag of words', meaning their order is not taken into account. Often, the resulting topics (which are represented simply as a group of keywords) are not easy to interpret. Newer methods of topic modelling, such as contextual topic modelling (CTM) are available which take into account context and word order but these are not, as of now, implemented within any R packages.
+LDA topic modelling has its limitations, for example it treats documents as 'bag of words', meaning their order is not taken into account. Often, the resulting topics (which are represented simply as a group of keywords) are not easy to interpret. Newer methods of topic modelling, such as [contextual topic modelling](https://github.com/MilaNLProc/contextualized-topic-models) (CTM) are available which take into account context and word order but these are not, as of now, implemented within any R packages.
 
 ## Topic modelling with the library 'topicmodels'
 
@@ -53,6 +53,9 @@ install.packages('topicmodels')
 ```
 
 ```{r}
+#| warning: false
+#| message: false
+
 library(tidyverse)
 library(tidytext)
 library(topicmodels)
@@ -62,7 +65,7 @@ library(topicmodels)
 
 Topic modelling can be quite computationally-intensive. To speed things up, we'll just look at a single newspaper title for the year 1855.
 
- Either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
+Either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or [download](https://doi.org/10.5281/zenodo.8262355) and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -173,7 +176,7 @@ beta_result %>% filter(topic ==1) %>%
 
 We can plot the top words which make up each of the topics, to get an idea of how the articles have been categorised as a whole. Some of these make sense: there's a topic which seems to be about university and education, one with words relating to poor laws, and a couple about disease in the army, as well as some more which contain words probably related to the Crimean war.
 
-```{r fig.cap = "Sample Topics", fig.height=16}
+```{r fig.cap = "Sample Topics"}
 beta_result %>% 
   group_by(topic) %>% 
   slice_max(order_by = beta, n = 10) %>%
@@ -194,7 +197,6 @@ We can also look at the other view, and look at how each article has been assign
 ```{r}
 gamma_result <- tidytext::tidy(lda_model_long_1, 'gamma')
 
-
 gamma_result %>% filter(topic == 4) %>% arrange(desc(gamma)) %>% head(10) %>%
   kableExtra::kbl()
 
@@ -203,11 +205,14 @@ gamma_result %>% filter(topic == 4) %>% arrange(desc(gamma)) %>% head(10) %>%
 We can now read this document:
 
 ```{r}
-news_df %>% filter(article_code ==91026 ) %>% 
-  mutate(text = str_trunc(text, 5000)) %>% pull(text)
+top_article = gamma_result %>% filter(topic == 4) %>% slice_max(order_by = gamma, n = 1) %>% pull(document)
+
+news_df %>% filter(article_code ==top_article ) %>% 
+  mutate(text = str_trunc(text, 5000)) %>%
+  kableExtra::kbl()
 ```
 
-Looking at this, it looks like it might be a good way of understanding and categorising the articles in the document. Let's take another perspective. Take the documents which have as their highest-probability topic number 4, and see how they distribute over time. This might tell us something about how the war was reported over the year.
+Looking at this, it looks like it might be a good way of understanding and categorising the articles in the newspaper. Let's take another perspective. Take the documents which have as their highest-probability topic number 4, and see how they distribute over time. This might tell us something about how the war was reported over the year.
 
 ```{r}
 gamma_result %>% group_by(document) %>% 

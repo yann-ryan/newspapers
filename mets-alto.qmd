@@ -24,7 +24,7 @@ On the other hand, the METS file takes the IDs of these strings, textblocks, and
 
 The structure of these files can be daunting, and it's true that it is not straightforward to extract the text in any meaningful way. In many cases, you'll find that others have already created plain-text versions of newspapers, or tools to make them yourself, such as the resources created by the [National Library of Luxembourg](https://github.com/natliblux/BnLMetsExporter), the [Impresso project](https://impresso.github.io/impresso-text-acquisition/_build/html/index.html), and Living with Machines. The latter, alto2text, is a command line tool which converts METS/ALTO into plain text.
 
-The full documentation for the tool is available via [Github](https://github.com/Living-with-machines/alto2txt). It uses the python programming language, and expects the newspapers the folder format in which they can be downloaded from the [Shared Research Repository](https://bl.iro.bl.uk/).
+The full documentation for alto2text is available via [Github](https://github.com/Living-with-machines/alto2txt). It uses the python programming language, and expects the newspapers the folder format in which they can be downloaded from the [Shared Research Repository](https://bl.iro.bl.uk/).
 
 ### Using R
 

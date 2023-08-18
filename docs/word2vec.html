@@ -188,7 +188,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ocr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Newspapers: Sources and Standards</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">History of the British Library Collection</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -265,7 +265,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./further-reading.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further reading</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Final Thoughts</span></span></a>
   </div>
 </li>
       </ul>
@@ -343,7 +343,7 @@ div.csl-indent {
 </div>
 </div>
 <p>We can easily tell (and also calculate, using a simple distance formula) that word 3 is closer to word 2 than it is to word 1.</p>
-<p>We can also represent the words in more than two dimensions (it just becomes more difficult to draw them, but the mathematics stays the same.</p>
+<p>We can also represent the words in more than two dimensions. It becomes more difficult to draw them, but the mathematics stays the same.</p>
 <p>Word embedding methods, then, essentially turn each word in a corpus into a vector - meaning a series of numbers representing its position in multi-dimensional space. In the example above, the words are represented by a vector of length two, such as <code>c(1,1)</code>.</p>
 <p>There are lots of ways of determining these word embeddings, and there is no single ‘true’ representation. A popular method is to look at the context of words and use this information as as way to determine the most appropriate vector by which each word can be represented. A model can be trained which means a set of embeddings can be developed where words which appear often in context with each other will be closer together within the multi-dimensional space of that corpus.</p>
 <p>Imagine the above word 1 is something like <strong>cat</strong>, word 2 is a colour, say <strong>yellow</strong>, and word 3 is another colour, say <strong>red</strong>. Red and yellow are much more likely to be used in the same context (<strong>I have a red/yellow raincoat</strong>) than the word cat. The sentence <strong>I have a cat raincoat</strong> is less likely to occur in a corpus, though not impossible… This means that red and yellow are likely to be semantically similar. A good contextual word embedding model will mean they will be most likely be placed closer together in multi-dimensional space.</p>
@@ -384,7 +384,7 @@ div.csl-indent {
 </section>
 <section id="load-and-create-the-newspaper-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-create-the-newspaper-dataset">Load and create the newspaper dataset</h3>
-<p>Either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:</p>
+<p>Either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or <a href="https://doi.org/10.5281/zenodo.8262355">download</a> and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>news_sample_dataframe <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"newspaper_text/"</span>, </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">pattern =</span> <span class="st">"csv"</span>, </span>
@@ -452,17 +452,17 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>glove <span class="ot">=</span> GlobalVectors<span class="sc">$</span><span class="fu">new</span>(<span class="at">rank =</span> <span class="dv">50</span>, <span class="at">x_max =</span> <span class="dv">10</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>wv_main <span class="ot">=</span> glove<span class="sc">$</span><span class="fu">fit_transform</span>(news_tcm, <span class="at">n_iter =</span> <span class="dv">10</span>, <span class="at">convergence_tol =</span> <span class="fl">0.01</span>, <span class="at">n_threads =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [23:39:18.851] epoch 1, loss 0.1578
-INFO  [23:40:58.863] epoch 2, loss 0.1247
-INFO  [23:42:36.180] epoch 3, loss 0.1149
-INFO  [23:44:13.058] epoch 4, loss 0.1100
-INFO  [23:45:50.340] epoch 5, loss 0.1068
-INFO  [23:47:29.186] epoch 6, loss 0.1046
-INFO  [23:49:06.166] epoch 7, loss 0.1029
-INFO  [23:50:43.553] epoch 8, loss 0.1016
-INFO  [23:52:21.512] epoch 9, loss 0.1006
-INFO  [23:53:58.400] epoch 10, loss 0.0997
-INFO  [23:53:58.400] Success: early stopping. Improvement at iterartion 10 is less then convergence_tol</code></pre>
+<pre><code>INFO  [12:52:04.451] epoch 1, loss 0.1578
+INFO  [12:53:53.251] epoch 2, loss 0.1246
+INFO  [12:55:41.643] epoch 3, loss 0.1148
+INFO  [12:57:30.750] epoch 4, loss 0.1099
+INFO  [12:59:16.637] epoch 5, loss 0.1067
+INFO  [13:01:01.389] epoch 6, loss 0.1044
+INFO  [13:02:50.749] epoch 7, loss 0.1028
+INFO  [13:04:37.363] epoch 8, loss 0.1015
+INFO  [13:06:25.861] epoch 9, loss 0.1004
+INFO  [13:08:12.319] epoch 10, loss 0.0996
+INFO  [13:08:12.320] Success: early stopping. Improvement at iterartion 10 is less then convergence_tol</code></pre>
 </div>
 </div>
 <p>On the advice from the package vignette, the following takes the average of the main and context vectors, which usually produces higher-quality embeddings.</p>
@@ -480,10 +480,10 @@ INFO  [23:53:58.400] Success: early stopping. Improvement at iterartion 10 is le
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(cos_sim[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     king     queen  napoleon   emperor    prince  sardinia  nicholas     louis 
-1.0000000 0.8052699 0.7320730 0.7315985 0.7155519 0.6968580 0.6916976 0.6838280 
-  brother   majesty 
-0.6764432 0.6583422 </code></pre>
+<pre><code>     king     queen  napoleon   emperor    prince   brother      duke  sardinia 
+1.0000000 0.8156325 0.7556608 0.7513469 0.7023357 0.6931232 0.6873137 0.6798223 
+  majesty    albert 
+0.6777707 0.6686118 </code></pre>
 </div>
 </div>
 </section>
@@ -501,12 +501,12 @@ INFO  [23:53:58.400] Success: early stopping. Improvement at iterartion 10 is le
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(cos_sim[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    madrid    trieste      cadiz petersburg    hamburg marseilles   portugal 
- 1.0000000  0.7869637  0.7833618  0.7717108  0.7388098  0.7383232  0.7189477 
-    berlin     lisbon      spain    advices     brings      dates  barcelona 
- 0.6888056  0.6668587  0.6667396  0.6663199  0.6654678  0.6648136  0.6607090 
-    vienna     states     naples despatches      dated  announces 
- 0.6579046  0.6491745  0.6418002  0.6340907  0.6270235  0.6219410 </code></pre>
+<pre><code>    madrid      cadiz    trieste petersburg   portugal  barcelona      spain 
+ 1.0000000  0.7882828  0.7619828  0.7531655  0.7179562  0.7158912  0.7100895 
+   hamburg     lisbon marseilles      genoa     brings     naples      dated 
+ 0.7061993  0.6685570  0.6644486  0.6595788  0.6411570  0.6319918  0.6287576 
+    states    advices  gibraltar despatches   despatch      dates 
+ 0.6274122  0.6161796  0.6130921  0.6076462  0.6053111  0.6051016 </code></pre>
 </div>
 </div>
 <p>As expected, the most-similar words are other cities, Trieste, Cadiz, and so forth. Semantically, one city is sort of interchangeable for any other. Now let’s look at Paris:</p>
@@ -518,14 +518,14 @@ INFO  [23:53:58.400] Success: early stopping. Improvement at iterartion 10 is le
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(cos_sim[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        paris        berlin        vienna          says    petersburg 
-    1.0000000     0.7472533     0.7192674     0.7006142     0.6913755 
-      letters        states          news         visit       gazette 
-    0.6702156     0.6595984     0.6533694     0.6511282     0.6439287 
-      emperor       hamburg        france          rome      received 
-    0.6418173     0.6403322     0.6387930     0.6299702     0.6273762 
-      england        french        london correspondent            de 
-    0.6216291     0.6163040     0.6150638     0.6132741     0.6120777 </code></pre>
+<pre><code>        paris    petersburg        berlin        vienna      received 
+    1.0000000     0.7040589     0.6968068     0.6879835     0.6697019 
+       france       emperor          news        london          says 
+    0.6692741     0.6617469     0.6519818     0.6450786     0.6413042 
+     moniteur correspondent          here          rome     following 
+    0.6400405     0.6330811     0.6217484     0.6148711     0.6119747 
+       french       hamburg     yesterday       letters       evening 
+    0.6112651     0.6106243     0.6097684     0.6075599     0.6049715 </code></pre>
 </div>
 </div>
 <p>The result is a list which is much more mixed, semanttically. In this list there are a few cities (Vienna, Rome, London), but there are also words relating to the transmission of news (News, says, gazette, despatch, daily…).</p>
@@ -611,31 +611,31 @@ INFO  [23:53:58.400] Success: early stopping. Improvement at iterartion 10 is le
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>wv_main_1802 <span class="ot">=</span> glove1802<span class="sc">$</span><span class="fu">fit_transform</span>(tcm_1802, <span class="at">n_iter =</span> <span class="dv">10</span>, <span class="at">convergence_tol =</span> <span class="fl">0.01</span>, <span class="at">n_threads =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [23:56:36.793] epoch 1, loss 0.1608
-INFO  [23:56:49.756] epoch 2, loss 0.1132
-INFO  [23:57:02.673] epoch 3, loss 0.1005
-INFO  [23:57:15.611] epoch 4, loss 0.0931
-INFO  [23:57:28.539] epoch 5, loss 0.0882
-INFO  [23:57:41.468] epoch 6, loss 0.0846
-INFO  [23:57:54.424] epoch 7, loss 0.0820
-INFO  [23:58:07.384] epoch 8, loss 0.0799
-INFO  [23:58:20.291] epoch 9, loss 0.0782
-INFO  [23:58:33.248] epoch 10, loss 0.0768</code></pre>
+<pre><code>INFO  [13:10:46.640] epoch 1, loss 0.1605
+INFO  [13:11:00.082] epoch 2, loss 0.1128
+INFO  [13:11:13.368] epoch 3, loss 0.1000
+INFO  [13:11:26.602] epoch 4, loss 0.0927
+INFO  [13:11:40.156] epoch 5, loss 0.0878
+INFO  [13:11:53.250] epoch 6, loss 0.0843
+INFO  [13:12:06.721] epoch 7, loss 0.0816
+INFO  [13:12:20.455] epoch 8, loss 0.0796
+INFO  [13:12:34.263] epoch 9, loss 0.0779
+INFO  [13:12:47.824] epoch 10, loss 0.0765</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>glove1870 <span class="ot">=</span> GlobalVectors<span class="sc">$</span><span class="fu">new</span>(<span class="at">rank =</span> <span class="dv">50</span>, <span class="at">x_max =</span> <span class="dv">10</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>wv_main_1870 <span class="ot">=</span> glove1870<span class="sc">$</span><span class="fu">fit_transform</span>(tcm_1870, <span class="at">n_iter =</span> <span class="dv">10</span>, <span class="at">convergence_tol =</span> <span class="fl">0.01</span>, <span class="at">n_threads =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [23:58:59.390] epoch 1, loss 0.1974
-INFO  [23:59:25.293] epoch 2, loss 0.1418
-INFO  [23:59:50.925] epoch 3, loss 0.1264
-INFO  [00:00:16.822] epoch 4, loss 0.1180
-INFO  [00:00:42.675] epoch 5, loss 0.1127
-INFO  [00:01:08.571] epoch 6, loss 0.1090
-INFO  [00:01:34.434] epoch 7, loss 0.1062
-INFO  [00:02:00.338] epoch 8, loss 0.1041
-INFO  [00:02:26.170] epoch 9, loss 0.1024
-INFO  [00:02:52.028] epoch 10, loss 0.1010</code></pre>
+<pre><code>INFO  [13:13:15.975] epoch 1, loss 0.1982
+INFO  [13:13:44.104] epoch 2, loss 0.1426
+INFO  [13:14:09.805] epoch 3, loss 0.1271
+INFO  [13:14:38.126] epoch 4, loss 0.1187
+INFO  [13:15:06.659] epoch 5, loss 0.1134
+INFO  [13:15:33.960] epoch 6, loss 0.1096
+INFO  [13:16:02.349] epoch 7, loss 0.1068
+INFO  [13:16:30.317] epoch 8, loss 0.1046
+INFO  [13:16:57.710] epoch 9, loss 0.1028
+INFO  [13:17:25.649] epoch 10, loss 0.1014</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -661,17 +661,17 @@ INFO  [00:02:52.028] epoch 10, loss 0.1010</code></pre>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(cos_sim_liberal_1802[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      liberal        advice          thus          your encouragement 
-    1.0000000     0.5635655     0.5547894     0.5511667     0.5499591 
-    allowance        taking          free        became      friendly 
-    0.5432878     0.5417150     0.5103828     0.5066675     0.5007957 </code></pre>
+<pre><code>  liberal    became    advice   support  sanction      thus      your     terms 
+1.0000000 0.5570342 0.5376675 0.5272473 0.5238372 0.5071123 0.4978900 0.4969419 
+  highest suffrages 
+0.4842931 0.4793520 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(cos_sim_liberal_1870[,<span class="dv">1</span>], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       liberal   conservative      candidate          party        members 
-     1.0000000      0.8321220      0.7553313      0.7259486      0.6790668 
-    democratic representative     candidates  conservatives       liberals 
-     0.6247175      0.6184986      0.6068975      0.5968743      0.5968490 </code></pre>
+<pre><code>      liberal  conservative         party     candidate       members 
+    1.0000000     0.7829457     0.6714207     0.6631544     0.6532358 
+     majority participation      feelings    candidates      friendly 
+    0.6356385     0.5968122     0.5882970     0.5848294     0.5711921 </code></pre>
 </div>
 </div>
 </section>
@@ -687,7 +687,7 @@ INFO  [00:02:52.028] epoch 10, loss 0.1010</code></pre>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sim2</span>(<span class="at">x =</span> liberal_1802, <span class="at">y =</span> conservative_1802, <span class="at">method =</span> <span class="st">"cosine"</span>, <span class="at">norm =</span> <span class="st">"l2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        conservative
-liberal   -0.2470861</code></pre>
+liberal  -0.06736419</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>liberal_1870 <span class="ot">=</span> word_vectors_1870[<span class="st">"liberal"</span>, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>conservative_1870 <span class="ot">=</span> word_vectors_1870[<span class="st">"conservative"</span>, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
@@ -695,7 +695,7 @@ liberal   -0.2470861</code></pre>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sim2</span>(<span class="at">x =</span> liberal_1870, <span class="at">y =</span> conservative_1870, <span class="at">method =</span> <span class="st">"cosine"</span>, <span class="at">norm =</span> <span class="st">"l2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        conservative
-liberal     0.832122</code></pre>
+liberal    0.7829457</code></pre>
 </div>
 </div>
 <p>The words go from being very dissimilar (rarely used in the same context) to being very similar - both are used in terms of party politics by 1870.</p>

@@ -1,8 +1,8 @@
 # Machine Learning with Tidymodels {#sec-tidymodels}
 
-## Machine Learning
+This chapter looks at machine learning using historical newspapers and the 'tidymodels' framework. We'll build a classifier which learns, from some pre-labelled examples, to differentiate between advertisements and news articles. We'll evaluate the model, and fine-tune its parameters. This chapter is heavily indebted to existing tidymodels tutorials on the web, such as the one from [Supervised Machine Learning in R](https://smltar.com/mlclassification.html) by Emil Hvitfeldt and Julia Silge.
 
-This chapter looks at machine learning using historical newspapers and the 'tidymodels' framework.
+## Machine Learning
 
 Machine learning is the name for a group of techniques which take input data of some kind, and learn how to achieve some particular goal. The 'deep learning' used by neural networks and in particular things like ChatGPT are one type, but the field has been around for much longer than that.
 
@@ -11,6 +11,9 @@ Machine learning itself can be divided into subsets: Machine learning done with 
 A very simple form of machine learning is *linear regression*. Linear regression attempts to find the best fitting line through a dataset. Take this dataset of the flipper size and body mass of a group of observed penguins (from the R package `palmerpenguins`:
 
 ```{r, echo=FALSE}
+#| warning: false
+#| message: false
+ 
 library(palmerpenguins)
 library(tidyverse)
 
@@ -44,7 +47,7 @@ Machine learning can be used for a number of different tasks. One key one is tex
 
 In this tutorial, we will use tidymodels to classify text into articles and advertisements. It could easily be generalised to any number of categories, for example foreign news, court reporting, and so forth. You can provide your own spreadsheet of training data (as we'll use below), and as long as it is in the same format and has similar information, you should be able to build your own classifier.
 
-Once we have built the model, we will fine-tune it. The random forest algorithm, like most machine learning algorithms, has a group of parameters which can be adjusted. To find the best values for these, we'll evaluate the same data using many different combinations of parameters, and pick the best one. Using tidymodels, this can all be done consistently. We could even swap out any other model type, and otherwise reuse the exact same workflow.
+Once we have built the model, we will fine-tune it. The random forest algorithm we'll use, like most machine learning algorithms, has a group of parameters which can be adjusted. To find the best values for these, we'll evaluate the same data using many different combinations of parameters, and pick the best one. Using tidymodels, this can all be done consistently. We could even swap out any other model type, and otherwise reuse the exact same workflow.
 
 Finally, we'll put the model to some use: we'll use the model to predict the class of the rest of the articles in the newspaper dataset, and do some analysis on this.
 
@@ -56,7 +59,7 @@ In this chapter we'll create a model which can label newspaper as either article
 
 1.  Download a labelled dataset, containing examples of our two classes (articles and advertisements).
 
-2.  Create a 'recipe' which is a series of pro-processing steps. This same recipe can be reused in different contexts and for different models.
+2.  Create a 'recipe' which is a series of pre-processing steps. This same recipe can be reused in different contexts and for different models.
 
 3.  Split the labelled data into testing and training sets. The training data is used to fit the best model. The test set is used at the end, to see how well it performs on unseen data.
 
@@ -82,6 +85,9 @@ install.packages('vip')
 ```
 
 ```{r}
+#| warning: false
+#| message: false
+
 library(tidyverse)
 library(tidymodels)
 library(textrecipes)
@@ -97,7 +103,8 @@ As a first step, load some pre-labelled data. This contains a number of newspape
 If we take a look at the dataframe once it is loaded, you'll see it's quite simple structure: it's got a 'filename' column, the full text of the article store in 'text', and the type stored in a column called 'type'.
 
 ```{r}
-
+#| warning: false
+#| message: false
 
 advertisements_labelled = read_csv('advertisements_labelled.csv')
 
@@ -109,7 +116,9 @@ advertisements_labelled = advertisements_labelled %>% filter(!is.na(text))
 
 ## Set up the Machine Learning Model
 
-In this step, we begin preparing the data for machine learning. We set a seed for reproducibility to ensure consistent results when randomization is involved. The target variable 'type' in the advertisements data is converted to a factor as it represents categorical classes ('advertisement' and 'article'). The data is then split into training and testing sets using the `initial_split` function. This separation is crucial for evaluating the performance of the machine learning model and preventing overfitting.
+In this step, we begin preparing the data for machine learning. We set a seed for reproducibility to ensure consistent results when randomization is involved. The target variable 'type' in the advertisements data is converted to a factor as it represents categorical classes ('advertisement' and 'article').
+
+The data is then split into training and testing sets using the `initial_split` function. This separation is crucial for evaluating the performance of the machine learning model and preventing overfitting.
 
 ```{r}
 set.seed(9999)
@@ -124,7 +133,7 @@ advertisements_test <- testing(advertisements_split)
 
 ## Create Recipe for Text Data
 
-To prepare the text data for modeling, we create a recipe using the `recipe` function. The `textrecipes` package provides essential tools for text preprocessing and feature extraction in machine learning. In this recipe, we tokenize the text, remove stop words, and apply Term Frequency-Inverse Document Frequency (TF-IDF) transformation to represent the text data as numerical features. These transformations convert the raw text data into a format suitable for machine learning algorithms, enabling them to process and understand textual information.
+To prepare the text data for modeling, we create a recipe using the `recipe` function. The `textrecipes` package provides essential tools for text preprocessing and feature extraction in machine learning. In this recipe, we tokenize the text, remove stop words, and apply a term frequency transformation to represent the text data as numerical features. These transformations convert the raw text data into a format suitable for machine learning algorithms, enabling them to process and understand textual information.
 
 ```{r}
 
@@ -138,10 +147,14 @@ advertisement_rec <- advertisement_rec %>%
 
 ```
 
+Next, we set up a `workflow()` object, which will store the recipe and later the model instructions, and make it easier to reuse.
+
 ```{r}
 advertisement_wf <- workflow() %>%
   add_recipe(advertisement_rec)
 ```
+
+Create the model. In this case, we'll use a random forest model, from the package `ranger`. Setting the `importance = "impurity"` parameter means we'll be able to see what words the model used to make its decisions.
 
 ```{r}
 
@@ -152,8 +165,15 @@ rf_spec
 
 ```
 
+Take the workflow object we made above, and add the model to it. After this, use `fit` to run the model, specifying it should use the `advertisements_train` dataset we created above.
+
+Finally, we use `predict` on this fitted model, specifying `advertisements_test` as the dataset. Add the true labels from `advertisements_test` as a new column, and use `accuracy()` to compare the true label with the prediction to get an accuracy score.
+
 ```{r}
-advertisement_wf %>%
+
+
+
+ advertisement_wf %>%
   add_model(rf_spec) %>%
   fit(data = advertisements_train)%>%
   predict(new_data = advertisements_test) %>%
@@ -164,7 +184,9 @@ advertisement_wf %>%
 
 ## Perform Cross-Validation
 
-Cross-validation is a crucial step in model evaluation. It helps assess the model's generalization performance on unseen data and reduces the risk of overfitting. In this step, we set up cross-validation folds using the `vfold_cv` function, which creates multiple training and testing sets from the training data. The model will be trained and evaluated on each fold separately, providing a more robust estimate of its performance.
+To evaluate the model further, we'll use cross-validation. Cross-validation is a crucial step in model evaluation. It helps assess the model's generalization performance on unseen data and reduces the risk of overfitting.
+
+In this step, we set up cross-validation folds using the `vfold_cv` function, which creates multiple training and testing sets from the training data. The model will be trained and evaluated on each fold separately, providing a more robust estimate of its performance.
 
 ```{r}
 set.seed(234)
@@ -191,7 +213,7 @@ rf_rs <- fit_resamples(
 )
 ```
 
-## Evaluate Model's Performance
+## Evaluate the Model's Performance
 
 In this step, we collect the evaluation metrics and predictions from the cross-validation process. The collected metrics will help us assess the model's performance, while the predictions on each fold will be used for further analysis and comparison. By evaluating the model on multiple subsets of the data, we can gain insights into its robustness and reliability.
 
@@ -345,7 +367,7 @@ final_res %>%
 
 To understand how the model is using the text to make decisions, we can look at the most important features (in this case, text frequency counts) used by the random forest algorithm. We'll use the package `vip` to extract the most important features, using the function `extract_fit_parsnip()`, and plotting it using `ggplot2`.
 
-For the random forest method, we can only see the overall top features, and not which were more important for the prediction of the different categories. The most important feature is the frequency of the word 'street': at a guess, this is used more often in advertisements, which very often contain an address to a business or service. Interestingly, the second most important feature is the word 'was'. Is this perhaps because news articles are more likely to use the past tense than advertisements?
+For the random forest method, we can only see the overall top features, and not which were more important for the prediction of the different categories. The most important feature is the frequency of the word 'street': at a guess, this is used more often in advertisements, which very often contain an address to a business or service. Interestingly, the second most important feature is the word 'was'. Is this perhaps because news articles are more likely to use the past tense than advertisements? Interestingly, the frequency of certain function words such as `the`, `and`, `to`, `of` (which would often be filtered out as 'stop words') also seems to be important to the model. One explanation is that the use of these words is quite different in prose and in the kind of text used in advertisements.
 
 ```{r}
 complaints_imp <- extract_fit_parsnip(final_res$.workflow[[1]]) %>%
@@ -358,10 +380,9 @@ complaints_imp %>%
   geom_col(aes(x = reorder(Variable,Importance), y= Importance)) + coord_flip()
 ```
 
-
 ## Using the Model
 
-Once we are happy with the final model, we can use it to label unseen data as either articles or advertisements. For this, we'll need a newspaper corpus. As in previous chapters, either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
+Once we are happy with the final model, we can use it to label unseen data as either articles or advertisements. For this, we'll need a newspaper corpus. As in previous chapters, either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or [download](https://doi.org/10.5281/zenodo.8262355) and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -466,7 +487,7 @@ news_df %>%
 
 ```
 
-Interestingly, some of the regional titles (Liverpool, Glasgow, Swansea and Glamorgan) seem to have much higher proportions of advertisements - provided the labelling by the machine learning model is largely correct, of course. 
+Interestingly, some of the regional titles (Liverpool, Glasgow, Swansea and Glamorgan) seem to have much higher proportions of advertisements - provided the labelling by the machine learning model is largely correct, of course.
 
 ## Recommended Reading
 

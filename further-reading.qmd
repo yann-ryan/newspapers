@@ -1,27 +1,27 @@
-# Further reading
+# Final Thoughts
+
+I hope this book has shown you that it is possible to work with newspaper data to get meaningful and interesting insights, even for beginners. Working with 'real-world' data, with its OCR errors and the many gaps in the collection, can be a difficult but ultimately fruitful way of applying digital methods to historical datasets. Techniques such as these can be applied to other types of historical data, for example books or letters.
+
+For a next step, I would recommend finding some specific question of interest which you think could be tackled with the collections made freely available and download your own corpus related to this question. Then, see how the different methods might help to answer it.
+
+The use of large language models in the historical domain will ingest texts such as this at a huge scale, and understanding how these texts look is valuable in getting to know how these models work and where their limitations are. It's worth bearing in mind the specific material history of the collection, where it has come from, and how it has been digitised. As the volume of digitised material increases and becomes more accessible, this will be an increasingly important point.
+
+## Further Reading
 
 There is a huge volume of literature on R, text analysis and newspaper digitisation. This is a small collection of recommended reading.
 
-A useful list of coding resources:
-https://scottbot.net/teaching-yourself-to-code-in-dh/
+A useful list of coding resources: https://scottbot.net/teaching-yourself-to-code-in-dh/
 
-A book on R specifically for digital humanities:
-http://dh-r.lincolnmullen.com
+A book on R specifically for digital humanities: http://dh-r.lincolnmullen.com
 
-Geocomputation with R - a fantastic introduction to advanced mapping and spatial analysis.
-https://bookdown.org/robinlovelace/geocompr/
+Geocomputation with R - a fantastic introduction to advanced mapping and spatial analysis. https://bookdown.org/robinlovelace/geocompr/
 
-Use R to write blog posts:
-https://bookdown.org/yihui/blogdown/
+Use R to write blog posts: https://bookdown.org/yihui/blogdown/
 
-R-Studio cheatsheets, which are really useful to print out and keep while you're coding, particularly at the beginning: 
-https://rstudio.com/resources/cheatsheets/
+R-Studio cheatsheets, which are really useful to print out and keep while you're coding, particularly at the beginning: https://rstudio.com/resources/cheatsheets/
 
-Text mining with R - lots of the examples in this book are based on lessons from here:
-https://www.tidytextmining.com
+Text mining with R - lots of the examples in this book are based on lessons from here: https://www.tidytextmining.com
 
-The best introduction to R and the Tidyverse:
-https://r4ds.had.co.nz
+The best introduction to R and the Tidyverse: https://r4ds.had.co.nz
 
-A recent report on newspaper digitisation and metadata standards:
-https://melissaterras.files.wordpress.com/2020/01/selectioncriterianewspapers_hauswedell_nyhan_beals_terras_bell-3.pdf
+A recent report on newspaper digitisation and metadata standards: https://melissaterras.files.wordpress.com/2020/01/selectioncriterianewspapers_hauswedell_nyhan_beals_terras_bell-3.pdf

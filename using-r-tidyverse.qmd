@@ -4,13 +4,7 @@ R is a programming language, much like Python. It is widely used by data scienti
 
 It has some advantages for a novice to programming. Its widely-used platform (called an Integrated Programming Environment- an IDE) for the language called [R-Studio](https://posit.co/download/rstudio-desktop/) makes it relatively easy for beginners. A lot of this is because of developers who have extended the functionality of the base language greatly, particularly a suite of extra functions known collectively as the 'tidyverse'.
 
-The methods section of this book may be challenging if you are a complete beginner to R and have not learned any other programming language. If you'd like to get started with R and the tidyverse in earnest, I recommend some of these tutorials and books:
-
-http://dh-r.lincolnmullen.com
-
-https://blog.shotwell.ca/posts/why_i_use_r/
-
-https://r4ds.had.co.nz
+The methods section of this book may be challenging if you are a complete beginner to R and have not learned any other programming language. If you'd like to get started with R and the tidyverse in earnest, the canonical texts is [R for Data Science](https://r4ds.had.co.nz), written by Hadley Wickham.
 
 ## Getting started
 
@@ -28,52 +22,126 @@ R relies on lots of additional packages for full functionality, and you'll need 
 
 ## Using R
 
-### Base R types
+### 'Base' R.
 
-It is worth understanding the main types of data that you'll come across, in your environment window.
+Commands using R without needing any additional packages are often called 'base' R. Here are some important ones to know:
 
-First, up are **dataframes**. These are the spreadsheet-like objects which you'll use in most analyses. They have rows and columns.
+You can assign a value to an object using `=` or `<-`:
 
-Another key object type is a **vector**. A vector is like a python list. A vector can be a single column in a dataframe (spreadsheet), which means they are used very often in R to manipulate data. A vector can have different types: for example, a character vector looks like this `c("apples", "bananas", "oranges")`
+```{r}
+x = 1
 
-A dataframe in R can be thought of a number of vertically aligned vectors.
+y <- 4
 
-A vector is created with the command `c()`, with each item in the vector placed between the brackets, and followed by a comma. If your vector is a vector of words, the words need to be in inverted commas or quotation marks.
+```
+
+Entering the name of a variable in the console and pressing return will return that value in the console. The same will happen if you enter it in a notebook cell (like here below), and run the cell. This is also true of any R object, such as a dataframe, vector, or list. 
+
+```{r}
+y
+```
+
+
+You can do basic calculations with `+`, `-`, `*` and `/`:
+
+```{r}
+x = 1+1
+
+y = 4 - 2
+
+z = x * y
+
+z
+```
+
+You can compare numbers or variables using `==` (equals), `>` (greater than), `<`, (less than) `!=` (not equal to). These return either `TRUE` or `FALSE`:
 
 ```{r}
 
+1 == 1
+
+x > y
+
+x != z
+
+```
+
+### Basic R data structures
+
+It is worth understanding the main types of data that you'll come across, in your environment window.
+
+A variable is a piece of data stored with a name, which can then be used for various purposes. The simplest of these are single **elements**, such as a number:
+
+```{r}
+#| echo: true
+
+x = 1
+
+x
+```
+
+Next is a vector. A vector is a list of **elements**. A vector is created with the command `c()`, with each item in the vector placed between the brackets, and followed by a comma. If your vector is a vector of words, the words need to be in inverted commas or quotation marks.
+
+```{r}
 fruit = c("apples", "bananas", "oranges", "apples")
 colour = c("green", "yellow", "orange", "red")
 amount = c(2,5,10,8)
 ```
 
+Next are dataframes. These are the spreadsheet-like objects, with rows and columns, which you'll use in most analyses.
+
 You can create a dataframe using the `data.frame()` command. You just need to pass the function each of your vectors, which will become your columns.
 
-```{r}
-fruit_data = data.frame(fruit,colour,amount, stringsAsFactors = FALSE)
+We can also use the `glimpse()` or `str()` commands to view some basic information on the dataframe (particularly useful with longer data).
 
-fruit_data 
+```{r}
+fruit_data = data.frame(fruit, colour, amount, stringsAsFactors = FALSE)
+
+str(fruit_data)
 ```
 
-Notice above that the third column, the amount, has <int> under it instead of <chr>. That's because R is treating it as a number, rather than a character. This means you can add them up and do all sorts of other mathy type things to them.
+### Data types
 
-All the items in a vector are *coerced* to the same type. So if you try to make a vector with a combination of numbers and strings, the numbers will be converted to strings. I wouldn't worried *too* much about that for now.
+Notice that to the right of the third column, the amount, has `<dbl>`under it, whereas the other two have <chr>\`. That's because R is treating the third as a number and others as a string of characters. It's often important to know which data type your data is in: you can't do arithmetic on characters, for example. R has 6 data types:
 
-So for example if you create this vector, the numbers will get converted into strings.
+-   character
+-   numeric (real or decimal)
+-   integer
+-   logical
+-   complex
+-   Raw
+
+The most commonly-used ones you'll come across are `character`, `numeric`, and `logical`. `logical` is data which is either `TRUE` or `FALSE`. In R, all the items in a vector are *coerced* to the same type. So if you try to make a vector with a combination of numbers and strings, the numbers will be converted to strings, as in the example below:
 
 ```{r}
 fruit = c("apples", 5, "oranges", 3)
 
-fruit
+str(fruit)
 ```
+
+### Installing and loading packages:
+
+R is extended through the use of 'packages': pre-made sets of functions, usually with a particular task or theme in mind. To work with networks, for example, we'll use a set of third-party packages. If you complete the exercises using the CSC cloud notebooks, these are already installed for you in most cases. To install a package, use the command `install.packages()`, and include the package name within quotation marks:
+
+```{r, eval=FALSE}
+#| echo: true
+install.packages('igraph')
+
+```
+
+To load a package, use the command `library()`. This time, the package name is not within quotation marks
+
+```{r}
+#| echo: true
+library(igraph)
+```
+
 
 ## Tidyverse
 
-Most of the work in these notebooks is done using a set of packages developed for R called the 'tidyverse'. These enhance and improve a large range of R functions, with much nice syntax - and they're faster too. It's really a bunch of individual packages for sorting, filtering and plotting data frames. They can be divided into a number of diferent categories.
+Most of the work in these notebooks is done using a set of packages developed for R called the 'tidyverse'. These enhance and improve a large range of R functions, with a more intuitive nicer syntax. It's really a bunch of individual packages for sorting, filtering and plotting data frames. They can be divided into a number of different categories.
 
 All these functions work in the same way. The first argument is the thing you want to operate on. This is nearly always a data frame. After come other arguments, which are often specific columns, or certain variables you want to do something with.
-
-You installed the package in the last notebook. Make sure the library is loaded by running the following in an R chunk in a notebook:
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -121,7 +189,7 @@ Next we use `tally()`. This counts all the instances of each fruit group.
 tally(grouped_fruit)
 ```
 
-Now the apples are grouped together rather than being two separate rows, and there's a new column called `n`, which contains the result of the count.
+See? Now the apples are grouped together rather than being two separate rows, and there's a new column called `n`, which contains the result of the count.
 
 If we specify that we want to count by something else, we can add that in as a 'weight', by adding `wt =` as an argument in the function.
 
@@ -147,7 +215,32 @@ Just fruit with at least 5 pieces:
 filter(fruit_data, amount >=5)
 ```
 
-### sort(), arrange(), top_n()
+You can also filter with multiple terms by using a vector (as above), and the special command `%in%`:
+
+```{r}
+filter(fruit_data, colour %in% c('red', 'green'))
+```
+
+
+### slice_max(), slice_min()
+
+These functions return the top or bottom number of rows, ordered by the data in a particular column. 
+
+```{r}
+fruit_data %>% slice_max(order_by = amount, n = 1)
+
+fruit_data %>% slice_min(order_by = amount, n = 1)
+```
+These can also be used with `group_by()`, to give the top rows for each group:
+
+```{r}
+fruit_data %>% group_by(fruit) %>% slice_max(order_by = amount, n  =  1)
+```
+
+Notice it has kept only one row per fruit type, meaning it has kept only the apple row with the highest amount?
+
+
+### sort(), arrange()
 
 Another useful set of functions, often you want to sort things. The function `arrange()` does this very nicely. You specify the data frame, and the variable you would like to sort by.
 
@@ -177,9 +270,38 @@ Notice that now red apples are first.
 
 ### left_join(), inner_join(), anti_join()
 
+Another set of commands we'll use quite often in this course are the `join()` 'family'. Joins are a very powerful but simple way of selecting certain subsets of data, and adding information from multiple tables together.
+
+Let's make a second table of information giving the delivery day for each fruit type:
+
+```{r}
+
+fruit_type = c('apples', 'bananas','oranges')
+weekday = c('Monday', 'Wednesday', 'Friday')
+
+fruit_days = data.frame(fruit_type, weekday, stringsAsFactors = FALSE)
+
+fruit_days
+
+```
+
+This can be 'joined' to the fruit information, to add the new data on the delivery day, without having to edit the original table (or repeat the information for apples twice). This is done using `left_join`.
+
+Joins need a common `key`, a column which allows the join to match the data tables up. It's important that these are unique (a person's name makes a bad key by itself, for example, because it's likely more than one person will share the same name). Usually, we use codes as the join keys. If the columns containing the join keys have different names (as ours do), specify them using the syntax below:
+
+```{r}
+
+joined_fruit = left_join(fruit_data, fruit_days, by = c("fruit" = "fruit_type"))
+
+joined_fruit
+
+```
+
+In this new dataframe, the correct weekday is now listed beside the relevant fruit type.
+
 ### Piping
 
-Another great feature of the tidyverse is that you can 'pipe' commands through a bunch of functions. This means that you can do one operate, and pass the result to another operation. The previous dataframe is passed as the first argument of the next function by using the pipe `%>%` command. It works like this:
+Another useful feature of the tidyverse is that you can 'pipe' commands through a bunch of functions, making it easier to follow the logical order of the code. This means that you can do one operation, and pass the result to another operation. The previous dataframe is passed as the first argument of the next function by using the pipe `%>%` command. It works like this:
 
 ```{r}
 fruit_data %>% 
@@ -193,41 +315,45 @@ That code block, written in prose: "take fruit data, remove any yellow colour fr
 
 ### Plotting using ggplot()
 
-The tidyverse includes a pretty great plotting library called ggplot2. This can be used by piping your dataframe to a function called `ggplot()`. The basic idea is that you add your data, then you can add plot elements which are called geoms. Some common ones are `geom_line()`, `geom_bar()` and `geom_point()`.
+The tidyverse includes a plotting library called `ggplot2`. To use it, first use the function `ggplot()` and specify the dataset you wish to graph using `data =`. Next, add what is known as a 'geom': a function which tells the package to represent the data using a particular geometric form (such as a bar, or a line). These functions begin with the standard form `geom_`.
 
-To the geom function you add aesthetics, which is basically telling the function which bits of your data should be responsible for which parts of the visualisation. These are added using `aes()`. I'll explain a bit more about some of these aesthetics as I go along.
+Within this geom, you'll add 'aesthetics', which specify to the package which part of the data needs to be mapped to which particular element of the geom. The most common ones include `x` and `y` for the x and y axes, `color` or `fill` to map colors in your plot to particular data.
 
-As an example:
+`ggplot` is an advanced package with many options and extensions, which cannot be covered here.
+
+Some examples using the fruit data:
 
 Bar chart of different types of fruit (one each of bananas and oranges, two types of apple)
 
-```{r fig.cap = 'fruit'}
-fruit_data %>% ggplot() + geom_bar(aes(x = fruit))
+```{r}
+ggplot(data = fruit_data) + geom_col(aes(x = fruit, y = amount))
 ```
 
 Counting the total amount of fruit:
 
-```{r fig.cap="totals"}
-fruit_data %>% ggplot() + geom_bar(aes(x = fruit, weight = amount))
+```{r}
+ggplot(fruit_data) + geom_col(aes(x = fruit, y = amount))
 ```
 
 Charting amounts and fruit colours:
 
-```{r fig.cap="grouped fruit"}
-fruit_data %>% ggplot() + geom_bar(aes(x = fruit, weight = amount, fill = colour)) 
+```{r}
+ggplot(data = fruit_data) + geom_bar(aes(x = fruit, weight = amount, fill = colour)) 
 ```
 
-And just because it annoys me having random colours, we can map them to the actual colours:
+## Reading in external data
 
-```{r fig.cap="Fruit chart with nice colours"}
-fruit_data %>% 
-  ggplot() + 
-  geom_bar(aes(x = fruit, weight = amount, fill = colour)) + 
-  scale_fill_manual(values = c("orange" = "orange", 
-                               "green" = "#8db600", 
-                               "red" = "#ff0800", 
-                               "yellow" = "#ffe135"))
+Most of the time, you'll be working with external data sources. These most commonly come in the form of comma separated values (.csv) or tab separated values (.tsv). The tidyverse commands to read these are `read_csv()` and `read_tsv`. You can also use `read_delim()`, and specify the type of delimited using `delim = ','` or `delim = '/t`. The path to the file is given as a string to the argument `file=`.
+
+```{r}
+
+df = read_csv(file = 'aus_titles.csv') # Read a .csv file as a network, specify the path to the file here.
+
+df
+
 ```
+
+Notice that each column has a data type beside it, either <chr> for text or <dbl> for numbers. This is important if you want to sort or run calculations on the data.
 
 ### Doing this with newspaper data
 

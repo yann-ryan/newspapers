@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ocr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Newspapers: Sources and Standards</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">History of the British Library Collection</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -246,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./further-reading.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further reading</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Final Thoughts</span></span></a>
   </div>
 </li>
       </ul>
@@ -297,9 +297,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Unforunately, downloading the titles as explained in chapter 2 is not the final step in getting the data ready to be downloaded. If you download and extract a single .zip file, you’ll see the newspapers themselves are not simply a set of text files ready to use.</p>
+<p>Unforunately, downloading the titles as explained in <a href="download-and-unzip.html">Chapter&nbsp;<span>8</span></a> is not the final step in having newspaper data to run analysis on. If you download and extract a single .zip file, you’ll see the newspapers themselves are not simply a set of text files ready to use.</p>
 <p>First of all, each issue is contained within its own folder, named by its day and month of publication. For example, an issue published on the first of January 1850 will be contained in a folder called 0101. Within this folder 0101, you’ll see some more files. These are the METS/ALTO files produced by the OCR process. They are the output which contains the text of the newspapers, but also detailed information on the layout and sections of the newspapers.</p>
-<p>Most typical digital humanities uses, such as counting word frequencies, or creating a vector model and so forth, will ultimately expect plain text as the input. Therefore, the first stage of using this data is to extract the plain text from the complicated structure of the METS/ALTO. This chapter presents one way of doing this, directly through R. There is also an existing tool called Alto2Text, created by the Living with Machines project, which will do the same in a quicker and more robust way.</p>
+<p>Most typical computational or digital humanities uses, such as counting word frequencies or generating word embeddings, will ultimately expect plain text as the input. Therefore, the first stage of using this data is to extract the plain text from the complicated structure of the METS/ALTO. This chapter presents one way of doing this, directly through R. There is also an existing tool called Alto2Text, created by the Living with Machines project, which will do the same in a quicker and more robust way.</p>
 <p>In the British Library, the METS file contains information on <em>textblocks</em>. Each textblock has a code, which can be found in one of the ALTO files - of which there are one per page. The ALTO files list each individual word in each textblock. The METS file also contains information on which textblocks make up each article, which means that the newspaper can be recreated, article by article. The output will be a csv for each issue - these can be combined into a single dataframe afterwards, but it’s nice to have the .csv files themselves first of all.</p>
 <section id="folder-structure" class="level2">
 <h2 class="anchored" data-anchor-id="folder-structure">Folder structure</h2>

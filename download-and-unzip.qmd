@@ -8,6 +8,8 @@ The titles released so far are available on the British Library's [Shared Resear
 
 The items in the repository are organised into collections. All the newspaper-related data released on to the repository can be found within the [British Library News Datasets](https://bl.iro.bl.uk/collections/353c908d-b495-4413-b047-87236d2573e3?locale=en) collection. Clicking on this link will bring up a list of all the items collected under this headings. There are also three sub-headings: [Title Lists](https://bl.iro.bl.uk/collections/b5730a9d-d871-43ee-9966-c36ed3acad74?locale=en), [Newspapers](https://bl.iro.bl.uk/collections/9a6a4cdd-2bfe-47bb-8c14-c0a5d100501f?locale=en), and [Press Directories](https://bl.iro.bl.uk/collections/580fe312-0e41-41fc-bb38-40122798cec1?locale=en). Clicking on the first of these, [Newspapers](https://bl.iro.bl.uk/collections/9a6a4cdd-2bfe-47bb-8c14-c0a5d100501f?locale=en), will display just the newspaper data items.
 
+![Screenshot showing the Shared Research Repository maintained by the British Library, on the newspaper collections page.](images/repo.png)
+
 ### Newspaper File Structure
 
 Each separate title (if a newspaper changed title, they are combined together) is listed here as a dataset. Clicking into one of these, you'll see that each year of that title is available as a separate downloadable .zip file.

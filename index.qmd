@@ -16,4 +16,4 @@ I'm also grateful to the British Library for their advice and information.
 
 ## Contact Me
 
-If you spot any mistakes, would like to give me feedback, or have found any of this book useful, I'd love to hear from you. Feel free to get in touch at y.c.ryan\@hum.leidenuniv.nl. You can also post an issue on the book Github repository.
+If you spot any mistakes, would like to give me feedback, or have found any of this book useful, I'd love to hear from you. Feel free to get in touch at y.c.ryan\@hum.leidenuniv.nl. You can also post an issue on the book [Github repository](https://github.com/yann-ryan/newspapers/issues).

@@ -28,25 +28,25 @@ Newspapers before 1800 are treated different to later ones and even constitute a
 
 Close to the entirety of the surviving collection of newspapers (called newsbooks from the seventeenth century, by and large) has been digitised and made available online, through resources such as EEBO, JISC Historical Texts, and Gale Primary Sources. Many universities and libraries will provide access to these resources, allowing you to browse, search and read through the texts.
 
-Getting access to the underlying text data is less straightforward, however. In the first place, the OCR of these titles, where it has been carried out, is often very inaccurate. Secondly, the images and texts themselves are mostly behind paywalls and there is no easy provision for bulk downloading of either. Two sources of newspapers for those interested in pre-1800 are worth mentioning: 1) the Burney Collection and 2) the Thomason Newsbook Collection.
+Getting access to the underlying text data is less straightforward, however. Where there is OCR data of these titles, the age and quality of these texts mean it is not particularly suited to data analysis. Secondly, the images and texts themselves are mostly behind paywalls and there is no easy provision for bulk downloading of either. Two sources of newspapers for those interested in pre-1800 are worth mentioning: 1) the Burney Collection and 2) the Thomason Newsbook Collection.
 
 ### The Thomason Newsbook Collection
 
-The Thomason Tracts are a collection of pamphlets, periodicals and broadsides held at the British Library. Part of this are approximately 7,200 serials (or periodicals). These were digitised from microfilm scans in the 1990s, and made available online through the resource Early English Books Online (EEBO). A separate project the Text Creation Partnership (EEBO-TCP), created double-keyed transcriptions of many EEBO texts, but, sadly, not including serials (though it does include news pamphlets). These transcribed texts, in TEI-encoded format, are [freely available online](https://github.com/orgs/textcreationpartnership/repositories).
+The Thomason Tracts are a collection of pamphlets, periodicals and broadsides held at the British Library. Part of this are approximately 7,200 serials (or periodicals). These were digitised from microfilm scans in the 1990s, and made available online through the resource [Early English Books Online](https://proquest.libguides.com/eebopqp) (EEBO). A separate project the [Text Creation Partnership](https://quod.lib.umich.edu/e/eebogroup/) (EEBO-TCP), created double-keyed transcriptions of many EEBO texts, but, sadly, not including serials (though it does include news pamphlets). These transcribed texts, in TEI-encoded format, are [freely available online](https://github.com/orgs/textcreationpartnership/repositories).
 
 Some smaller corpora of Thomason newsbooks have been created. These include the [Lancaster Newsbook Corpus](https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2531), a collection of several hundred manually-transcribed serials from the 1650s, and '[George Thomason's Newsbooks](https://www.dhi.ac.uk/newsbooks/nbcontext?about=query)', which is a corpus of all newsbooks printed in the year 1649, as well as the entire run of a single title, *Mercurius Politicus*. Neither of these may be suited to the kind of large-scale analysis proposed in this book, but they may anyway be of interest.
 
 ### Burney Collection
 
-The Burney Collection contains about one million pages, from the very earliest newspapers in the seventeenth century to the beginning of the nineteenth, collected by Rev. Charles Burney in the eighteenth century, and purchased by the Library in 1818.[@travelling-chron] It's actually a mixture of both Burney's own collection and stuff inserted since. It was microfilmed in its entirety in the 1970s. As Andrew Prescott has written, 'our use of the digital resource is still profoundly shaped by the technology and limitations of the microfilm set'. The collection was imaged in the 90s but because of technological restrictions it wasn't until 2007 when, with Gale, the British Library released the Burney Collection as a digital resource.
+The [Burney Collection](https://www.bl.uk/collection-guides/burney-collection) contains about one million pages, from the very earliest newspapers in the seventeenth century to the beginning of the nineteenth, collected by Rev. Charles Burney in the eighteenth century, and purchased by the Library in 1818[@travelling-chron]. It's actually a mixture of both Burney's own collection and material inserted afterwards. It was microfilmed in its entirety in the 1970s and imaged in the 90s but because of technological restrictions it wasn't until 2007 when, with Gale, the British Library released the Burney Collection as a [digital resource](https://www.gale.com/intl/c/17th-and-18th-century-burney-newspapers-collection).
 
-It's not generally available as a data download, but the raw OCR would be of limited use anyway. OCR for early modern print is not very good, and it was certainly worse ten years ago when the collection was processed. The accuracy of the OCR has been measured, and @travelling-chron found that the ocr for the Burney newspapers offered character accuracy of 75.6% and word accuracy of 65%.
+It's not generally available as a data download, but the raw OCR would be of limited use anyway. Older OCR for early modern print is not very good, and it was certainly worse ten years ago when the collection was processed. The accuracy of the OCR has been measured, and @travelling-chron found that the ocr for the Burney newspapers offered character accuracy of 75.6% and word accuracy of 65%.
 
 However, this is still a useful collection for browsing and keyword searching, which can usually be accessed through an institutional subscription to Gale, packaged as the [Seventeenth and Eighteenth Century Burney Newspapers Collection](https://www.gale.com/intl/c/17th-and-18th-century-burney-newspapers-collection){.uri}.
 
 ## After 1800
 
-The British Library newspapers after 1800 is a much larger collection, and from the middle of the century, is quite comprehensive. A number of resources make digital surrogates of these newspapers available.
+The British Library newspapers after 1800 is a much larger collection, and from the middle of the century, is quite comprehensive. Some more on the history of the collection is can be found in [Chapter -@sec-history]. A number of resources make digital surrogates of these newspapers available.
 
 ### JISC Newspaper digitisation projects {#jisc}
 
@@ -175,7 +175,7 @@ The result was a heavily curated collection, which has been scrutinised by histo
 
 Recently, the Living with Machines project has done the most thorough assessment of the specific biases of the collection. Doing what has been termed an 'environmental scan' of the newspaper collection, and linking it to press directories containing information on geographic coverage, political leanings, and price, that team has shown that it had specific biases in some areas [@beelen2022].
 
-This is all covered in lots of detail elsewhere, including some really interesting critiques of the access and so forth.[@smits_making_2016; @mussell-elemental both include some discussion and critique of the British Library Newspaper Collection].
+This is all covered in lots of detail elsewhere, including some really interesting critiques of the access and so forth. @smits_making_2016 and @mussell-elemental both include some discussion and critique of the British Library Newspaper Collection.
 
 Regardless of its representativeness, it only contains a tiny fraction of the newspaper collection, and by being relevant and restricted to 'important' titles, it does of course miss other voices. For example, much of the Library's collection consists of short runs, and much of it has not been microfilmed, which means it won't have been selected for digitisation. This means that 2019 digitisation selection policies are indirectly *greatly* influenced by microfilm selection policies of earlier decades. Subsequent digitisation projects are trying to [rectify these imbalances](https://blogs.bl.uk/thenewsroom/2019/01/heritage-made-digital-the-newspapers.html).
 
@@ -263,11 +263,11 @@ leaflet() %>%
 
 #### Access
 
-Currently researchers access this either through Gale, or through the British Library as an external researcher. Many researchers have requested access to the collection through Gale, which they will apparently do in exchange for a fee for the costs of the hard drives and presumably some labour time. These files were digitised using a specific format, and the text from them can be extracted using a tool developed by Living with Machines, which I'll explore in a future chapter.
+Currently researchers access this either through Gale, or through the British Library as an external researcher. Many researchers have requested access to the collection through Gale, which they will apparently do in exchange for a 'cost recovery' fee. These files were digitised using a specific format, and the text from them can be extracted using a tool developed by Living with Machines, which I'll explore in a future chapter.
 
 ### British Newspaper Archive
 
-Most of the British Library's digitised newspaper collection is available on the [British Newspaper Archive](www.britishnewspaperarchive.co.uk) (BNA). The BNA is a commercial product run by a family history company called FindMyPast. FindMyPast is now responsible for digitising large amounts of the Library's newspapers, mostly through microfilm. As such, they have a very different focus to the JISC digitisation projects. The BNA is constantly growing, and it already dwarfs the JISC projects by number of pages: the BNA currently hosts about 50 million pages, against the 3 million or so of the two JISC projects (Figure A recent project, thanks to an agreement between the supplier and the British Library, means that [one million pages per year are being made freely available to read through the platform](https://blog.britishnewspaperarchive.co.uk/2021/08/09/introducing-free-to-view-pages-on-the-british-newspaper-archive/), if you register for a free account.
+Most of the British Library's digitised newspaper collection is available on the [British Newspaper Archive](www.britishnewspaperarchive.co.uk) (BNA). The BNA is a commercial product run by a family history company called FindMyPast. FindMyPast is now responsible for digitising large amounts of the Library's newspapers, mostly through microfilm. As such, they have a very different focus to the JISC digitisation projects. The BNA is constantly growing, and it already dwarfs the JISC projects by number of pages: the BNA currently hosts nearly 70 million pages, against the 3 million or so of the two JISC projects. A recent project, thanks to an agreement between the supplier and the British Library, means that [one million pages per year are being made freely available to read through the platform](https://blog.britishnewspaperarchive.co.uk/2021/08/09/introducing-free-to-view-pages-on-the-british-newspaper-archive/), if you register for a free account.
 
 #### Coverage
 
@@ -383,13 +383,13 @@ leaflet() %>%
 
 The BNA's primary focus is on providing search access to individual researchers. Sadly, there is little provision made for data access, or even institutional subscriptions for researchers. There are some exceptions: the [Bristol N-Gram and named entity datasets](10.5523/bris.dobuvuu00mh51q773bo8ybkdz) project used the BNA data, processing the top phrases and words from about 16 million pages. The collection has tripled in size since then: it's likely that were it to be run again the results would be different.
 
-The Living with Machines project negotiated a full data transfer directly from Find My Past (the owners of the British Newspaper Archive) for the first time. The story of this is written in some detail in the book *Collaborative Historical Research in the Age of Big Data*[@ahnert2023]. In a nutshell, because of copyright issues, the project had to deal directly with Find My Past, and there were a set of detailed restrictions on what could be done with the data, such as having to be kept in secure storage, and deleted after two years.
+The Living with Machines project negotiated a full data transfer directly from Find My Past (the owners of the British Newspaper Archive) for the first time. The story of this is written in some detail in the book *Collaborative Historical Research in the Age of Big Data* [@ahnert2023]. In a nutshell, because of copyright issues, the project had to deal directly with Find My Past, and there were a set of detailed restrictions on what could be done with the data, such as having to keep it in secure storage, and delete it after two years.
 
 That is all to say that working with 'all' the UK's available digitised newspaper data is probably not feasible for most individual researchers or even small or medium-sized research projects, at the present time. While hopefully this will change in the future, what it means for now is that most data-driven historical work carried out on newspapers has used the JISC data, rather than the much larger BNA collection, because of relative ease-of-access.
 
 ### British Library Open Research Repository (bl.iro.bl.uk)
 
-However, there is some positive news in accessing UK newspaper data, thanks to a new resource which has become available in the last couple of years: the British Library's [Open Research Repository](https://bl.iro.bl.uk/). Newspaper digitisation projects carried out internally by the British Library do not have the same copyright or commercial restrictions as JISC and the BNA, meaning in theory the data from them can be opely shared with no license restrictions. Two recent projects, Living with Machines and Heritage Made Digital, have carried out digitisation in this way, and so the data can be much more easily and openly shared. It is still a tiny collection in comparison to the entire BNA, but it is a step in the right direction.
+However, there is some positive news in accessing UK newspaper data, thanks to a new resource which has become available in the last couple of years: the [Shared Research Repository](https://bl.iro.bl.uk/), a resource maintained by the British Library. Newspaper digitisation projects carried out internally by the British Library do not have the same copyright or commercial restrictions as JISC and the BNA, meaning in theory the data from them can be opely shared with no license restrictions. Two recent projects, Living with Machines and Heritage Made Digital, have carried out digitisation in this way, and so the data can be much more easily and openly shared. It is still a tiny collection in comparison to the entire BNA, but it is a step in the right direction.
 
 The BL open repository is a centralised repository for all sorts of research outputs and data, and the Library has been using it as a storage space for newspaper data from various newspaper digitisation projects. The text data (not the images) have been made freely available, with no license restrictions, meaning they can be used for any purpose whatsoever.
 
@@ -446,7 +446,7 @@ This map in Figure @fig-blnewsmap displays them. A few are currently missing fro
 
 ```{r}
 #| label: fig-blnewsmap
-#| fig-cap: "Newspaper-years on the British Newspaper Archive. Note that this includes the JISC content too"
+#| fig-cap: "Newspaper-years on the British Newspaper Archive. Note that this includes the JISC content too."
 #| warning: false
 #| message: false
 #| echo: false
@@ -492,7 +492,7 @@ leaflet() %>%
             clearShapes() %>% 
             clearControls() %>%
   addCircleMarkers(data = leaflet_list_lwm,lng = ~wikilon, lat = ~wikilat, weight = 1, #cheat and change London to a smaller number, so it doesn't overlap other points
-    radius = ~n*5 %>% sqrt(), ,
+    radius = ~n*7.5 %>% sqrt(), ,
                         fillColor = ~pal1871(n),fillOpacity = 0.7,
                         color = "gray95",popup = ~popup_sblab,
                         popupOptions = popupOptions(maxHeight = 100), label=popup_sb,
@@ -518,7 +518,7 @@ Downloading the data one year of a title at a time can be a time-consuming proce
 
 ### Other data sources
 
-As a final note, there are also a number of really useful metadata files available through the British Library research repository. Firstly, two title-level lists of all British and Irish Newspapers held by the library: one for Britain and Ireland [here](https://doi.org/10.23636/1136), and an updated, world-wide one, [here](https://doi.org/10.23636/3kz6-jr34).
+As a final note, there are also a number of really useful metadata files available through the British Library research repository. Firstly, two title-level lists of all British and Irish Newspapers held by the library: one for Britain and Ireland [here](https://doi.org/10.23636/1136), and an updated, world-wide one, [here](https://doi.org/10.23636/3kz6-jr34). A later chapter [Chapter -@sec-metadata] describes these in some more detail.
 
 Most recently, the Living with Machines project has published two digitised press directories, available [here](https://doi.org/10.23636/3m7a-z970) and [here](https://doi.org/10.23636/53p3-3a70), plus a dataset of [extracted structured data](https://doi.org/10.23636/pbq5-9k28). All of these are have a Public Domain licence.
 

@@ -55,7 +55,7 @@ In the *extract text* chapter \@ref(label), you created a dataframe, with one ro
 
 #### Combine Newspaper Articles into One Dataframe
 
-As in previous chapters, either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
+As in previous chapters, either construct your own corpus by following [Chapter -@sec-download] and [Chapter -@sec-extract], or [download](https://doi.org/10.5281/zenodo.8262355) and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See [Chapter -@sec-count] for an explanation of this code:
 
 ```{r message=FALSE, warning=FALSE}
 

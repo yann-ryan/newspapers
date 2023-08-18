@@ -24,7 +24,7 @@ library(tidytable)
 
 ## Load the news dataframe and relevant libraries
 
-For this tutorial, you'll need a set of .csv files containing newspaper article text in a specific format. [Chapter -@sec-download] and [Chapter -@sec-extract] walk through the processing of downloading and creating these files. If you want to construct your own newspaper corpus and use it for this chapter, I recommend going back and checking those out. Alternatively, if you want to use a ready-made corpus, you can download a compressed file containing all the articles from a single year on the repository: 1855. This file is available here. Once you have downloaded it, decompress it and make a note of where it is stored on your local machine.
+For this tutorial, you'll need a set of .csv files containing newspaper article text in a specific format. [Chapter -@sec-download] and [Chapter -@sec-extract] walk through the processing of downloading and creating these files. If you want to construct your own newspaper corpus and use it for this chapter, I recommend going back and checking those out. Alternatively, if you want to use a ready-made corpus, you can download a compressed file containing all the articles from a single year on the repository: 1855. This file is available on [Zenodo](https://doi.org/10.5281/zenodo.8262355). Once you have downloaded it, decompress it and make a note of where it is stored on your local machine.
 
 The first step is to load all these files and turn them into a single dataframe. The command `list.files()`, with the parameters set below, will list all the files with the text `csv` in them: Swap the `path=` parameter for the location you have saved the .csv files, if appropriate.
 
@@ -76,14 +76,12 @@ news_df = news_df %>%
   left_join(title_names_df, by = 'newspaper_id')# select all columns but with the article code first 
 
 
-news_df %>% mutate(text = str_trunc(text, 500)) %>% # show just the first part of the text for displaying in a dataframe
-  head(10) %>% 
-  kableExtra::kbl()
+
 ```
 
 ## Text Analysis with Tidytext
 
-The package we're going to use for analysing the text is called 'tidytext'. This package has many features for understanding and working with text, such as tokenising (splitting into words) and calculating the tf-idf scores of words in a group of documents.
+The package we're going to use for analysing the text is called 'tidytext'. This package has many features for understanding and working with text, such as tokenising (splitting into words) and calculating the tf-idf scores of words in a group of documents. The authors of the package have published an entire book, [Text Mining with R](https://www.tidytextmining.com/), which is a very good introduction to text analysis with R.
 
 It's a little different to the approach taken by, say, python, because it works on the principle of turning text into dataframes, in a format which is easy to work with in R. When we tokenise, for example, tidytext will create a dataframe which contains one row for each token. This is then easy to count, sort, filter, and so forth, using standard tidyverse tools.
 
@@ -92,12 +90,14 @@ Simple word counts as a method are increasingly outdated, and modern text analys
 As a first step, take a look at the dataframe, using `glimpse()`:
 
 ```{r}
-glimpse(news_df)
+news_df %>% mutate(text = str_trunc(text, 500)) %>% # show just the first part of the text for displaying in a dataframe
+  head(5) %>% # show the first 5 rows 
+  kableExtra::kbl()
 ```
 
-We can see that it has a number of rows (about 97,000 if you're using the data from the previous tutorials) and 5 columns. Each row is a different article, and the fifth column `text`, contains the full text of that article. You'll also probably notice that the text itself is pretty garbled, because of OCR errors. It's worth pointing out that because we're looking at the first few articles, which are usually advertisements, the OCR is likely to be much worse than with ordinary articles within the paper. That is to say, don't panic, yet...
+We can see that it has a number of rows (about 97,000 if you're using the data from the previous tutorials) and 5 columns. Each row is a different article, and the fifth column `text`, contains the full text of that article. You'll also probably notice that the text itself is pretty garbled, because of OCR errors. It's worth pointing out that because we're looking at the first few articles, which are usually advertisements, the OCR is likely to be much worse than with ordinary articles within the paper.
 
-As a first step, we'll simply use the tidytext package to make a count of the words found in the data.
+As a first task, we'll simply use the tidytext package to make a count of the words found in the data.
 
 ## Tokenise the text using unnest_tokens()
 
@@ -114,7 +114,7 @@ df %>%
   kableExtra::kbl()
 ```
 
-To tokenise this dataframe, we'll use the `unnest_tokens` function. The two most important parameters to `unnest_tokens` are `output` and `input`. This is fairly self explanatory. Pass the name of the column you'd like to tokenise as the `input`, and the name you would like to give the tokenised words as the `output`.
+To tokenise this dataframe, we'll use the `unnest_tokens` function. The two most important parameters to `unnest_tokens` are `output` and `input`. This is fairly self-explanatory. Pass the name of the column you'd like to tokenise as the `input`, and the name you would like to give the tokenised words as the `output`.
 
 ```{r}
 df %>% 
@@ -137,7 +137,7 @@ df %>%
   kableExtra::kbl()
 ```
 
-You can also use other tokenizers such as character shingles, or supply your own method for splitting the text, such as on new lines, if you have them in your text:
+You can also use other tokenizers such as [character shingles](https://docs.ropensci.org/tokenizers/reference/shingle-tokenizers.html), or supply your own method for splitting the text, such as on new lines, if you have them in your text:
 
 ```{r}
 
@@ -212,11 +212,12 @@ news_tokens %>%
   kableExtra::kbl()
 ```
 
-Now the stopwords are removed, we can see there is another problem: numbers are also particularly common in newspapers (these titles often publish lists of stocks and shipping information, for example) and don't tell us anything about the texts. Let's also remove these, using a filter:
+Now the stopwords are removed, we can use the `filter()` command to remove any other unwanted tokens: numbers are also particularly common in newspapers (these titles often publish lists of stocks and shipping information, for example) and don't tell us anything about the texts. Furthermore, ssome horizontal lines have been picked up by the OCR as punctuation. Let's filter both of these out:
 
 ```{r}
 news_tokens = news_tokens %>% 
-  filter(!str_detect(word, "[0-9]"))
+  filter(!str_detect(word, "[0-9]")) %>% 
+  filter(!str_detect(word, "__"))
 ```
 
 The command `str_detect()` within \`filter() removes any word which matches a given regular expressions pattern. In this case, the pattern is *simply any occurence of a number*. That's a bit blunt, but it will be effective at least.
@@ -307,9 +308,9 @@ Counting tokens like this in many cases says more about the dataset and its coll
 
 ## Tf-idf
 
-A last part of this chapter deals with using R and tidytext to do another very typical word frequency analysis, known as the **tf-idf** score. This is a measurement of how 'unique' a word is in a given document, by comparing its frequency in one document to its frequency overall. Counting tokens, as above, will generally result in a listen of very popular words, which occur very often in all newspapers, and so don't really give any interesting information. Using a metric such as **tf-idf** can be a way to understand the most 'significant' words within a given document.
+This section deals uses R and tidytext to do another very typical word frequency analysis, known as the **tf-idf** score. This is a measurement of how 'unique' a word is in a given document, by comparing its frequency in one document to its frequency overall. Counting tokens, as above, will generally result in a listen of very popular words, which occur very often in all newspapers, and so don't really give any interesting information. Using a metric such as tf-idf can be a way to understand the most 'significant' words within a given document.
 
-In this case, the word document can be misleading. It could be a single issue or article, or it could be something completely different, depending on our needs. A document can be any way of splitting up the text. For instance, we could consider all articles from a given month as a single 'document', and then calculate the words most unique to that month. This might give us a better understanding of what unique topics were being discussed at a particular time in the newspapers.
+In this case, the word *document* can be misleading. It could be a single issue or article, or it could be something completely different, depending on our needs. A document can be any way of splitting up the text. For instance, we could consider all articles from a given month as a single 'document', and then calculate the words most unique to that month. This might give us a better understanding of what unique topics were being discussed at a particular time in the newspapers.
 
 To do this, we use a function from tidytext called `bind_tf_idf`. This function expects a list of words per document and a raw count. We'll do this as a first step. To keep things simple, we'll use the newspaper ID as the 'document', meaning the metric should find words unique to each title. First, create a new object `news_tokens_count`, which contains the counts of the words in each newspaper ID:
 
@@ -414,7 +415,7 @@ theSunNgrams = theSunall_files_df %>%
   unnest_tokens(word, text, token = 'ngrams', n =2)
 ```
 
-With this new dataset, filter to include only bigrams which contain the word liberal. Count these and visualise the top ten results: 
+With this new dataset, filter to include only bigrams which contain the word liberal. Count these and visualise the top ten results:
 
 ```{r}
 theSunNgrams %>%

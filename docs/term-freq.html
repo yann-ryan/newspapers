@@ -172,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ocr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Newspapers: Sources and Standards</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">History of the British Library Collection</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./further-reading.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further reading</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Final Thoughts</span></span></a>
   </div>
 </li>
       </ul>
@@ -332,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="load-the-news-dataframe-and-relevant-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-news-dataframe-and-relevant-libraries">Load the news dataframe and relevant libraries</h2>
-<p>For this tutorial, you’ll need a set of .csv files containing newspaper article text in a specific format. <a href="download-and-unzip.html">Chapter&nbsp;<span>8</span></a> and <a href="extract-text.html">Chapter&nbsp;<span>9</span></a> walk through the processing of downloading and creating these files. If you want to construct your own newspaper corpus and use it for this chapter, I recommend going back and checking those out. Alternatively, if you want to use a ready-made corpus, you can download a compressed file containing all the articles from a single year on the repository: 1855. This file is available here. Once you have downloaded it, decompress it and make a note of where it is stored on your local machine.</p>
+<p>For this tutorial, you’ll need a set of .csv files containing newspaper article text in a specific format. <a href="download-and-unzip.html">Chapter&nbsp;<span>8</span></a> and <a href="extract-text.html">Chapter&nbsp;<span>9</span></a> walk through the processing of downloading and creating these files. If you want to construct your own newspaper corpus and use it for this chapter, I recommend going back and checking those out. Alternatively, if you want to use a ready-made corpus, you can download a compressed file containing all the articles from a single year on the repository: 1855. This file is available on <a href="https://doi.org/10.5281/zenodo.8262355">Zenodo</a>. Once you have downloaded it, decompress it and make a note of where it is stored on your local machine.</p>
 <p>The first step is to load all these files and turn them into a single dataframe. The command <code>list.files()</code>, with the parameters set below, will list all the files with the text <code>csv</code> in them: Swap the <code>path=</code> parameter for the location you have saved the .csv files, if appropriate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>news_sample_dataframe <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"newspaper_text"</span>, </span>
@@ -367,12 +367,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">%&gt;%</span> <span class="co"># turn the date column into date format</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">article_code =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co"># give every article a unique code</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(article_code, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(title_names_df, <span class="at">by =</span> <span class="st">'newspaper_id'</span>)<span class="co"># select all columns but with the article code first </span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>news_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_trunc</span>(text, <span class="dv">500</span>)) <span class="sc">%&gt;%</span> <span class="co"># show just the first part of the text for displaying in a dataframe</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(title_names_df, <span class="at">by =</span> <span class="st">'newspaper_id'</span>)<span class="co"># select all columns but with the article code first </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="text-analysis-with-tidytext" class="level2">
+<h2 class="anchored" data-anchor-id="text-analysis-with-tidytext">Text Analysis with Tidytext</h2>
+<p>The package we’re going to use for analysing the text is called ‘tidytext’. This package has many features for understanding and working with text, such as tokenising (splitting into words) and calculating the tf-idf scores of words in a group of documents. The authors of the package have published an entire book, <a href="https://www.tidytextmining.com/">Text Mining with R</a>, which is a very good introduction to text analysis with R.</p>
+<p>It’s a little different to the approach taken by, say, python, because it works on the principle of turning text into dataframes, in a format which is easy to work with in R. When we tokenise, for example, tidytext will create a dataframe which contains one row for each token. This is then easy to count, sort, filter, and so forth, using standard tidyverse tools.</p>
+<p>Simple word counts as a method are increasingly outdated, and modern text analysis is much more likely to use more sophisticated metrics and take the context into account. But a simple statistical analysis of text is still a useful and quick way of understanding a group of documents and getting an overview of their contents. It also is often the first step in further analysis, such as topic modelling or word embeddings.</p>
+<p>As a first step, take a look at the dataframe, using <code>glimpse()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>news_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_trunc</span>(text, <span class="dv">500</span>)) <span class="sc">%&gt;%</span> <span class="co"># show just the first part of the text for displaying in a dataframe</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="co"># show the first 5 rows </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -426,74 +433,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">A LOT OF THE VERY BEST F RENCH PRINTED MUSLINS AT 12s. 9d. Full Dress, usually sold at 255. 6d. ; also a LARGE REGULAR STOCK Of FRENCH AND TOWN PRINTED MUSLIN'S, in all the New Designs, Fast Colours, commencing at 64. 9d. the Dress HARRISON BROTHERS, 63 &amp;amp; G 2, CHURCH-STREET, Corner of Hanover-street. A splendid Assortment of LONDON BRONZED TEA URNS tjr SWING KETTLES, FENDERS, FIRE IRONS, PAPER TRAYS, HIP, SPONGING, S...</td>
 <td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">1855-06-19</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">A CARD. MR. SAQUI has REMOVED to No. 12, BEDFORD-STREET NORTH, where he will continue to give INSTRUCTIONS on the PIANO-FORTE and SINGING. N. B.—Schools attended. D URING THE WEEK, We shall be prepared to offer SEVERAL HUNDRED DRESSES, Suited to the present Season, very much under the usual value. BUCKNALL and SON, 112, BOLD-STREET. ROBERT FORRESTER, SHIRTMAKER, 65, CHTJR CH-8 TREET, FIRST DOOR BELOW PARKER-STREET. Gentlemen's ...</td>
-<td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">7</td>
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">1855-06-19</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: left;">CHEAP DRESS TRIMMINGS. 150 PIECES NEW DRAWING RIBBONS, at 3id. per yard ; usual price, 7d. A smaller Lot very goud Ditto, Ii d. per yard. 320 Gross FANCY SILK BUTTONS, 2d. per dozen. A smaller Lot Ditto, at lid. per dozen. HARRISON BROTHERS, 60 &amp;amp; 62, CHURCH-STREET, Corner of Hanover-street. REMOVING. EMPORIUM FOR FOREIGN AND BRITISH SHAWLS AND MANTLES, 44, BOLD-STREET, LIVERPOOL. J. MACLENNAN Begs to intimate that. owing...</td>
-<td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">1855-06-19</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: left;">SUPPLIED IN LIVER P 0 0 L, BIRKENHEAD, SEACOMBE NEW BRIGHTON, IRTYTON, ROBY, RAINHILL ROCK FERRY, To Order left or sent by Post to the Undersigned, 23, CASTLE-STREET, LIVERPOOL )r to the following Yards and Offices, viz. CROWN-STREET, Liverpool; COMM3RCE-STREET, Birkenhead; DEMEAN• STREET, Seacombe. W. and H. LAIRD. 23, Castle-street, Liverpool.</td>
-<td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">1855-06-19</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">CLOCKS. FL. HAIJSBURG begs leave to announce • that, in consequence of the great depression in certain branches of trade in Paris during a portion of the past winter, he has been enabled to produce a variety of CLOCKS of most excellent quality, guaranteed by him in every particular, and which he can especially recommend to the notice of his Friends and the Public. He would recommend attention to the Prices of a few of ...</td>
-<td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">1855-06-19</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: left;">A very excellent Hat in style and finish, at a moderate price. Superior in all respects to the ordinary Hat offered by other houses as best quality. LIVERPOOL.</td>
-<td style="text-align: left;">The Liverpool Standard And General Commercial Advertiser</td>
-</tr>
 </tbody>
 </table>
 
 
 </div>
 </div>
-</section>
-<section id="text-analysis-with-tidytext" class="level2">
-<h2 class="anchored" data-anchor-id="text-analysis-with-tidytext">Text Analysis with Tidytext</h2>
-<p>The package we’re going to use for analysing the text is called ‘tidytext’. This package has many features for understanding and working with text, such as tokenising (splitting into words) and calculating the tf-idf scores of words in a group of documents.</p>
-<p>It’s a little different to the approach taken by, say, python, because it works on the principle of turning text into dataframes, in a format which is easy to work with in R. When we tokenise, for example, tidytext will create a dataframe which contains one row for each token. This is then easy to count, sort, filter, and so forth, using standard tidyverse tools.</p>
-<p>Simple word counts as a method are increasingly outdated, and modern text analysis is much more likely to use more sophisticated metrics and take the context into account. But a simple statistical analysis of text is still a useful and quick way of understanding a group of documents and getting an overview of their contents. It also is often the first step in further analysis, such as topic modelling or word embeddings.</p>
-<p>As a first step, take a look at the dataframe, using <code>glimpse()</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(news_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 97,653
-Columns: 6
-$ article_code    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
-$ newspaper_id    &lt;chr&gt; "0002090", "0002090", "0002090", "0002090", "0002090",…
-$ date            &lt;date&gt; 1855-06-19, 1855-06-19, 1855-06-19, 1855-06-19, 1855-…
-$ art             &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
-$ text            &lt;chr&gt; "esP  e  allall  J  o  Po&amp;#34;'  .d.  o  f  f  t/'  ea…
-$ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adverti…</code></pre>
-</div>
-</div>
-<p>We can see that it has a number of rows (about 97,000 if you’re using the data from the previous tutorials) and 5 columns. Each row is a different article, and the fifth column <code>text</code>, contains the full text of that article. You’ll also probably notice that the text itself is pretty garbled, because of OCR errors. It’s worth pointing out that because we’re looking at the first few articles, which are usually advertisements, the OCR is likely to be much worse than with ordinary articles within the paper. That is to say, don’t panic, yet…</p>
-<p>As a first step, we’ll simply use the tidytext package to make a count of the words found in the data.</p>
+<p>We can see that it has a number of rows (about 97,000 if you’re using the data from the previous tutorials) and 5 columns. Each row is a different article, and the fifth column <code>text</code>, contains the full text of that article. You’ll also probably notice that the text itself is pretty garbled, because of OCR errors. It’s worth pointing out that because we’re looking at the first few articles, which are usually advertisements, the OCR is likely to be much worse than with ordinary articles within the paper.</p>
+<p>As a first task, we’ll simply use the tidytext package to make a count of the words found in the data.</p>
 </section>
 <section id="tokenise-the-text-using-unnest_tokens" class="level2">
 <h2 class="anchored" data-anchor-id="tokenise-the-text-using-unnest_tokens">Tokenise the text using unnest_tokens()</h2>
@@ -501,10 +448,10 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>To do this using the library <code>tidytext</code>, we will pass the dataframe of text to the function <code>unnest_tokens()</code>. This function takes a column of text in a dataframe and splits it into tokens. The function has a set of default values, but, as we will see, we can change the function to create other types of functions.</p>
 <p>To understand what tokenising is doing, I’ll make a dataframe containing a single ‘article’, which in this case is a single sentence.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">article_code =</span> <span class="dv">1</span>, <span class="at">text =</span> <span class="st">"The quick brown fox jumped over the lazy dog."</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">article_code =</span> <span class="dv">1</span>, <span class="at">text =</span> <span class="st">"The quick brown fox jumped over the lazy dog."</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -524,11 +471,11 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 
 </div>
 </div>
-<p>To tokenise this dataframe, we’ll use the <code>unnest_tokens</code> function. The two most important parameters to <code>unnest_tokens</code> are <code>output</code> and <code>input</code>. This is fairly self explanatory. Pass the name of the column you’d like to tokenise as the <code>input</code>, and the name you would like to give the tokenised words as the <code>output</code>.</p>
+<p>To tokenise this dataframe, we’ll use the <code>unnest_tokens</code> function. The two most important parameters to <code>unnest_tokens</code> are <code>output</code> and <code>input</code>. This is fairly self-explanatory. Pass the name of the column you’d like to tokenise as the <code>input</code>, and the name you would like to give the tokenised words as the <code>output</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> text) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> text) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -584,12 +531,12 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>You can also specify an argument for <code>token</code>, allowing you to split the text into sentences, characters, lines, or n-grams. If you split into <code>n-grams</code>, you need to use the argument <code>n=</code> to specify how many consecutive words you’d like to use.</p>
 <p>Like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text, </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">token =</span> <span class="st">'ngrams'</span>, </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">token =</span> <span class="st">'ngrams'</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -633,14 +580,14 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 
 </div>
 </div>
-<p>You can also use other tokenizers such as character shingles, or supply your own method for splitting the text, such as on new lines, if you have them in your text:</p>
+<p>You can also use other tokenizers such as <a href="https://docs.ropensci.org/tokenizers/reference/shingle-tokenizers.html">character shingles</a>, or supply your own method for splitting the text, such as on new lines, if you have them in your text:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">article_code =</span> <span class="dv">1</span>, <span class="at">text =</span> <span class="st">"The quick brown fox</span><span class="sc">\n</span><span class="st">jumped over the lazy dog."</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text, <span class="at">token =</span> stringr<span class="sc">::</span>str_split, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">article_code =</span> <span class="dv">1</span>, <span class="at">text =</span> <span class="st">"The quick brown fox</span><span class="sc">\n</span><span class="st">jumped over the lazy dog."</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text, <span class="at">token =</span> stringr<span class="sc">::</span>str_split, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -666,10 +613,10 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 </div>
 <p>Now, it’s time to do this to our article text. Create a new object, <code>news_tokens</code>, using <code>unnest_tokens()</code>, passing the text column as the input column:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_df <span class="sc">%&gt;%</span> <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> text)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_df <span class="sc">%&gt;%</span> <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> text)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -777,10 +724,10 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>Note that tidytable does not have a <code>group_by</code> command. Instead, you’ll use the parameter <code>.by =</code> within another command to specify the group you want it to apply to.</p>
 <p>Once this is done, it is relatively easy to count and analyse the data using standard tidyverse verbs. The following will count the instances of each word and show them in descending order:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -886,23 +833,23 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <h2 class="anchored" data-anchor-id="removing-stop-words">Removing stop words</h2>
 <p>To do this, we load a dataframe of stopwords, which is included in the tidytext package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will load a dataframe called <code>stop_words</code> into the R environment. This dataframe contains a column called <code>word</code>. We want to merge this to our tokenised data, and remove any matches.</p>
 <p>Next use the function <code>anti_join()</code>. This basically removes any word in our word list which is also in the stop words list:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(word)`</code></pre>
 </div>
 </div>
 <p>Let’s take another look at the top words, using the same code as above:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>)<span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>)<span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -998,18 +945,19 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 
 </div>
 </div>
-<p>Now the stopwords are removed, we can see there is another problem: numbers are also particularly common in newspapers (these titles often publish lists of stocks and shipping information, for example) and don’t tell us anything about the texts. Let’s also remove these, using a filter:</p>
+<p>Now the stopwords are removed, we can use the <code>filter()</code> command to remove any other unwanted tokens: numbers are also particularly common in newspapers (these titles often publish lists of stocks and shipping information, for example) and don’t tell us anything about the texts. Furthermore, ssome horizontal lines have been picked up by the OCR as punctuation. Let’s filter both of these out:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"[0-9]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"[0-9]"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"__"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The command <code>str_detect()</code> within `filter() removes any word which matches a given regular expressions pattern. In this case, the pattern is <em>simply any occurence of a number</em>. That’s a bit blunt, but it will be effective at least.</p>
 <p>Let’s check the top words again:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -1111,10 +1059,10 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <h2 class="anchored" data-anchor-id="visualising-using-ggplot">Visualising using ggplot</h2>
 <p>The next step is to visualise this, which is very easy to do using <code>ggplot2</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n),<span class="at">y =</span> n)) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> word) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange.</span>(<span class="fu">desc.</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n),<span class="at">y =</span> n)) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1122,25 +1070,25 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>As well as a basic count of everything, we can use tidyverse/tidytable to do some more specific counts and visualisations.</p>
 <p>For example, a count of the top five words for each month in the data. For this, we need to create a ‘month’ column:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">as.character</span>(<span class="fu">cut</span>(date, <span class="st">'month'</span>)))<span class="sc">%&gt;%</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(month, word)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">'free_y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">as.character</span>(<span class="fu">cut</span>(date, <span class="st">'month'</span>)))<span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(month, word)) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">'free_y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can also do it by issue code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(newspaper_id, word)) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(newspaper_id, word)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1155,12 +1103,12 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <section id="words-over-time" class="level3">
 <h3 class="anchored" data-anchor-id="words-over-time">Words over time</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">week =</span> <span class="fu">ymd</span>(<span class="fu">cut</span>(date, <span class="st">'week'</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(word, week))  <span class="sc">%&gt;%</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">freq =</span> n<span class="sc">/</span><span class="fu">sum</span>(n), <span class="at">.by =</span> week) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter.</span>(word <span class="sc">==</span> <span class="st">'war'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> week, <span class="at">y =</span> freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">week =</span> <span class="fu">ymd</span>(<span class="fu">cut</span>(date, <span class="st">'week'</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(word, week))  <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">freq =</span> n<span class="sc">/</span><span class="fu">sum</span>(n), <span class="at">.by =</span> week) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter.</span>(word <span class="sc">==</span> <span class="st">'war'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> week, <span class="at">y =</span> freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1172,12 +1120,12 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 </div>
 <p>We can also look at very seasonal words, to test whether it really makes sense:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">week =</span> <span class="fu">ymd</span>(<span class="fu">cut</span>(date, <span class="st">'week'</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(word, week))  <span class="sc">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">freq =</span> n<span class="sc">/</span><span class="fu">sum</span>(n), <span class="at">.by =</span> week) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter.</span>(word <span class="sc">==</span> <span class="st">'christmas'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> week, <span class="at">y =</span> freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">week =</span> <span class="fu">ymd</span>(<span class="fu">cut</span>(date, <span class="st">'week'</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> <span class="fu">c</span>(word, week))  <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate.</span>(<span class="at">freq =</span> n<span class="sc">/</span><span class="fu">sum</span>(n), <span class="at">.by =</span> week) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter.</span>(word <span class="sc">==</span> <span class="st">'christmas'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> week, <span class="at">y =</span> freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1188,15 +1136,15 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 </section>
 <section id="tf-idf" class="level2">
 <h2 class="anchored" data-anchor-id="tf-idf">Tf-idf</h2>
-<p>A last part of this chapter deals with using R and tidytext to do another very typical word frequency analysis, known as the <strong>tf-idf</strong> score. This is a measurement of how ‘unique’ a word is in a given document, by comparing its frequency in one document to its frequency overall. Counting tokens, as above, will generally result in a listen of very popular words, which occur very often in all newspapers, and so don’t really give any interesting information. Using a metric such as <strong>tf-idf</strong> can be a way to understand the most ‘significant’ words within a given document.</p>
-<p>In this case, the word document can be misleading. It could be a single issue or article, or it could be something completely different, depending on our needs. A document can be any way of splitting up the text. For instance, we could consider all articles from a given month as a single ‘document’, and then calculate the words most unique to that month. This might give us a better understanding of what unique topics were being discussed at a particular time in the newspapers.</p>
+<p>This section deals uses R and tidytext to do another very typical word frequency analysis, known as the <strong>tf-idf</strong> score. This is a measurement of how ‘unique’ a word is in a given document, by comparing its frequency in one document to its frequency overall. Counting tokens, as above, will generally result in a listen of very popular words, which occur very often in all newspapers, and so don’t really give any interesting information. Using a metric such as tf-idf can be a way to understand the most ‘significant’ words within a given document.</p>
+<p>In this case, the word <em>document</em> can be misleading. It could be a single issue or article, or it could be something completely different, depending on our needs. A document can be any way of splitting up the text. For instance, we could consider all articles from a given month as a single ‘document’, and then calculate the words most unique to that month. This might give us a better understanding of what unique topics were being discussed at a particular time in the newspapers.</p>
 <p>To do this, we use a function from tidytext called <code>bind_tf_idf</code>. This function expects a list of words per document and a raw count. We’ll do this as a first step. To keep things simple, we’ll use the newspaper ID as the ‘document’, meaning the metric should find words unique to each title. First, create a new object <code>news_tokens_count</code>, which contains the counts of the words in each newspaper ID:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>news_tokens_count <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(newspaper_id, word)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>news_tokens_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>news_tokens_count <span class="ot">=</span> news_tokens <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(newspaper_id, word)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>news_tokens_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -1209,53 +1157,53 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">__</td>
-<td style="text-align: right;">362</td>
+<td style="text-align: left;">_a</td>
+<td style="text-align: right;">45</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">___</td>
-<td style="text-align: right;">148</td>
+<td style="text-align: left;">_a_</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">____</td>
-<td style="text-align: right;">67</td>
+<td style="text-align: left;">_aa</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_____</td>
-<td style="text-align: right;">48</td>
+<td style="text-align: left;">_aaa</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">______</td>
-<td style="text-align: right;">34</td>
+<td style="text-align: left;">_aacislain</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_______</td>
-<td style="text-align: right;">23</td>
+<td style="text-align: left;">_aad</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">________</td>
-<td style="text-align: right;">19</td>
+<td style="text-align: left;">_abo</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_________</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: left;">_about</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">__________</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: left;">_acaltitash</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">___________</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: left;">_accept</td>
+<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
@@ -1265,11 +1213,11 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 </div>
 <p>Next, use the <code>bind_tf_idf</code> function from tidytext. This needs to be passed the word column (<code>term</code>), the <code>document</code> column, and the column with the word counts (<code>n</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="ot">=</span> news_tokens_count <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(<span class="at">term =</span> word, <span class="at">document =</span> newspaper_id, <span class="at">n =</span> n)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="ot">=</span> news_tokens_count <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(<span class="at">term =</span> word, <span class="at">document =</span> newspaper_id, <span class="at">n =</span> n)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -1285,83 +1233,83 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">__</td>
-<td style="text-align: right;">362</td>
-<td style="text-align: right;">1.39e-04</td>
+<td style="text-align: left;">_a</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1.73e-05</td>
 <td style="text-align: right;">0.0000000</td>
 <td style="text-align: right;">0e+00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">___</td>
-<td style="text-align: right;">148</td>
-<td style="text-align: right;">5.68e-05</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
+<td style="text-align: left;">_a_</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">0.5596158</td>
+<td style="text-align: right;">2e-07</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">____</td>
-<td style="text-align: right;">67</td>
-<td style="text-align: right;">2.57e-05</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
+<td style="text-align: left;">_aa</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8.00e-07</td>
+<td style="text-align: right;">0.8472979</td>
+<td style="text-align: right;">7e-07</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_____</td>
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">1.84e-05</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
+<td style="text-align: left;">_aaa</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.9459101</td>
+<td style="text-align: right;">7e-07</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">______</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">1.31e-05</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
+<td style="text-align: left;">_aacislain</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.9459101</td>
+<td style="text-align: right;">7e-07</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_______</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">8.80e-06</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">________</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">7.30e-06</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: right;">0e+00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">0002090</td>
-<td style="text-align: left;">_________</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">3.50e-06</td>
-<td style="text-align: right;">0.1541507</td>
+<td style="text-align: left;">_aad</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.2527630</td>
 <td style="text-align: right;">5e-07</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">__________</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.90e-06</td>
-<td style="text-align: right;">0.1541507</td>
-<td style="text-align: right;">3e-07</td>
+<td style="text-align: left;">_abo</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.9459101</td>
+<td style="text-align: right;">7e-07</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0002090</td>
-<td style="text-align: left;">___________</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.20e-06</td>
-<td style="text-align: right;">0.3364722</td>
-<td style="text-align: right;">4e-07</td>
+<td style="text-align: left;">_about</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8.00e-07</td>
+<td style="text-align: right;">0.8472979</td>
+<td style="text-align: right;">7e-07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0002090</td>
+<td style="text-align: left;">_acaltitash</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.9459101</td>
+<td style="text-align: right;">7e-07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0002090</td>
+<td style="text-align: left;">_accept</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.00e-07</td>
+<td style="text-align: right;">1.9459101</td>
+<td style="text-align: right;">7e-07</td>
 </tr>
 </tbody>
 </table>
@@ -1372,33 +1320,33 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>Now, we have a new object with new columns. The first is <code>tf</code>, which is simply the frequency of that term as a proportion of all words in the document. Next is <code>idf</code>, which is the inverse of the frequency of the word over all the documents. The less frequent a word is overall, the larger the number in this column. Third is <code>tf_idf</code>, which multiples one by the other.</p>
 <p>To make use of this, we want to find the words with the highest tf-idf scores for each of the documents. Let’s do this and plot the results. In order to have the results show correctly, we make use of the function <code>reorder_within</code> from the tidytext package. This is to ensure that the words are properly ordered within each facet, rather than overall.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">newspaper_id =</span> <span class="fu">as.factor</span>(newspaper_id),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, tf_idf, newspaper_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, tf_idf)) <span class="sc">+</span> </span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">newspaper_id =</span> <span class="fu">as.factor</span>(newspaper_id),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, tf_idf, newspaper_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, tf_idf)) <span class="sc">+</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>There’s one final problem worth considering with using tf-idf. A word can score very highly if it occurs just a couple of times in one document and not at all in others. This may mean that the highest tf-idf words are not actually significant but just extremely rare. One solution to this is to filter so that we only consider words that occur at least a few times in the documents:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&gt;</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">newspaper_id =</span> <span class="fu">as.factor</span>(newspaper_id),</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, tf_idf, newspaper_id)) <span class="sc">%&gt;%</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, tf_idf)) <span class="sc">+</span> </span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&gt;</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">newspaper_id =</span> <span class="fu">as.factor</span>(newspaper_id),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, tf_idf, newspaper_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, tf_idf)) <span class="sc">+</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1412,49 +1360,49 @@ $ newspaper_title &lt;chr&gt; "The Liverpool Standard And General Commercial Adv
 <p>Because we want to look at temporal, or diachronic change, we’ll need a different datatset to the year 1855 used in the chapter so far. Instead, we’ll use a dataset containing all the issues of a single title <em>The Sun</em>, for the years 1802 and 1870. These are the earliest and latest years in the data, and using one title means it’s more likely we’ll have at least slightly consistent results.</p>
 <p>I have already extracted the text from these years and they are available as .zip file here. Once you have downloaded this, decompress and put the path to the folder name in the code below. Otherwise, follow the same steps as in the code at the beginning of the chapter.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>theSun <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"../../../Downloads/TheSun_sample/"</span>, </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">pattern =</span> <span class="st">"csv"</span>, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">recursive =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>theSunall_files <span class="ot">=</span>   <span class="fu">lapply</span>(theSun, data.table<span class="sc">::</span>fread) </span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(theSunall_files) <span class="ot">=</span> theSun</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(theSunall_files, <span class="at">idcol =</span> <span class="st">'filename'</span>)</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">filename =</span> <span class="fu">basename</span>(filename))</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(filename, </span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">'newspaper_id'</span>, <span class="st">'date'</span>), <span class="at">sep =</span> <span class="st">"_"</span>) <span class="sc">%&gt;%</span> <span class="co"># separate the filename into two columns</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">str_remove</span>(date, <span class="st">"</span><span class="sc">\\</span><span class="st">.csv"</span>)) <span class="sc">%&gt;%</span> <span class="co"># remove .csv from the new data column</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(newspaper_id, date, art, text) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">%&gt;%</span> <span class="co"># turn the date column into date format</span></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">article_code =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co"># give every article a unique code</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(article_code, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(title_names_df, <span class="at">by =</span> <span class="st">'newspaper_id'</span>)<span class="co"># select all columns but with the article code first </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>theSun <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"../../../Downloads/TheSun_sample/"</span>, </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">pattern =</span> <span class="st">"csv"</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">recursive =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>theSunall_files <span class="ot">=</span>   <span class="fu">lapply</span>(theSun, data.table<span class="sc">::</span>fread) </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(theSunall_files) <span class="ot">=</span> theSun</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(theSunall_files, <span class="at">idcol =</span> <span class="st">'filename'</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">filename =</span> <span class="fu">basename</span>(filename))</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>theSunall_files_df <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(filename, </span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">'newspaper_id'</span>, <span class="st">'date'</span>), <span class="at">sep =</span> <span class="st">"_"</span>) <span class="sc">%&gt;%</span> <span class="co"># separate the filename into two columns</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">str_remove</span>(date, <span class="st">"</span><span class="sc">\\</span><span class="st">.csv"</span>)) <span class="sc">%&gt;%</span> <span class="co"># remove .csv from the new data column</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(newspaper_id, date, art, text) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">%&gt;%</span> <span class="co"># turn the date column into date format</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">article_code =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co"># give every article a unique code</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(article_code, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(title_names_df, <span class="at">by =</span> <span class="st">'newspaper_id'</span>)<span class="co"># select all columns but with the article code first </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use <code>unnest_tokens</code> to tokenise the data. Set the <code>n</code> parameter to 2, which will divide the text into bigrams:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>theSunNgrams <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">'ngrams'</span>, <span class="at">n =</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>theSunNgrams <span class="ot">=</span> theSunall_files_df <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text, <span class="at">token =</span> <span class="st">'ngrams'</span>, <span class="at">n =</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this new dataset, filter to include only bigrams which contain the word liberal. Count these and visualise the top ten results:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>theSunNgrams <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">"^liberal "</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, year) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.factor</span>(year),</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, n, year)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, n)) <span class="sc">+</span> </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>theSunNgrams <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">"^liberal "</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.factor</span>(year),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, n, year)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(word, n)) <span class="sc">+</span> </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()<span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>

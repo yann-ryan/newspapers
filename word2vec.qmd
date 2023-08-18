@@ -39,7 +39,7 @@ tibble(word_name = c('word1', 'word2', 'word3'), x = c(0, 2, 1.8), y = c(0, 2, 1
 
 We can easily tell (and also calculate, using a simple distance formula) that word 3 is closer to word 2 than it is to word 1.
 
-We can also represent the words in more than two dimensions (it just becomes more difficult to draw them, but the mathematics stays the same.
+We can also represent the words in more than two dimensions. It becomes more difficult to draw them, but the mathematics stays the same.
 
 Word embedding methods, then, essentially turn each word in a corpus into a vector - meaning a series of numbers representing its position in multi-dimensional space. In the example above, the words are represented by a vector of length two, such as `c(1,1)`.
 
@@ -94,7 +94,7 @@ library(tidytext)
 
 ### Load and create the newspaper dataset
 
-Either construct your own corpus by following \[Chapter -\@sec-download\] and \[Chapter -\@sec-extract\], or download and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See \[Chapter -\@sec-count\] for an explanation of this code:
+Either construct your own corpus by following \[Chapter -\@sec-download\] and \[Chapter -\@sec-extract\], or [download](https://doi.org/10.5281/zenodo.8262355) and open the ready-made .zip file with all issues from 1855. Next, get these articles into the correct format. See \[Chapter -\@sec-count\] for an explanation of this code:
 
 ```{r message=FALSE, warning=FALSE}
 

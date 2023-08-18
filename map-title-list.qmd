@@ -1,4 +1,4 @@
-# Working with Metadata: Mapping the British Library Newspaper Collection
+# Working with Metadata: Mapping the British Library Newspaper Collection {#sec-metadata}
 
 ## News Metadata
 
