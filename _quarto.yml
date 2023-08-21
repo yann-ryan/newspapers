@@ -48,4 +48,8 @@ editor: visual
 
 execute:
   freeze: auto
+  
+website:
+  google-analytics: "G-T40JTMJT16"
+  cookie-consent: true
 

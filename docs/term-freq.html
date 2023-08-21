@@ -315,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>The first thing you might want to do with a large dataset of text is to count the words within it. Doing this with newspaper data may help to discover and quantify trends, understand more about events, and make comparisons between the language in several titles. In this tutorial, we’ll use text mining to look for changing patterns in word use across the months of a single year.</p>
-<p>We should also think about the specific nature of each newspaper, and how this will affect the results. These are from a single year, but some are much more frequent than others. One, The Sun, is a daily, and so much more of the data comes from this title. They will also have different levels of OCR errors.</p>
+<p>We should also think about the specific nature of each newspaper, and how this will affect the results. These are from a single year, but some are much more frequent than others. One, <em>The Sun</em>, is a daily, and so much more of the data comes from this title. They will also have different levels of OCR errors.</p>
 <p>For this tutorial, you’ll make use of a few more R packages: <code>tidyverse</code>, which you should already have installed, <code>data.table</code>, and <code>tidytext</code>. If necessary, install these using the <code>install.packages()</code> command:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tidyverse'</span>)</span>
@@ -375,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The package we’re going to use for analysing the text is called ‘tidytext’. This package has many features for understanding and working with text, such as tokenising (splitting into words) and calculating the tf-idf scores of words in a group of documents. The authors of the package have published an entire book, <a href="https://www.tidytextmining.com/">Text Mining with R</a>, which is a very good introduction to text analysis with R.</p>
 <p>It’s a little different to the approach taken by, say, python, because it works on the principle of turning text into dataframes, in a format which is easy to work with in R. When we tokenise, for example, tidytext will create a dataframe which contains one row for each token. This is then easy to count, sort, filter, and so forth, using standard tidyverse tools.</p>
 <p>Simple word counts as a method are increasingly outdated, and modern text analysis is much more likely to use more sophisticated metrics and take the context into account. But a simple statistical analysis of text is still a useful and quick way of understanding a group of documents and getting an overview of their contents. It also is often the first step in further analysis, such as topic modelling or word embeddings.</p>
-<p>As a first step, take a look at the dataframe, using <code>glimpse()</code>:</p>
+<p>As a first step, take a look at the first few entries in the dataframe:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>news_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_trunc</span>(text, <span class="dv">500</span>)) <span class="sc">%&gt;%</span> <span class="co"># show just the first part of the text for displaying in a dataframe</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="co"># show the first 5 rows </span></span>
@@ -1068,27 +1068,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>As well as a basic count of everything, we can use tidyverse/tidytable to do some more specific counts and visualisations.</p>
-<p>For example, a count of the top five words for each month in the data. For this, we need to create a ‘month’ column:</p>
+<p>For example, a count of the top five words for each month in the data. For this, we need to create a ‘month’ column, and use <code>facet_wrap()</code> from ggplot2 to graph each month separately. In order to have the results show correctly, we make use of the function <code>reorder_within</code> from the tidytext package. This is to ensure that the words are properly ordered within each facet, rather than overall.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">as.character</span>(<span class="fu">cut</span>(date, <span class="st">'month'</span>)))<span class="sc">%&gt;%</span> </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(month, word)) <span class="sc">%&gt;%</span> </span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">'free_y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>)  <span class="sc">%&gt;%</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">as.factor</span>(month),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, n, month))<span class="sc">%&gt;%</span> </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">'free_y'</span>)<span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We can also do it by issue code:</p>
+<p>We can also get the top words per newspaper title:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>news_tokens <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(newspaper_id, word)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise.</span>(<span class="at">n =</span> <span class="fu">n.</span>(), <span class="at">.by =</span> <span class="fu">c</span>(newspaper_title, word)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_title) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_id, <span class="at">scales =</span> <span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">newspaper_title =</span> <span class="fu">as.factor</span>(newspaper_title),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">word =</span> <span class="fu">reorder_within</span>(word, n, newspaper_title))<span class="sc">%&gt;%</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(word, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>newspaper_title, <span class="at">scales =</span> <span class="st">'free'</span>)<span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reordered</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="term-freq_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1318,7 +1328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Now, we have a new object with new columns. The first is <code>tf</code>, which is simply the frequency of that term as a proportion of all words in the document. Next is <code>idf</code>, which is the inverse of the frequency of the word over all the documents. The less frequent a word is overall, the larger the number in this column. Third is <code>tf_idf</code>, which multiples one by the other.</p>
-<p>To make use of this, we want to find the words with the highest tf-idf scores for each of the documents. Let’s do this and plot the results. In order to have the results show correctly, we make use of the function <code>reorder_within</code> from the tidytext package. This is to ensure that the words are properly ordered within each facet, rather than overall.</p>
+<p>To make use of this, we want to find the words with the highest tf-idf scores for each of the documents. Let’s do this and plot the results:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>news_tfidf <span class="sc">%&gt;%</span> </span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(newspaper_id) <span class="sc">%&gt;%</span> </span>

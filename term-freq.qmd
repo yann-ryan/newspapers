@@ -2,7 +2,7 @@
 
 The first thing you might want to do with a large dataset of text is to count the words within it. Doing this with newspaper data may help to discover and quantify trends, understand more about events, and make comparisons between the language in several titles. In this tutorial, we'll use text mining to look for changing patterns in word use across the months of a single year.
 
-We should also think about the specific nature of each newspaper, and how this will affect the results. These are from a single year, but some are much more frequent than others. One, The Sun, is a daily, and so much more of the data comes from this title. They will also have different levels of OCR errors.
+We should also think about the specific nature of each newspaper, and how this will affect the results. These are from a single year, but some are much more frequent than others. One, *The Sun*, is a daily, and so much more of the data comes from this title. They will also have different levels of OCR errors.
 
 For this tutorial, you'll make use of a few more R packages: `tidyverse`, which you should already have installed, `data.table`, and `tidytext`. If necessary, install these using the `install.packages()` command:
 
@@ -87,7 +87,7 @@ It's a little different to the approach taken by, say, python, because it works 
 
 Simple word counts as a method are increasingly outdated, and modern text analysis is much more likely to use more sophisticated metrics and take the context into account. But a simple statistical analysis of text is still a useful and quick way of understanding a group of documents and getting an overview of their contents. It also is often the first step in further analysis, such as topic modelling or word embeddings.
 
-As a first step, take a look at the dataframe, using `glimpse()`:
+As a first step, take a look at the first few entries in the dataframe:
 
 ```{r}
 news_df %>% mutate(text = str_trunc(text, 500)) %>% # show just the first part of the text for displaying in a dataframe
@@ -246,27 +246,37 @@ news_tokens %>%
 
 As well as a basic count of everything, we can use tidyverse/tidytable to do some more specific counts and visualisations.
 
-For example, a count of the top five words for each month in the data. For this, we need to create a 'month' column:
+For example, a count of the top five words for each month in the data. For this, we need to create a 'month' column, and use `facet_wrap()` from ggplot2 to graph each month separately. In order to have the results show correctly, we make use of the function `reorder_within` from the tidytext package. This is to ensure that the words are properly ordered within each facet, rather than overall.
 
 ```{r}
 news_tokens %>% 
   mutate(month = as.character(cut(date, 'month')))%>% 
   summarise.(n = n.(), .by = c(month, word)) %>% 
   group_by(month) %>% 
-  slice_max(order_by = n, n = 10) %>% 
+  slice_max(order_by = n, n = 10)  %>% 
+    mutate(month = as.factor(month),
+           word = reorder_within(word, n, month))%>% 
   ggplot() + 
   geom_col(aes(x = reorder(word, n), y = n)) + 
-  coord_flip() + facet_wrap(~month, scales = 'free_y')
+  coord_flip() + 
+  facet_wrap(~month, scales = 'free_y')+
+    scale_x_reordered()
 ```
 
-We can also do it by issue code:
+We can also get the top words per newspaper title:
 
 ```{r}
 news_tokens %>% 
-  summarise.(n = n.(), .by = c(newspaper_id, word)) %>% 
-  group_by(newspaper_id) %>% 
+  summarise.(n = n.(), .by = c(newspaper_title, word)) %>% 
+  group_by(newspaper_title) %>% 
   slice_max(order_by = n, n = 10) %>% 
-  ggplot() + geom_col(aes(x = reorder(word, n), y = n)) + coord_flip() + facet_wrap(~newspaper_id, scales = 'free')
+    mutate(newspaper_title = as.factor(newspaper_title),
+           word = reorder_within(word, n, newspaper_title))%>% 
+  ggplot() + 
+  geom_col(aes(x = reorder(word, n), y = n)) + 
+  coord_flip() + 
+  facet_wrap(~newspaper_title, scales = 'free')+
+    scale_x_reordered()
 ```
 
 We can see some differences between the titles, although many of the word lists are quite similar. Many of these are typical words which appear in advertisements or report - words related to times or places (street, day, clock, etc.). There are also regional differences, with the place associated with the title (`glasgow`, `swansea`, `liverpool` etc.) also showing up. One title, 0002645, seems to have more words related to 'serious' news (`war`, `government`). Some further cleaning or adding words to the stop word list would be helpful too, clearly.
@@ -337,7 +347,7 @@ news_tfidf %>% head(10) %>%
 
 Now, we have a new object with new columns. The first is `tf`, which is simply the frequency of that term as a proportion of all words in the document. Next is `idf`, which is the inverse of the frequency of the word over all the documents. The less frequent a word is overall, the larger the number in this column. Third is `tf_idf`, which multiples one by the other.
 
-To make use of this, we want to find the words with the highest tf-idf scores for each of the documents. Let's do this and plot the results. In order to have the results show correctly, we make use of the function `reorder_within` from the tidytext package. This is to ensure that the words are properly ordered within each facet, rather than overall.
+To make use of this, we want to find the words with the highest tf-idf scores for each of the documents. Let's do this and plot the results:
 
 ```{r}
 
