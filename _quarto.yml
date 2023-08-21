@@ -3,6 +3,8 @@ project:
   output-dir: docs
 
 book:
+  google-analytics: "G-T40JTMJT16"
+  cookie-consent: true
   cover-image: cover.png
   title: "Accessing and Using Historical Newspaper Data"
   author: "Yann Ryan"
@@ -48,8 +50,4 @@ editor: visual
 
 execute:
   freeze: auto
-  
-website:
-  google-analytics: "G-T40JTMJT16"
-  cookie-consent: true
 
