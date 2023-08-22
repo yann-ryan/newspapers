@@ -110,6 +110,7 @@ advertisements_labelled = read_csv('advertisements_labelled.csv')
 
 advertisements_labelled = advertisements_labelled %>% filter(!is.na(text))
 
+advertisements_labelled %>% head(5) %>% kableExtra::kbl()
 ```
 
 ## 

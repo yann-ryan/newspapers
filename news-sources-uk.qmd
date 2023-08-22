@@ -381,7 +381,7 @@ leaflet() %>%
 
 #### Access
 
-The BNA's primary focus is on providing search access to individual researchers. Sadly, there is little provision made for data access, or even institutional subscriptions for researchers. There are some exceptions: the [Bristol N-Gram and named entity datasets](10.5523/bris.dobuvuu00mh51q773bo8ybkdz) project used the BNA data, processing the top phrases and words from about 16 million pages. The collection has tripled in size since then: it's likely that were it to be run again the results would be different.
+The BNA's primary focus is on providing search access to individual researchers. [Sadly, there is little provision made for data access, or even institutional subscriptions for researchers.](http://jimmussell.com/2012/01/09/the-british-newspaper-archive-bna/) There are some exceptions: the [Bristol N-Gram and named entity datasets](10.5523/bris.dobuvuu00mh51q773bo8ybkdz) project used the BNA data, processing the top phrases and words from about 16 million pages. The collection has tripled in size since then: it's likely that were it to be run again the results would be different.
 
 The Living with Machines project negotiated a full data transfer directly from Find My Past (the owners of the British Newspaper Archive) for the first time. The story of this is written in some detail in the book *Collaborative Historical Research in the Age of Big Data* [@ahnert2023]. In a nutshell, because of copyright issues, the project had to deal directly with Find My Past, and there were a set of detailed restrictions on what could be done with the data, such as having to keep it in secure storage, and delete it after two years.
 
