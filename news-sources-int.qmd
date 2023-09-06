@@ -100,6 +100,10 @@ leaflet() %>%
   ) 
 ```
 
+### American Stories dataset
+
+Because the Library of Congress has made the image scans freely available, there are opportunities for further enhancing the data. An interesting alternative source of newspaper text data is the *American Stories Dataset*, released in September 2023. The authors took the original page scans and have re-processed them to detect articles and to improve the OCR. It's available as a [dataset through HuggingFace](https://huggingface.co/datasets/dell-research-harvard/AmericanStories). HuggingFace is an online hub for sharing machine learning data and models. To download the data, you'll need to use some basic python, including installing the Huggingface package, but it may be a valuable source for anyone wanting to work with high-quality newspaper data from the U.S.
+
 ## Australia
 
 [Trove](https://trove.nla.gov.au/newspaper/) is a centralised data store of cultural heritage items from the National Library of Australia and other partners. Newspapers published between 1803 and 1955 are freely available through Trove. As well as browsing and searching, Trove has an API which allows you to download newspaper text and image data, and associated metadata. See the [documentation](https://trove.nla.gov.au/about/create-something/using-api) for more details. Tim Sherratt publishes a [large number of guides](https://updates.timsherratt.org/2022/05/02/working-with-trove.html) to using Trove, including live code tutorials.

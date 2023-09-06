@@ -6,7 +6,7 @@ It uses freely-available newspaper data from collections held by the British Lib
 
 Through the book, you'll learn about the key sources of digitised newspapers in the UK ([Chapter -@sec-sources]), where to find and download newspaper data ([Chapter -@sec-download]), generate plain text files to work with ([Chapter -@sec-extract]), and do everything from simple word statistics ([Chapter -@sec-count]) to building your own machine learning model in [Chapter -@sec-tidymodels].
 
-The book could also form the basis for a course, probably at Masters level. Each chapter ends with a few recommended readings, mostly academic papers, all focused on computational analysis of text, where possible specifically look at work done with or on newspapers. If you'd like to use this as a teacher, you are free to reuse any parts of the publication in anyway you like, to the extent to which I am entitled to grant that licence.
+Each chapter ends with a few recommended readings, mostly academic papers, all focused on computational analysis of text, where possible specifically look at work done with or on newspapers. If you'd like to use this as a teacher, for example as the basis for a university syllabus, you are free to reuse any parts of the publication in anyway you like, to the extent to which I am entitled to grant that licence.
 
 ## Acknowledgements
 
